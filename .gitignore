@@ -61,3 +61,5 @@ build
 *.pyc
 __pycache__
 
+github_source
+
