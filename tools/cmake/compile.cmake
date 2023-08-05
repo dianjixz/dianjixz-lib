@@ -104,6 +104,11 @@ function(register_component)
         target_compile_options(${component_name} PRIVATE ${difinition})
     endforeach()
 
+    # Add link private
+    foreach(difinition ${ADD_LINKOPTIONS_PRIVATE})
+		target_link_options(${component_name} PRIVATE ${difinition})
+    endforeach()
+
     # Add lib search path
     if(ADD_LINK_SEARCH_PATH)
         foreach(path ${ADD_LINK_SEARCH_PATH})
@@ -118,7 +123,7 @@ function(register_component)
             if(EXISTS "${abs_dir}")
                 set(link_search_path ${g_link_search_path})
                 list(APPEND link_search_path "${abs_dir}")
-                # target_link_directories(${component_name} PUBLIC ${link_search_path}) # this will fail add -L -Wl,-rpath flag for some .so
+                target_link_directories(${component_name} PUBLIC ${link_search_path}) # this will fail add -L -Wl,-rpath flag for some .so
                 list(REMOVE_DUPLICATES link_search_path)
                 set(g_link_search_path ${link_search_path}  CACHE INTERNAL "g_link_search_path")
             endif()

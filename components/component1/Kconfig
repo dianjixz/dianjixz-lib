@@ -5,4 +5,3 @@ menu "Component1 configuration"
         help
             Enable include static lib(from gcc)
 endmenu
-

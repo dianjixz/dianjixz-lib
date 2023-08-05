@@ -14,6 +14,16 @@ set(CMAKE_C_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
                         )
 set(CMAKE_CXX_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
                         )
+
+if(CMAKE_BUILD_TYPE MATCHES MinSizeRel)
+set(CMAKE_C_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
+                        -Wl,-s
+                        )
+set(CMAKE_CXX_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
+                        -Wl,-s
+                        )
+endif()
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # set(CMAKE_EXE_LINKER_FLAGS  ${CMAKE_EXE_LINKER_FLAGS}
 #                             ${LINK_FLAGS}
 #                             )
@@ -24,6 +34,9 @@ set(CMAKE_CXX_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
 #                               ${LINK_FLAGS}
 #                               )
 
+set(CMAKE_CXX_LINK_FLAGS ${CMAKE_C_LINK_FLAGS}
+                        "-Wl,-rpath,./lib:${CONFIG_LIB_LINK_SEARCH_PATH}"
+                        )
 
 # Convert list to string
 string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
