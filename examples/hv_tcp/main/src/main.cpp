@@ -1,8 +1,12 @@
 #include "hv/TcpServer.h"
-
+#include "hv/hlog.h"
 using namespace hv;
 
 int main(int argc, char* argv[]) {
+
+
+    hlog_set_level(LOG_LEVEL_SILENT);
+    // hlog_destory();
     if (argc < 2) {
         printf("Usage: %s port\n", argv[0]);
         return -10;

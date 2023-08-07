@@ -1,74 +1,43 @@
 # Config enable component3 or not in Kconfig
 set(PRIVATE_MODULE_DIR "../../github_source")
-if(CONFIG_LHV_ENABLED)
+if(CONFIG_GEAR_LIBS_ENABLED)
+
+    if(CONFIG_GEAR_LIBS_POSIX_ENABLED)
+        list(APPEND ADD_INCLUDE  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libposix")
+
+        list(APPEND ADD_SRCS  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libposix/libposix.c")
+        if(WIN32)
+            list(APPEND ADD_SRCS  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libposix/libposix4win.c")
+        elseif(APPLE)
+    
+        elseif(UNIX)
+            list(APPEND ADD_SRCS  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libposix/libposix4nix.c")
+        endif()
+    endif()
+
+    if(CONFIG_GEAR_LIBS_LOG_ENABLED)
+        list(APPEND ADD_INCLUDE  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/liblog")
+        list(APPEND ADD_SRCS     "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/liblog/liblog.c")
+    endif()
+
+    if(CONFIG_GEAR_LIBS_COLLECTIONS_ENABLED)
+        list(APPEND ADD_INCLUDE  "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libcollections")
+        list(APPEND ADD_SRCS     "${PRIVATE_MODULE_DIR}/gear-lib/gear-lib/libcollections/libcollections.c")
+    endif()
+
+    
+
+
+
 
     ################# Add include #################
-
-	list(APPEND ADD_INCLUDE "include")
-
-    list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/base")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/util") 
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/event")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/ssl")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/event/kcp") 
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/protocol")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/evpp")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/cpputil")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/http")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/http/client")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/http/server")
-	list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv/mqtt")
+    list(APPEND ADD_PRIVATE_INCLUDE "include")
+	# list(APPEND ADD_INCLUDE "include")
     ###############################################
 
     ############## Add source files ###############
-
-
-	append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/base")
-	append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/util") 
-	append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/event")
-	append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/ssl")
-
-	if(CONFIG_LHV_WITH_KCP)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/event/kcp")
-		list(APPEND ADD_DEFINITIONS_PRIVATE -DWITH_KCP)
-	endif()
-
-	if(CONFIG_LHV_WITH_PROTOCOL)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/protocol")
-	endif()
-
-	if(CONFIG_LHV_WITH_EVPP)
-		# append_srcs_dir(ADD_SRCS "libhv/evpp")
-
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/cpputil")
-		if(CONFIG_LHV_WITH_HTTP)
-			append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http")
-			if(CONFIG_LHV_WITH_WITH_HTTP_CLIENT)
-				append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http/client")
-			endif()
-			if(CONFIG_LHV_WITH_HTTP_SERVER)
-				append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http/server")
-			endif()
-		endif()
-	endif()
-
-
-	if(CONFIG_LHV_WITH_MQTT)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/mqtt")
-		# list(APPEND ADD_INCLUDE "libhv/mqtt")
-	endif()
-
-	
-	if(CONFIG_LHV_WITH_OPENSSL)
-		# list(APPEND ADD_DEFINITIONS_PRIVATE -DWITH_OPENSSL)
-		# find_package(OpenSSL)
-		# list(APPEND ADD_REQUIREMENTS OpenSSL)
-	else()
-		list(APPEND ADD_DEFINITIONS_PRIVATE -DHV_WITHOUT_SSL)
-	endif()
-
-
+    list(APPEND ADD_SRCS  "test.c")
+	append_srcs_dir(ADD_SRCS "src")
     # list(APPEND ADD_SRCS  "log.c/src/superlog.c"
     #     )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
@@ -112,8 +81,9 @@ if(CONFIG_LHV_ENABLED)
 	# list(APPEND ADD_LINKOPTIONS_PRIVATE -w)
     #### Add compile option for this component
     #### and components denpend on this component
-    list(APPEND ADD_DEFINITIONS_PRIVATE -w)
+    # list(APPEND ADD_DEFINITIONS_PRIVATE -w)
     # list(APPEND ADD_DEFINITIONS -w)
+
     ###############################################
 
     ############ Add static libs ##################
@@ -122,7 +92,7 @@ if(CONFIG_LHV_ENABLED)
     ###############################################
 
     # register component, DYNAMIC or SHARED flags will make component compiled to dynamic(shared) lib
-    if(CONFIG_LHV_DYNAMIC)
+    if(CONFIG_GEAR_LIBS_DYNAMIC)
         register_component(DYNAMIC)
     else()
         register_component()
