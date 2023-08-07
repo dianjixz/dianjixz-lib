@@ -13,3 +13,4 @@ git clone -b cf68fddccefafaa4a5b05082819f66d8419f5811 --single-branch --branch m
 
 git clone -b 5736b15f7ea0ffb08dd38af21067c314d6a3aae9 --single-branch --branch master https://github.com/dianjixz/stb.git
  
+git clone -b a6456b8e7f1564b0c94c329509fe9652bb5a096b --single-branch --branch master https://github.com/dianjixz/libs.git
