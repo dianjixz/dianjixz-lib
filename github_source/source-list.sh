@@ -11,5 +11,5 @@ git clone -b b8c034d72a7d879e92ec3cbc2082481c78205cd1 --single-branch --branch m
 
 git clone -b cf68fddccefafaa4a5b05082819f66d8419f5811 --single-branch --branch my_test https://github.com/dianjixz/gear-lib.git
 
-
-
+git clone -b 5736b15f7ea0ffb08dd38af21067c314d6a3aae9 --single-branch --branch master https://github.com/dianjixz/stb.git
+ 
