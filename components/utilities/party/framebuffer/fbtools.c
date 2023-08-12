@@ -41,7 +41,7 @@ int fb_open(PFBDEV pFbdev)
                                                 PROT_READ | PROT_WRITE, MAP_SHARED, pFbdev->fb, 0);
     if (-1L == (long)pFbdev->fb_mem)
     {
-        printf("mmap error! mem:%d offset:%d/n", pFbdev->fb_mem,
+        printf("mmap error! mem:%ld offset:%ld/n", pFbdev->fb_mem,
                pFbdev->fb_mem_offset);
         return FALSE;
     }
@@ -54,6 +54,7 @@ int fb_close(PFBDEV pFbdev)
 {
     close(pFbdev->fb);
     pFbdev->fb = -1;
+    return 0;
 }
 
 /* get display depth */
@@ -75,7 +76,7 @@ void fb_memset(void *addr, int c, size_t len)
 
 /* use by test */
 // #define DEBUG
-#ifdef DEBUG
+#ifdef FB_TOOLS_DEBUG
 main()
 {
     FBDEV fbdev;
