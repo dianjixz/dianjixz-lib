@@ -1,70 +1,22 @@
+set(PRIVATE_MODULE_DIR "../../github_source")
 # Config enable component3 or not in Kconfig
-if(CONFIG_UTILITIES_ENABLED)
+if(CONFIG_STB_ENABLED)
 
-    if(CONFIG_UTILITIES_FMT_ENABLED)
-
-        list(APPEND ADD_INCLUDE "party/fmt/include"
-            )
-        # append_srcs_dir(ADD_SRCS "party/fmt/src") 
-    endif()
-
-
-    if(CONFIG_UTILITIES_EASYMSGCPP_ENABLED)
-
-        list(APPEND ADD_INCLUDE "party/easymsgcpp/src/include"
-            )
-        append_srcs_dir(ADD_SRCS "party/easymsgcpp/src")
-
-    endif()
-
-    if(CONFIG_UTILITIES_UART_ENABLED)
-        list(APPEND ADD_INCLUDE "party/linux_uart")
-        append_srcs_dir(ADD_SRCS "party/linux_uart")
-    endif()
-
-    if(CONFIG_UTILITIES_FRAMEBUFFER_ENABLED)
-        list(APPEND ADD_INCLUDE "party/framebuffer")
-        append_srcs_dir(ADD_SRCS "party/framebuffer")
-    endif()
-
-    
-    # if(CONFIG_RTSP_ENABLED)
-
-    #     list(APPEND ADD_INCLUDE "party/RtspServer"
-    #         )
-    #     append_srcs_dir(ADD_SRCS "party/RtspServer/RtspServer/src/net"
-    #                              "party/RtspServer/RtspServer/src/xop"
-    #                              "party/RtspServer"
-    #                              "party/RtspServer/rtsp/src"
-    #     )
-    #     list(APPEND ADD_PRIVATE_INCLUDE "party/RtspServer/rtsp/inc"
-    #                                     "party/RtspServer/RtspServer/src"
-    #                                     "party/RtspServer/RtspServer/src/3rdpart"
-    #     )
-    # endif()
-
-    if(CONFIG_UTILITIES_BASE64_ENABLED)
-
-        list(APPEND ADD_INCLUDE "party/base64"
-            )
-        append_srcs_dir(ADD_SRCS "party/base64"
-        )
-    endif()
-    
     ################# Add include #################
     list(APPEND ADD_INCLUDE "include" 
+                            "${PRIVATE_MODULE_DIR}/stb" 
         )
     # list(APPEND ADD_PRIVATE_INCLUDE "include_private")
     ###############################################
 
     ############## Add source files ###############
-    list(APPEND ADD_SRCS  "test.cpp"
+    list(APPEND ADD_SRCS  "test.c"
         )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
     # FILE(GLOB EXTRA_SRC  "src/*.c")
     # list(APPEND ADD_SRCS  ${EXTRA_SRC})
     # aux_source_directory(src ADD_SRCS)  # collect all source file in src dir, will set var ADD_SRCS
-    # append_srcs_dir(ADD_SRCS "party/fmt/src")     # append source file in src dir to var ADD_SRCS
+    # append_srcs_dir(ADD_SRCS "src")     # append source file in src dir to var ADD_SRCS
     # list(REMOVE_ITEM COMPONENT_SRCS "src/test.c")
     # set(ADD_ASM_SRCS "src/asm.S")
     # list(APPEND ADD_SRCS ${ADD_ASM_SRCS})
@@ -112,7 +64,7 @@ if(CONFIG_UTILITIES_ENABLED)
     ###############################################
 
     # register component, DYNAMIC or SHARED flags will make component compiled to dynamic(shared) lib
-    if(CONFIG_UTILITIES_DYNAMIC)
+    if(CONFIG_STB_DYNAMIC)
         register_component(DYNAMIC)
     else()
         register_component()
