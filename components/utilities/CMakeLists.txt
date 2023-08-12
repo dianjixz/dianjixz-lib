@@ -27,6 +27,12 @@ if(CONFIG_UTILITIES_ENABLED)
         append_srcs_dir(ADD_SRCS "party/framebuffer")
     endif()
 
+    if(CONFIG_UTILITIES_INI_ENABLED)
+        list(APPEND ADD_INCLUDE "party/ini")
+        append_srcs_dir(ADD_SRCS "party/ini")
+    endif()
+
+    
     
     # if(CONFIG_RTSP_ENABLED)
 

@@ -31,6 +31,11 @@ menuconfig UTILITIES_ENABLED
         default n
         depends on UTILITIES_ENABLED
 
+    config UTILITIES_INI_ENABLED
+        bool "compile ini lib"
+        default n
+        depends on UTILITIES_ENABLED
+
     config UTILITIES_DYNAMIC
         bool "compile threerDparty as dynamic(shared) lib"
         default n

@@ -36,7 +36,7 @@ menuconfig:
 	python3 project.py menuconfig
 
 run:
-	./dist/${filedir}
+	cd dist && ./${filedir}
 
 push_run:
 	make push
