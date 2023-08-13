@@ -1,0 +1,10 @@
+
+menuconfig TBOX_ENABLED
+    bool "Enable tbox"
+    default n
+
+    config TBOX_DYNAMIC
+        bool "compile component as dynamic(shared) lib"
+        default n
+        depends on TBOX_ENABLED
+

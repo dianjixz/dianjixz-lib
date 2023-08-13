@@ -27,7 +27,7 @@ cd lvgl && git clone -b  820341ea15d0e9f0faaf0b508ba03c3ef9cb1a88 --single-branc
 git clone -b  64120e079446c77990d892865fa5a105fc46036f --single-branch --branch master https://github.com/dianjixz/toolkit.git
 
 
-
+git clone -b  2e0cac8bae7a8bc921114b1e482fefd8f8a5d55e --single-branch --branch master https://github.com/dianjixz/tbox.git
 
 
 
