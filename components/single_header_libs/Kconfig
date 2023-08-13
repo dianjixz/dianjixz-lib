@@ -1,6 +1,6 @@
 
 menuconfig SINGLE_HEADER_LIBS_ENABLED
-    bool "Enable nanojpeg"
+    bool "Enable single_header_libs"
     default n
 
     config SINGLE_HEADER_LIBS_DYNAMIC

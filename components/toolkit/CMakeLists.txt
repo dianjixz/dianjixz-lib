@@ -1,18 +1,20 @@
 # Config enable component3 or not in Kconfig
 set(PRIVATE_MODULE_DIR "../../github_source")
-if(CONFIG_SINGLE_HEADER_LIBS_ENABLED)
+if(CONFIG_TOOLKIT_ENABLED)
+
+    # # message(WARNING "source path: ${LV_CONF_INCLUDE_SIMPLE}-------")
 
     ################# Add include #################
 
-	list(APPEND ADD_INCLUDE "include")
-    list(APPEND ADD_INCLUDE "${PRIVATE_MODULE_DIR}/libs")
-    ###############################################
+	list(APPEND ADD_INCLUDE "include"
+                            "${PRIVATE_MODULE_DIR}/toolkit/include"
+    )
+    append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/toolkit/src")
+    # ###############################################
 
-    ############## Add source files ###############
+    # ############## Add source files ###############
+
     list(APPEND ADD_SRCS  "test.c")
-	# append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libs")
-    # list(APPEND ADD_SRCS  "log.c/src/superlog.c"
-    #     )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
     # FILE(GLOB EXTRA_SRC  "src/*.c")
     # list(APPEND ADD_SRCS  ${EXTRA_SRC})
@@ -27,7 +29,7 @@ if(CONFIG_SINGLE_HEADER_LIBS_ENABLED)
 
 
     ###### Add required/dependent components ######
-    # list(APPEND ADD_REQUIREMENTS component1)
+    # list(APPEND ADD_REQUIREMENTS lvgl_example)
     ###############################################
 
     ###### Add link search path for requirements/libs ######
@@ -51,12 +53,17 @@ if(CONFIG_SINGLE_HEADER_LIBS_ENABLED)
     #### Just for this component, won't affect other 
     #### modules, including component that depend 
     #### on this component
-	# list(APPEND ADD_LINKOPTIONS_PRIVATE -w)
+	# list(APPEND ADD_LINKOPTIONS_PRIVATE -DLV_CONF_INCLUDE_SIMPLE)
     #### Add compile option for this component
     #### and components denpend on this component
-    # list(APPEND ADD_DEFINITIONS_PRIVATE -w)
+    # list(APPEND ADD_DEFINITIONS_PRIVATE -Wall -Wextra 
+    # -Wshadow -Wundef -Wmaybe-uninitialized -Wmissing-prototypes -Wno-discarded-qualifiers 
+    # -Wno-unused-function -Wno-error=strict-prototypes -Wpointer-arith -fno-strict-aliasing -Wno-error=cpp -Wuninitialized 
+    # -Wno-unused-parameter -Wno-missing-field-initializers -Wno-format-nonliteral -Wno-cast-qual -Wunreachable-code -Wno-switch-default  
+    # -Wreturn-type -Wmultichar -Wformat-security -Wno-ignored-qualifiers -Wno-error=pedantic -Wno-sign-compare -Wno-error=missing-prototypes -Wdouble-promotion -Wclobbered -Wdeprecated  
+    # -Wempty-body -Wshift-negative-value -Wstack-usage=4096 
+    # -Wtype-limits -Wsizeof-pointer-memaccess -Wpointer-arith)
     # list(APPEND ADD_DEFINITIONS -w)
-
     ###############################################
 
     ############ Add static libs ##################
@@ -65,7 +72,7 @@ if(CONFIG_SINGLE_HEADER_LIBS_ENABLED)
     ###############################################
 
     # register component, DYNAMIC or SHARED flags will make component compiled to dynamic(shared) lib
-    if(CONFIG_SINGLE_HEADER_LIBS_DYNAMIC)
+    if(CONFIG_TOOLKIT_DYNAMIC)
         register_component(DYNAMIC)
     else()
         register_component()

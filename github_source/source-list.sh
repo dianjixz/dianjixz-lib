@@ -13,7 +13,7 @@ git clone -b cf68fddccefafaa4a5b05082819f66d8419f5811 --single-branch --branch m
 
 git clone -b 5736b15f7ea0ffb08dd38af21067c314d6a3aae9 --single-branch --branch master https://github.com/dianjixz/stb.git
  
-git clone -b a6456b8e7f1564b0c94c329509fe9652bb5a096b --single-branch --branch master https://github.com/dianjixz/libs.git
+git clone -b a6456b8e7f1564b0c94c329509fe9652bb5a096b --single-branch --branch main https://github.com/dianjixz/libs.git
 
 git clone -b 2d01e935e4554580da4e9dbd94964af94e0ded9c --single-branch --branch master https://github.com/dianjixz/nanomsg.git
 
@@ -24,7 +24,7 @@ cd lvgl && git clone -b  5cdf242a21a0897ee1f24b85040d2993a817b822 --single-branc
 cd lvgl && git clone -b  820341ea15d0e9f0faaf0b508ba03c3ef9cb1a88 --single-branch --branch master https://github.com/lvgl/lv_drivers.git
 
 
-
+git clone -b  64120e079446c77990d892865fa5a105fc46036f --single-branch --branch master https://github.com/dianjixz/toolkit.git
 
 
 
