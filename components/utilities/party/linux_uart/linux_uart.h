@@ -2,7 +2,10 @@
 #define __LINUX_UART_H
 
 #include "stdint.h"
-
+#if __cplusplus
+extern "C"
+{
+#endif
 #define PRINF_HEX_ARR(str,buf,len)\
 do{\
     char *buff = (char *)buf;\
@@ -25,5 +28,7 @@ int linux_uart_init(char* dev, void* param);
 void linux_uart_deinit(int fd);
 int linux_uart_read(int fd, int cnt, uint8_t* buf);
 int linux_uart_write(int fd, int cnt, uint8_t* buf);
-
+#if __cplusplus
+}
+#endif
 #endif /* __LINUX_UART_H */

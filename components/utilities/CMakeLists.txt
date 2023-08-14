@@ -22,6 +22,11 @@ if(CONFIG_UTILITIES_ENABLED)
         append_srcs_dir(ADD_SRCS "party/linux_uart")
     endif()
 
+    if(CONFIG_UTILITIES_I2C_ENABLED)
+        list(APPEND ADD_INCLUDE "party/linux_i2c")
+        append_srcs_dir(ADD_SRCS "party/linux_i2c")
+    endif()
+
     if(CONFIG_UTILITIES_FRAMEBUFFER_ENABLED)
         list(APPEND ADD_INCLUDE "party/framebuffer")
         append_srcs_dir(ADD_SRCS "party/framebuffer")
