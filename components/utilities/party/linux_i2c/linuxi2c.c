@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
-#include "i2c.h"
+#include "linuxi2c.h"
 
 /* I2C default delay */
 #define I2C_DEFAULT_DELAY 1
@@ -20,14 +20,14 @@
 #define GET_I2C_FLAGS(tenbit, flags) ((tenbit) ? ((flags) | I2C_M_TEN) : (flags))
 #define GET_WRITE_SIZE(addr, remain, page_bytes) ((addr) + (remain) > (page_bytes) ? (page_bytes) - (addr) : remain)
 
-static void i2c_delay(unsigned char delay);
+static void linuxi2c_delay(unsigned char delay);
 
 /*
 **	@brief		:	Open i2c bus
 **	#bus_name	:	i2c bus name such as: /dev/i2c-1
 **	@return		:	failed return -1, success return i2c bus fd
 */
-int i2c_open(const char *bus_name)
+int linuxi2c_open(const char *bus_name)
 {
     int fd;
 
@@ -41,17 +41,17 @@ int i2c_open(const char *bus_name)
 }
 
 
-void i2c_close(int bus)
+void linuxi2c_close(int bus)
 {
     close(bus);
 }
 
 
 /*
-**	@brief		:	Initialize I2CDevice with defualt value
-**	#device	    :	I2CDevice struct
+**	@brief		:	Initialize LINUXI2CDevice with defualt value
+**	#device	    :	LINUXI2CDevice struct
 */
-void i2c_init_device(I2CDevice *device)
+void linuxi2c_init_device(LINUXI2CDevice *device)
 {
     /* 7 bit device address */
     device->tenbit = 0;
@@ -68,13 +68,13 @@ void i2c_init_device(I2CDevice *device)
 
 
 /*
-**	@brief		:	Get I2CDevice struct desc
-**	#device	    :	I2CDevice struct
+**	@brief		:	Get LINUXI2CDevice struct desc
+**	#device	    :	LINUXI2CDevice struct
 **  #buf        :   Description message buffer
 **  #size       :   #buf size
 **	@return		:	return i2c device desc
 */
-char *i2c_get_device_desc(const I2CDevice *device, char *buf, size_t size)
+char *linuxi2c_get_device_desc(const LINUXI2CDevice *device, char *buf, size_t size)
 {
     memset(buf, 0, size);
     snprintf(buf, size, "Device address: 0x%x, tenbit: %s, internal(word) address: %d bytes, page max %d bytes, delay: %dms",
@@ -93,7 +93,7 @@ char *i2c_get_device_desc(const I2CDevice *device, char *buf, size_t size)
 **	2. it can choice ignore or not ignore i2c internal address
 **
 */
-ssize_t i2c_ioctl_read(const I2CDevice *device, unsigned int iaddr, void *buf, size_t len)
+ssize_t linuxi2c_ioctl_read(const LINUXI2CDevice *device, unsigned int iaddr, void *buf, size_t len)
 {
     struct i2c_msg ioctl_msg[2];
     struct i2c_rdwr_ioctl_data ioctl_data;
@@ -107,7 +107,7 @@ ssize_t i2c_ioctl_read(const I2CDevice *device, unsigned int iaddr, void *buf, s
     /* Target have internal address */
     if (device->iaddr_bytes) {
 
-        i2c_iaddr_convert(iaddr, device->iaddr_bytes, addr);
+        linuxi2c_iaddr_convert(iaddr, device->iaddr_bytes, addr);
 
         /* First message is write internal address */
         ioctl_msg[0].len	=	device->iaddr_bytes;
@@ -150,7 +150,7 @@ ssize_t i2c_ioctl_read(const I2CDevice *device, unsigned int iaddr, void *buf, s
 }
 
 
-ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void *buf, size_t len)
+ssize_t linuxi2c_ioctl_write(const LINUXI2CDevice *device, unsigned int iaddr, const void *buf, size_t len)
 {
     ssize_t remain = len;
     size_t size = 0, cnt = 0;
@@ -168,7 +168,7 @@ ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void 
 
         /* Convert i2c internal address */
         memset(tmp_buf, 0, sizeof(tmp_buf));
-        i2c_iaddr_convert(iaddr, device->iaddr_bytes, tmp_buf);
+        linuxi2c_iaddr_convert(iaddr, device->iaddr_bytes, tmp_buf);
 
         /* Connect write data after device internal address */
         memcpy(tmp_buf + device->iaddr_bytes, buffer, size);
@@ -192,7 +192,7 @@ ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void 
         }
 
         /* XXX: Must have a little time delay */
-        i2c_delay(delay);
+        linuxi2c_delay(delay);
 
         cnt += size;
         iaddr += size;
@@ -206,27 +206,27 @@ ssize_t i2c_ioctl_write(const I2CDevice *device, unsigned int iaddr, const void 
 
 /*
 **	@brief	:	read #len bytes data from #device #iaddr to #buf
-**	#device	:	I2CDevice struct, must call i2c_device_init first
+**	#device	:	LINUXI2CDevice struct, must call i2c_device_init first
 **	#iaddr	:	i2c_device internal address will read data from this address, no address set zero
 **	#buf	:	i2c data will read to here
 **	#len	:	how many data to read, lenght must less than or equal to buf size
 **	@return : 	success return read data length, failed -1
 */
-ssize_t i2c_read(const I2CDevice *device, unsigned int iaddr, void *buf, size_t len)
+ssize_t linuxi2c_read(const LINUXI2CDevice *device, unsigned int iaddr, void *buf, size_t len)
 {
     ssize_t cnt;
     unsigned char addr[INT_ADDR_MAX_BYTES];
     unsigned char delay = GET_I2C_DELAY(device->delay);
 
     /* Set i2c slave address */
-    if (i2c_select(device->bus, device->addr, device->tenbit) == -1) {
+    if (linuxi2c_select(device->bus, device->addr, device->tenbit) == -1) {
 
         return -1;
     }
 
     /* Convert i2c internal address */
     memset(addr, 0, sizeof(addr));
-    i2c_iaddr_convert(iaddr, device->iaddr_bytes, addr);
+    linuxi2c_iaddr_convert(iaddr, device->iaddr_bytes, addr);
 
     /* Write internal address to devide  */
     if (write(device->bus, addr, device->iaddr_bytes) != device->iaddr_bytes) {
@@ -236,7 +236,7 @@ ssize_t i2c_read(const I2CDevice *device, unsigned int iaddr, void *buf, size_t 
     }
 
     /* Wait a while */
-    i2c_delay(delay);
+    linuxi2c_delay(delay);
 
     /* Read count bytes data from int_addr specify address */
     if ((cnt = read(device->bus, buf, len)) == -1) {
@@ -251,13 +251,13 @@ ssize_t i2c_read(const I2CDevice *device, unsigned int iaddr, void *buf, size_t 
 
 /*
 **	@brief	:	write #buf data to i2c #device #iaddr address
-**	#device	:	I2CDevice struct, must call i2c_device_init first
+**	#device	:	LINUXI2CDevice struct, must call i2c_device_init first
 **	#iaddr	: 	i2c_device internal address, no address set zero
 **	#buf	:	data will write to i2c device
 **	#len	:	buf data length without '/0'
 **	@return	: 	success return write data length, failed -1
 */
-ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, size_t len)
+ssize_t linuxi2c_write(const LINUXI2CDevice *device, unsigned int iaddr, const void *buf, size_t len)
 {
     ssize_t remain = len;
     ssize_t ret;
@@ -267,7 +267,7 @@ ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, 
     unsigned char tmp_buf[PAGE_MAX_BYTES + INT_ADDR_MAX_BYTES];
 
     /* Set i2c slave address */
-    if (i2c_select(device->bus, device->addr, device->tenbit) == -1) {
+    if (linuxi2c_select(device->bus, device->addr, device->tenbit) == -1) {
 
         return -1;
     }
@@ -279,7 +279,7 @@ ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, 
 
         /* Convert i2c internal address */
         memset(tmp_buf, 0, sizeof(tmp_buf));
-        i2c_iaddr_convert(iaddr, device->iaddr_bytes, tmp_buf);
+        linuxi2c_iaddr_convert(iaddr, device->iaddr_bytes, tmp_buf);
 
         /* Copy data to tmp_buf */
         memcpy(tmp_buf + device->iaddr_bytes, buffer, size);
@@ -294,7 +294,7 @@ ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, 
         }
 
         /* XXX: Must have a little time delay */
-        i2c_delay(delay);
+        linuxi2c_delay(delay);
 
         /* Move to next #size bytes */
         cnt += size;
@@ -313,7 +313,7 @@ ssize_t i2c_write(const I2CDevice *device, unsigned int iaddr, const void *buf, 
 **	#len	:	i2c device internal address length
 **	#addr	:	save convert address
 */
-void i2c_iaddr_convert(unsigned int iaddr, unsigned int len, unsigned char *addr)
+void linuxi2c_iaddr_convert(unsigned int iaddr, unsigned int len, unsigned char *addr)
 {
     union {
         unsigned int iaddr;
@@ -341,7 +341,7 @@ void i2c_iaddr_convert(unsigned int iaddr, unsigned int len, unsigned char *addr
 **	#tenbit		:	i2c device address is tenbit
 **	#return		:	success return 0, failed return -1
 */
-int i2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
+int linuxi2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
 {
     /* Set i2c device address bit */
     if (ioctl(bus, I2C_TENBIT, tenbit)) {
@@ -364,7 +364,7 @@ int i2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
 **	@brief	:	i2c delay
 **	#msec	:	milliscond to be delay
 */
-static void i2c_delay(unsigned char msec)
+static void linuxi2c_delay(unsigned char msec)
 {
     usleep(msec * 1e3);
 }

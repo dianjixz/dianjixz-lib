@@ -29,7 +29,7 @@ git clone -b  64120e079446c77990d892865fa5a105fc46036f --single-branch --branch 
 
 git clone -b  2e0cac8bae7a8bc921114b1e482fefd8f8a5d55e --single-branch --branch master https://github.com/dianjixz/tbox.git
 
-
+git clone -b  31a02e6e22ece76fe9bca45d472ed28c4dea720b --single-branch --branch master https://github.com/wuhanstudio/u8g2-arm-linux.git
 
 
 

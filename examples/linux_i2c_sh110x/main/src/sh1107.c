@@ -6,7 +6,7 @@
 // #include "esp_log.h"
 #include "sh1107.h"
 #include "font8x8_basic.h"
-
+#include <stdio.h>
 #define TAG "SH1107"
 
 void sh1107_init(SH1107_t * dev, int width, int height)

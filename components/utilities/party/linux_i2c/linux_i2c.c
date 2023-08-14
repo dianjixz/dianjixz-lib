@@ -118,7 +118,7 @@ static int i2c_rw(void *i2c_handle, void *offset, size_t offset_len, void *buf,
  * @param [in] buf_len Length in bytes of the buffer pointed to by 'buf'
  * @return 0 on success, negative errno on failure
  */
-int i2c_read(void *i2c_handle, void *offset, size_t offset_len, void *buf,
+int linux_i2c_read(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 	     size_t buf_len)
 {
 	return i2c_rw(i2c_handle, offset, offset_len, buf, buf_len, 0);
@@ -133,7 +133,7 @@ int i2c_read(void *i2c_handle, void *offset, size_t offset_len, void *buf,
  * @param [in] buf_len Length in bytes of the data pointed to by 'buf'
  * @return 0 on success, negative errno on failure
  */
-int i2c_write(void *i2c_handle, void *offset, size_t offset_len, void *buf,
+int linux_i2c_write(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 	      size_t buf_len)
 {
 	return i2c_rw(i2c_handle, offset, offset_len, buf, buf_len, 1);
@@ -146,7 +146,7 @@ int i2c_write(void *i2c_handle, void *offset, size_t offset_len, void *buf,
  * @param [out] i2c_handlep Pointer to handle to use for I2C operations
  * @return 0 on success, negative errno on failure
  */
-int i2c_init(uint8_t i2c_id, uint16_t i2c_addr, void **i2c_handlep)
+int linux_i2c_init(uint8_t i2c_id, uint16_t i2c_addr, void **i2c_handlep)
 {
 	struct i2c_info *iip;
 	char filename[I2C_FILENAME_MAX];
@@ -209,7 +209,7 @@ err_free_iip:
  * @param [in] i2c_handle Handle returned by i2c_init()
  * @return 0 on success, negative errno on failure
  */
-int i2c_destroy(void *i2c_handle)
+int linux_i2c_destroy(void *i2c_handle)
 {
 	struct i2c_info *iip = i2c_handle;
 

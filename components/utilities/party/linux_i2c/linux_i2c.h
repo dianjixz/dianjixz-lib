@@ -44,12 +44,12 @@
 extern "C"
 {
 #endif
-int i2c_read(void *i2c_handle, void *offset, size_t offset_len, void *buf,
+int linux_i2c_read(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 	     size_t buf_len);
-int i2c_write(void *i2c_handle, void *offset, size_t offset_len, void *buf,
+int linux_i2c_write(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 	      size_t buf_len);
-int i2c_init(uint8_t i2c_id, uint16_t i2c_addr, void **i2c_handlep);
-int i2c_destroy(void *i2c_handle);
+int linux_i2c_init(uint8_t i2c_id, uint16_t i2c_addr, void **i2c_handlep);
+int linux_i2c_destroy(void *i2c_handle);
 #if __cplusplus
 }
 #endif
