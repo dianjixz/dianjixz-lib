@@ -1,0 +1,1138 @@
+Script started on 2023-08-15 15:07:10+08:00 [TERM="xterm-256color" TTY="/dev/pts/31" COLUMNS="166" LINES="22"]
+[?2004h]0;nihao@nihao-z690: ~/work/dianjixz-lib/examples/m5gfx_sh1107[01;32mnihao@nihao-z690[00m:[01;34m~/work/dianjixz-lib/examples/m5gfx_sh1107[00m$ find -name StageOptionHelper.h[10Pproxychains git pushgit commit -m "[add] vin serial support!"^C[?2004l[?2004h[?2004l
+[?2004h]0;nihao@nihao-z690: ~/work/dianjixz-lib/examples/m5gfx_sh1107[01;32mnihao@nihao-z690[00m:[01;34m~/work/dianjixz-lib/examples/m5gfx_sh1107[00m$ make clean
+[?2004lpython3 project.py clean
+-- SDK_PATH:/home/nihao/work/dianjixz-lib
+-- project name: m5gfx_sh1107
+-- CPU count: 24
+clean now
+gmake[1]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[2]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[2]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[1]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+
+clean complete
+[?2004h]0;nihao@nihao-z690: ~/work/dianjixz-lib/examples/m5gfx_sh1107[01;32mnihao@nihao-z690[00m:[01;34m~/work/dianjixz-lib/examples/m5gfx_sh1107[00m$ make 
+[?2004lpython3 project.py build
+-- SDK_PATH:/home/nihao/work/dianjixz-lib
+-- project name: m5gfx_sh1107
+-- CPU count: 24
+build now
+gmake[1]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[2]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+[  1%] [34m[1mGenerating exe_src.c[0m
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+[  1%] Built target gen_exe_src
+-- Update build time and version info to header  config  at: ('/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build/config/global_build_info_time.h', '/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build/config/global_build_info_version.h')
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+[  1%] Built target update_build_info
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[3]: 进入目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+[  3%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp.o[0m
+[  5%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/Fonts/IPA/lgfx_font_japan.c.o[0m
+[  7%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/Fonts/efont/lgfx_efont_cn.c.o[0m
+[  9%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/Fonts/efont/lgfx_efont_ja.c.o[0m
+[ 11%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/Fonts/efont/lgfx_efont_kr.c.o[0m
+[ 13%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/utility/lgfx_pngle.c.o[0m
+[ 15%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/Fonts/efont/lgfx_efont_tw.c.o[0m
+[ 17%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/utility/lgfx_tjpgd.c.o[0m
+[ 19%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/utility/lgfx_qoi.c.o[0m
+[ 21%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/utility/lgfx_qrcode.c.o[0m
+[ 25%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp.o[0m
+[ 25%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/utility/miniz.c.o[0m
+[ 26%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Button.cpp.o[0m
+[ 28%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.cpp.o[0m
+[ 30%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp.o[0m
+[ 32%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp.o[0m
+[ 34%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp.o[0m
+[ 36%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/common_function.cpp.o[0m
+[ 38%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/pixelcopy.cpp.o[0m
+[ 40%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp.o[0m
+[ 46%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_FrameBufferBase.cpp.o[0m
+[ 46%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp.o[0m
+[ 46%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_LCD.cpp.o[0m
+[ 48%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp.o[0m
+[ 50%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp.o[0m
+[ 55%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5HDMI.cpp.o[0m
+[ 55%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp.o[0m
+[ 55%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp.o[0m
+[ 57%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_SSD1306.cpp.o[0m
+[ 59%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/Bus_I2C.cpp.o[0m
+[ 61%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/Bus_Parallel8.cpp.o[0m
+[ 63%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/Bus_SPI.cpp.o[0m
+[ 65%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/Light_PWM.cpp.o[0m
+[ 67%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/Panel_CVBS.cpp.o[0m
+[ 69%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32/common.cpp.o[0m
+[ 71%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32c3/Bus_Parallel8.cpp.o[0m
+[ 75%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32s3/Bus_Parallel16.cpp.o[0m
+[ 75%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/esp32s3/Bus_Parallel8.cpp.o[0m
+[ 78%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/linux_i2c.cpp.o[0m
+[ 78%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/common.cpp.o[0m
+[ 80%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/Bus_I2C.cpp.o[0m
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/linux_i2c.cpp:[m[K In function ‘[01m[Kint linux_i2c_write(void*, void*, size_t, void*, size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/linux_i2c.cpp:141:27:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Ksize_t[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+  141 |         for (int i = 0; [01;35m[Ki < offset_len[m[K; i++)
+      |                         [01;35m[K~~^~~~~~~~~~~~[m[K
+[ 82%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp.o[0m
+[ 84%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp.o[0m
+[ 86%] [32mBuilding CXX object m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp.o[0m
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/Bus_I2C.hpp:21[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/device.hpp:92[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.h:18[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:4[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[ 88%] [32mBuilding C object m5gfx/CMakeFiles/m5gfx.dir/test.c.o[0m
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_FrameBufferBase.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:3[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_LCD.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.hpp:27[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:22[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.cpp:19[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:22[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:22[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.hpp:27[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:19[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/sdl/../common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.hpp:27[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Button.cpp:21[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.h:20[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:4[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFX_FILESYSTEM_Support<Base>::drawBmpFile(const char*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:360:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  360 |       [01;31m[KFileWrapper[m[K file; \
+      |       [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:364:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  364 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawBmp)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:[m[K In destructor ‘[01m[Kvirtual lgfx::v1::Panel_HasBuffer::~Panel_HasBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:31:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   31 |     if (_buf) { [01;31m[Kheap_free[m[K(_buf); }
+      |                 [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:361:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  361 |       return drawImg##File(&[01;31m[Kfile[m[K, path, x, y, maxWidth, maxHeight, offX, offY, scale_x, scale_y, datum); \
+      |                             [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:364:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  364 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawBmp)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Panel_HasBuffer::init(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:47:15:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   47 |     if (_buf) [01;31m[Kheap_free[m[K(_buf);
+      |               [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:22[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFX_FILESYSTEM_Support<Base>::drawJpgFile(const char*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:360:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  360 |       [01;31m[KFileWrapper[m[K file; \
+      |       [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:365:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  365 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawJpg)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp:48:34:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+   48 |     _buf = static_cast<uint8_t*>([01;31m[Kheap_alloc_dma[m[K(len));
+      |                                  [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:361:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  361 |       return drawImg##File(&[01;31m[Kfile[m[K, path, x, y, maxWidth, maxHeight, offX, offY, scale_x, scale_y, datum); \
+      |                             [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:365:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  365 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawJpg)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Panel_IT8951::init(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:139:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+  139 |     pinMode(_cfg.pin_busy, [01;31m[Kpin_mode_t[m[K::input);
+      |                            [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Panel_M5UnitLCD::init(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:50:15:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   50 |         lgfx::[01;31m[Kdelay[m[K(300);
+      |               [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:56:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   56 |           lgfx::[01;31m[Kdelay[m[K(32);
+      |                 [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::Panel_M5UnitLCD::_check_repeat(uint32_t, uint_fast8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp:129:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  129 |           lgfx::[01;31m[Kdelay[m[K(2);
+      |                 [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:139:5:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ was not declared in this scope
+  139 |     [01;31m[KpinMode[m[K(_cfg.pin_busy, pin_mode_t::input);
+      |     [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFX_FILESYSTEM_Support<Base>::drawPngFile(const char*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:360:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  360 |       [01;31m[KFileWrapper[m[K file; \
+      |       [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:366:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  366 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawPng)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_LCD.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_LCD::readRect(uint_fast16_t, uint_fast16_t, uint_fast16_t, uint_fast16_t, void*, lgfx::v1::pixelcopy_t*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_LCD.cpp:435:7:[m[K [01;31m[Kerror: [m[K‘[01m[KdelayMicroseconds[m[K’ was not declared in this scope
+  435 |       [01;31m[KdelayMicroseconds[m[K(_cfg.end_read_delay_us);
+      |       [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:152:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  152 |       [01;31m[Kdelay[m[K(1);
+      |       [01;31m[K^~~~~[m[K
+      |       [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:361:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  361 |       return drawImg##File(&[01;31m[Kfile[m[K, path, x, y, maxWidth, maxHeight, offX, offY, scale_x, scale_y, datum); \
+      |                             [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:366:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  366 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawPng)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kuint16_t lgfx::v1::Panel_IT8951::getVCOM()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:201:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  201 |     [01;31m[Kdelay[m[K(1);
+      |     [01;31m[K^~~~~[m[K
+      |     [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::Panel_IT8951::_wait_busy(uint32_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:247:38:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  247 |     if (_cfg.pin_busy >= 0 && !lgfx::[01;31m[Kgpio_in[m[K(_cfg.pin_busy))
+      |                                      [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_M5UnitGlass::display(uint_fast16_t, uint_fast16_t, uint_fast16_t, uint_fast16_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:143:19:[m[K [01;31m[Kerror: [m[K‘[01m[KdelayMicroseconds[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  143 |             lgfx::[01;31m[KdelayMicroseconds[m[K(index << 5); // 描画が終わるまで少し待つ
+      |                   [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:154:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  154 |     _msec_busy = lgfx::[01;31m[Kmillis[m[K() + 5;
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kuint8_t lgfx::v1::Panel_M5UnitGlass::getKey(uint_fast8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:167:15:[m[K [01;31m[Kerror: [m[K‘[01m[KdelayMicroseconds[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  167 |         lgfx::[01;31m[KdelayMicroseconds[m[K(512); // データ取得可能になるまで少し待つ
+      |               [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:173:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  173 |     _msec_busy = lgfx::[01;31m[Kmillis[m[K() + 1;
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kuint8_t lgfx::v1::Panel_M5UnitGlass::getFirmwareVersion()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:192:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  192 |     _msec_busy = lgfx::[01;31m[Kmillis[m[K() + 1;
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::Panel_M5UnitGlass::setBuzzer(uint16_t, uint8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:202:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  202 |     _msec_busy = lgfx::[01;31m[Kmillis[m[K() + 1;
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::Panel_M5UnitGlass::setBuzzerEnable(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:211:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  211 |     _msec_busy = lgfx::[01;31m[Kmillis[m[K() + 1;
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::Panel_M5UnitGlass::waitBusy()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:216:40:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  216 |     uint32_t diff = _msec_busy - lgfx::[01;31m[Kmillis[m[K();
+      |                                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp:218:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  218 |       lgfx::[01;31m[Kdelay[m[K(diff);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::VLWfont::unloadFont()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:740:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  740 |     if (gUnicode)  { [01;31m[Kheap_free[m[K(gUnicode);  gUnicode  = nullptr; }
+      |                      [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:356：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_FrameBufferBase.cpp.o] 错误 1
+gmake[3]: *** 正在等待未完成的任务....
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFX_FILESYSTEM_Support<Base>::drawQoiFile(const char*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:360:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  360 |       [01;31m[KFileWrapper[m[K file; \
+      |       [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:367:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  367 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawQoi)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:249:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  249 |       auto start_ms = [01;31m[Kmillis[m[K();
+      |                       [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:384：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_HasBuffer.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:361:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  361 |       return drawImg##File(&[01;31m[Kfile[m[K, path, x, y, maxWidth, maxHeight, offX, offY, scale_x, scale_y, datum); \
+      |                             [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:367:5:[m[K [01;36m[Knote: [m[Kin expansion of macro ‘[01m[KLGFX_FUNCTION_GENERATOR[m[K’
+  367 |     [01;36m[KLGFX_FUNCTION_GENERATOR[m[K(drawQoi)
+      |     [01;36m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:262:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  262 |           [01;31m[Kdelay[m[K(ms >> 4);
+      |           [01;31m[K^~~~~[m[K
+      |           [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:741:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  741 |     if (gWidth)    { [01;31m[Kheap_free[m[K(gWidth);    gWidth    = nullptr; }
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:264:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  264 |       } while (!lgfx::[01;31m[Kgpio_in[m[K(_cfg.pin_busy));
+      |                       [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:[m[K In member function ‘[01m[Kuint8_t** lgfx::v1::DividedFrameBuffer::create(size_t, size_t, size_t, lgfx::v1::DividedFrameBuffer::psram_setting_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:44:47:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+   44 |     auto block_array = static_cast<uint8_t**>([01;31m[Kheap_alloc_dma[m[K(block_array_size));
+      |                                               [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::Panel_IT8951::_check_afsr()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:295:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  295 |     uint32_t start_time = [01;31m[Kmillis[m[K();
+      |                           [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:454：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitLCD.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:742:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  742 |     if (gxAdvance) { [01;31m[Kheap_free[m[K(gxAdvance); gxAdvance = nullptr; }
+      |                      [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.cpp:19[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::LGFX_Sprite::createFromBmpFile(const char*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:229:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  229 |       [01;31m[KFileWrapper[m[K file;
+      |       [01;31m[K^~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_SSD1306.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFX_FILESYSTEM_Support<Base>::loadFont(const char*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_filesystem_support.hpp:379:22:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  379 |       init_font_file<[01;31m[KFileWrapper[m[K>();
+      |                      [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:307:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  307 |       [01;31m[Kdelay[m[K(1);
+      |       [01;31m[K^~~~~[m[K
+      |       [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SpriteBuffer::reset(size_t, lgfx::v1::AllocationSource)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:125:18:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  125 |         buffer = [01;31m[Kheap_alloc[m[K(length);
+      |                  [01;31m[K^~~~~~~~~~[m[K
+      |                  [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::Panel_IT8951::_write_args(uint16_t, uint16_t*, int32_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:341:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  341 |         while (!lgfx::[01;31m[Kgpio_in[m[K(_cfg.pin_busy));
+      |                       [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:743:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  743 |     if (gdX)       { [01;31m[Kheap_free[m[K(gdX);       gdX       = nullptr; }
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:58:39:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_psram[m[K’ was not declared in this scope
+   58 |           buf = static_cast<uint8_t*>([01;31m[Kheap_alloc_psram[m[K(block_size));
+      |                                       [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:230:26:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  230 |       createFromBmpFile(&[01;31m[Kfile[m[K, path);
+      |                          [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::Panel_Device::command_list(const uint8_t*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:165:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  165 |         [01;31m[Kdelay[m[K( (ms==255 ? 500 : ms) );
+      |         [01;31m[K^~~~~[m[K
+      |         [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_IT8951::writeImage(uint_fast16_t, uint_fast16_t, uint_fast16_t, uint_fast16_t, lgfx::v1::pixelcopy_t*, bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:576:49:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  576 |     uint16_t* writebuf = static_cast<uint16_t*>([01;31m[Kheap_alloc[m[K(w * sizeof(bgr888_t) + 4));
+      |                                                 [01;31m[K^~~~~~~~~~[m[K
+      |                                                 [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_Device::init_cs()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:285:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  285 |     lgfx::[01;31m[Kgpio_hi[m[K(pin);
+      |           [01;31m[K^~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:412：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_LCD.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:286:11:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  286 |     lgfx::[01;31m[KpinMode[m[K(pin , pin_mode_t::output);
+      |           [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:286:25:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+  286 |     lgfx::pinMode(pin , [01;31m[Kpin_mode_t[m[K::output);
+      |                         [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_Device::init_rst()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:293:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  293 |     lgfx::[01;31m[Kgpio_hi[m[K(pin);
+      |           [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:294:11:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  294 |     lgfx::[01;31m[KpinMode[m[K(pin, pin_mode_t::output);
+      |           [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:294:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+  294 |     lgfx::pinMode(pin, [01;31m[Kpin_mode_t[m[K::output);
+      |                        [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:128:18:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  128 |         buffer = [01;31m[Kheap_alloc_dma[m[K(length);
+      |                  [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:744:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  744 |     if (gBitmap)   { [01;31m[Kheap_free[m[K(gBitmap);   gBitmap   = nullptr; }
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:656:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  656 |     [01;31m[Kheap_free[m[K(writebuf);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:440：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_M5UnitGLASS.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::DividedFrameBuffer::release()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:92:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   92 |           [01;31m[Kheap_free[m[K(_block_array[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_Device::cs_control(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:303:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ was not declared in this scope
+  303 |       [01;31m[Kgpio_hi[m[K(pin);
+      |       [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_IT8951::writePixels(lgfx::v1::pixelcopy_t*, uint32_t, bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:696:48:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  696 |     bgr888_t* readbuf = static_cast<bgr888_t*>([01;31m[Kheap_alloc[m[K(maxw * sizeof(bgr888_t)));
+      |                                                [01;31m[K^~~~~~~~~~[m[K
+      |                                                [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:131:18:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_psram[m[K’ was not declared in this scope
+  131 |         buffer = [01;31m[Kheap_alloc_psram[m[K(length);
+      |                  [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp:96:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |       [01;31m[Kheap_free[m[K(_block_array);
+      |       [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::VLWfont::loadFont(lgfx::v1::DataWrapper*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:819:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_psram[m[K’ was not declared in this scope
+  819 |     gBitmap   = (uint32_t*)[01;31m[Kheap_alloc_psram[m[K( gCount * 4); // seek pointer to glyph bitmap in the file
+      |                            [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:307:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_lo[m[K’ was not declared in this scope
+  307 |       [01;31m[Kgpio_lo[m[K(pin);
+      |       [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:751:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  751 |     [01;31m[Kheap_free[m[K(readbuf);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SpriteBuffer::release()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp:150:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  150 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.h:22[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:4[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::LGFX_Sprite::createFromBmpFile(const char*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:229:7:[m[K [01;31m[Kerror: [m[K‘[01m[KFileWrapper[m[K’ was not declared in this scope
+  229 |       [01;31m[KFileWrapper[m[K file;
+      |       [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_IT8951::readRect(uint_fast16_t, uint_fast16_t, uint_fast16_t, uint_fast16_t, void*, lgfx::v1::pixelcopy_t*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:809:42:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  809 |     auto readbuf = static_cast<uint8_t*>([01;31m[Kheap_alloc[m[K(std::max(padding_len, rw * param->dst_bits >> 3)));
+      |                                          [01;31m[K^~~~~~~~~~[m[K
+      |                                          [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:825:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  825 |     if (nullptr == gBitmap  ) gBitmap   = (uint32_t*)[01;31m[Kheap_alloc[m[K( gCount * 4); // seek pointer to glyph bitmap in the file
+      |                                                      [01;31m[K^~~~~~~~~~[m[K
+      |                                                      [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_Device::reset()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:315:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ was not declared in this scope
+  315 |     [01;31m[Kgpio_hi[m[K(pin);
+      |     [01;31m[K^~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/Bus_I2C.hpp:21[m[K,
+                 from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/Bus_I2C.cpp:22[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::LGFXBase::showFont(uint32_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2212:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope
+ 2212 |           [01;31m[Kdelay[m[K(td);
+      |           [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.hpp:230:26:[m[K [01;31m[Kerror: [m[K‘[01m[Kfile[m[K’ was not declared in this scope
+  230 |       createFromBmpFile(&[01;31m[Kfile[m[K, path);
+      |                          [01;31m[K^~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:244：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Button.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp:859:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  859 |     [01;31m[Kheap_free[m[K(colorbuf);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:826:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  826 |     if (nullptr == gUnicode ) gUnicode  = (uint16_t*)[01;31m[Kheap_alloc[m[K( gCount * 2); // Unicode 16 bit Basic Multilingual Plane (0-FFFF)
+      |                                                      [01;31m[K^~~~~~~~~~[m[K
+      |                                                      [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:316:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  316 |     [01;31m[Kdelay[m[K(64);
+      |     [01;31m[K^~~~~[m[K
+      |     [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:[m[K In member function ‘[01m[Klgfx::boards::board_t m5gfx::M5GFX::autodetect(bool, lgfx::boards::board_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:1251:18:[m[K [01;31m[Kerror: [m[Kexpected type-specifier before ‘[01m[KPanel_sdl[m[K’
+ 1251 |     auto p = new [01;31m[KPanel_sdl[m[K();
+      |                  [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp:1351:18:[m[K [01;31m[Kerror: [m[Kexpected type-specifier
+ 1351 |     auto t = new [01;31m[Klgfx[m[K::Touch_sdl();
+      |                  [01;31m[K^~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2219:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope
+ 2219 |     [01;31m[Kdelay[m[K(td);
+      |     [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:827:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  827 |     if (nullptr == gWidth   ) gWidth    =  (uint8_t*)[01;31m[Kheap_alloc[m[K( gCount );    // Width of glyph
+      |                                                      [01;31m[K^~~~~~~~~~[m[K
+      |                                                      [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp:317:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_lo[m[K’ was not declared in this scope
+  317 |     [01;31m[Kgpio_lo[m[K(pin);
+      |     [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Panel_GDEW0154M09::init(bool)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:56:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   56 |     pinMode(_cfg.pin_busy, [01;31m[Kpin_mode_t[m[K::input);
+      |                            [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:828:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  828 |     if (nullptr == gxAdvance) gxAdvance =  (uint8_t*)[01;31m[Kheap_alloc[m[K( gCount );    // xAdvance - to move x cursor
+      |                                                      [01;31m[K^~~~~~~~~~[m[K
+      |                                                      [32m[Krealloc[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:300：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/SpriteBuffer.cpp.o] 错误 1
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:286：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/misc/DividedFrameBuffer.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:56:5:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ was not declared in this scope
+   56 |     [01;31m[KpinMode[m[K(_cfg.pin_busy, pin_mode_t::input);
+      |     [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFXBase::draw_jpg(lgfx::v1::DataWrapper*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2600:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+ 2600 |     uint8_t *pool = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(sz_pool);
+      |                               [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:25[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp:829:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc[m[K’ was not declared in this scope; did you mean ‘[01m[Krealloc[m[K’?
+  829 |     if (nullptr == gdX      ) gdX       =   (int8_t*)[01;31m[Kheap_alloc[m[K( gCount );    // offset for bitmap left edge relative to cursor X
+      |                                                      [01;31m[K^~~~~~~~~~[m[K
+      |                                                      [32m[Krealloc[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:398：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_IT8951.cpp.o] 错误 1
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:468：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_SSD1306.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Panel_GDEW0154M09::displayBusy()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:98:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ was not declared in this scope
+   98 |     return _cfg.pin_busy >= 0 && ![01;31m[Kgpio_in[m[K(_cfg.pin_busy);
+      |                                   [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2612:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 2612 |       [01;31m[Kheap_free[m[K(pool);
+      |       [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:258：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFX_Sprite.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Panel_GDEW0154M09::display(uint_fast16_t, uint_fast16_t, uint_fast16_t, uint_fast16_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:113:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  113 |     while ([01;31m[Kmillis[m[K() - _send_msec < _refresh_msec) delay(1);
+      |            [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/../common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:76：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/M5GFX.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2628:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 2628 |       [01;31m[Kheap_free[m[K(pool);
+      |       [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:113:51:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  113 |     while (millis() - _send_msec < _refresh_msec) [01;31m[Kdelay[m[K(1);
+      |                                                   [01;31m[K^~~~~[m[K
+      |                                                   [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:342：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_Device.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2655:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 2655 |     [01;31m[Kheap_free[m[K(pool);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:119:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  119 |       auto send_msec = [01;31m[Kmillis[m[K();
+      |                        [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:120:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  120 |       [01;31m[Kdelay[m[K(300);
+      |       [01;31m[K^~~~~[m[K
+      |       [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In function ‘[01m[Kvoid lgfx::v1::png_draw_alpha_callback(void*, uint32_t, uint32_t, uint_fast8_t, size_t, const uint8_t*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2726:40:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+ 2726 |           p->lineBuffer = (bgra8888_t*)[01;31m[Kheap_alloc_dma[m[K(sizeof(bgra8888_t) * p->maxWidth);
+      |                                        [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:20[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In function ‘[01m[Kvoid lgfx::v1::png_draw_alpha_scale_callback(void*, uint32_t, uint32_t, uint_fast8_t, size_t, const uint8_t*)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:2823:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+ 2823 |       p->lineBuffer = (bgra8888_t*)[01;31m[Kheap_alloc_dma[m[K(sizeof(bgra8888_t) * p->maxWidth);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:132:18:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  132 |     _send_msec = [01;31m[Kmillis[m[K();
+      |                  [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Touch_CST816S::init()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:73:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   73 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_rst, pin_mode_t::output);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:73:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   73 |       lgfx::pinMode(_cfg.pin_rst, [01;31m[Kpin_mode_t[m[K::output);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:74:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_lo[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   74 |       lgfx::[01;31m[Kgpio_lo[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:75:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   75 |       lgfx::[01;31m[Kdelay[m[K(10);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:76:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   76 |       lgfx::[01;31m[Kgpio_hi[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:77:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   77 |       lgfx::[01;31m[Kdelay[m[K(10);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:83:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   83 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_int, pin_mode_t::input_pullup);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp:83:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   83 |       lgfx::pinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input_pullup);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFXBase::draw_png(lgfx::v1::DataWrapper*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3026:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 3026 |       [01;31m[Kheap_free[m[K(png.lineBuffer);
+      |       [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::Panel_GDEW0154M09::_wait_busy(uint32_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:303:32:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ was not declared in this scope
+  303 |     if (_cfg.pin_busy >= 0 && ![01;31m[Kgpio_in[m[K(_cfg.pin_busy))
+      |                                [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:608：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/platforms/linux_arm/Bus_I2C.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:305:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  305 |       uint32_t start_time = [01;31m[Kmillis[m[K();
+      |                             [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kbool lgfx::v1::LGFXBase::draw_qoi(lgfx::v1::DataWrapper*, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, float, float, lgfx::v1::datum::datum_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3076:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+ 3076 |     png.lineBuffer = (bgra8888_t*)[01;31m[Kheap_alloc_dma[m[K(sizeof(bgra8888_t) * png.maxWidth);
+      |                                   [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:21[m[K:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::SimpleBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:96:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+   96 |         [01;31m[Kheap_free[m[K(_buffer);
+      |         [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3088:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 3088 |       [01;31m[Kheap_free[m[K(png.lineBuffer);
+      |       [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:309:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  309 |         [01;31m[Kdelay[m[K(1);
+      |         [01;31m[K^~~~~[m[K
+      |         [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::SimpleBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:107:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  107 |         if (_buffer) [01;31m[Kheap_free[m[K(_buffer);
+      |                      [01;31m[K^~~~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:650：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_CST816S.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::Panel_GDEW0154M09::_close_transfer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:384:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ was not declared in this scope
+  384 |     while ([01;31m[Kmillis[m[K() - _send_msec < _refresh_msec) delay(1);
+      |            [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kvoid* lgfx::v1::LGFXBase::createPng(size_t*, int32_t, int32_t, int32_t, int32_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3122:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+ 3122 |     void* rgbBuffer = [01;31m[Kheap_alloc_dma[m[K(w * 3);
+      |                       [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:108:29:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  108 |         _buffer = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                             [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Touch_FT5x06::init()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:75:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   75 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_rst, pin_mode_t::output);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:75:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   75 |       lgfx::pinMode(_cfg.pin_rst, [01;31m[Kpin_mode_t[m[K::output);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:76:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_lo[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   76 |       lgfx::[01;31m[Kgpio_lo[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:77:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   77 |       lgfx::[01;31m[Kdelay[m[K(1);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:78:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   78 |       lgfx::[01;31m[Kgpio_hi[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:83:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   83 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_int, pin_mode_t::input_pullup);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:83:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   83 |       lgfx::pinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input_pullup);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp:384:51:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope; did you mean ‘[01m[Kdisplay[m[K’?
+  384 |     while (millis() - _send_msec < _refresh_msec) [01;31m[Kdelay[m[K(1);
+      |                                                   [01;31m[K^~~~~[m[K
+      |                                                   [32m[Kdisplay[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Touch_FT5x06::wakeup()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:93:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   93 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_int, pin_mode_t::input_pulldown);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:93:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   93 |       lgfx::pinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input_pulldown);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3128:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+ 3128 |     [01;31m[Kheap_free[m[K(rgbBuffer);
+      |     [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::FlipBuffer::deleteBuffer()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:136:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  136 |           [01;31m[Kheap_free[m[K(_buffer[i]);
+      |           [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:[m[K In member function ‘[01m[Kvoid lgfx::v1::LGFX_Device::calibrate_touch(uint16_t*, uint32_t, uint32_t, uint8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp:3238:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope
+ 3238 |         [01;31m[Kdelay[m[K(512);
+      |         [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:[m[K In member function ‘[01m[Kuint8_t* lgfx::v1::FlipBuffer::getBuffer(size_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:149:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_free[m[K’ was not declared in this scope
+  149 |         if (_buffer[_flip]) { [01;31m[Kheap_free[m[K(_buffer[_flip]); }
+      |                               [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:94:7:[m[K [01;31m[Kerror: [m[K‘[01m[KdelayMicroseconds[m[K’ was not declared in this scope
+   94 |       [01;31m[KdelayMicroseconds[m[K(512);
+      |       [01;31m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:95:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   95 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_int, pin_mode_t::input_pullup);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:95:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   95 |       lgfx::pinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input_pullup);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:[m[K In member function ‘[01m[Kvirtual uint_fast8_t lgfx::v1::Touch_FT5x06::getTouchRaw(lgfx::v1::touch_point_t*, uint_fast8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp:140:34:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ was not declared in this scope
+  140 |       if (_flg_released != (bool)[01;31m[Kgpio_in[m[K(_cfg.pin_int))
+      |                                  [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/../platforms/common.hpp:150:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kheap_alloc_dma[m[K’ was not declared in this scope
+  150 |         _buffer[_flip] = (uint8_t*)[01;31m[Kheap_alloc_dma[m[K(length);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:[m[K In member function ‘[01m[Kvirtual bool lgfx::v1::Touch_GT911::init()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:61:13:[m[K [01;31m[Kerror: [m[K‘[01m[KpinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   61 |       lgfx::[01;31m[KpinMode[m[K(_cfg.pin_rst, pin_mode_t::output);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:61:35:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   61 |       lgfx::pinMode(_cfg.pin_rst, [01;31m[Kpin_mode_t[m[K::output);
+      |                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:62:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_lo[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   62 |       lgfx::[01;31m[Kgpio_lo[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:63:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   63 |       lgfx::[01;31m[Kdelay[m[K(1);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:64:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   64 |       lgfx::[01;31m[Kgpio_hi[m[K(_cfg.pin_rst);
+      |             [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:65:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   65 |       lgfx::[01;31m[Kdelay[m[K(1);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:70:13:[m[K [01;31m[Kerror: [m[K‘[01m[KlgfxPinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   70 |       lgfx::[01;31m[KlgfxPinMode[m[K(_cfg.pin_int, pin_mode_t::input);
+      |             [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:70:39:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+   70 |       lgfx::lgfxPinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input);
+      |                                       [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:84:13:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+   84 |       lgfx::[01;31m[Kdelay[m[K(1);
+      |             [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:[m[K In member function ‘[01m[Kvirtual void lgfx::v1::Touch_GT911::wakeup()[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:121:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_hi[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  121 |     lgfx::[01;31m[Kgpio_hi[m[K(_cfg.pin_int);
+      |           [01;31m[K^~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:122:11:[m[K [01;31m[Kerror: [m[K‘[01m[KlgfxPinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  122 |     lgfx::[01;31m[KlgfxPinMode[m[K(_cfg.pin_int, pin_mode_t::output);
+      |           [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:122:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+  122 |     lgfx::lgfxPinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::output);
+      |                                     [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:123:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope
+  123 |     [01;31m[Kdelay[m[K(5);
+      |     [01;31m[K^~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:124:11:[m[K [01;31m[Kerror: [m[K‘[01m[KlgfxPinMode[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  124 |     lgfx::[01;31m[KlgfxPinMode[m[K(_cfg.pin_int, pin_mode_t::input);
+      |           [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:124:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kpin_mode_t[m[K’ has not been declared
+  124 |     lgfx::lgfxPinMode(_cfg.pin_int, [01;31m[Kpin_mode_t[m[K::input);
+      |                                     [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:[m[K In member function ‘[01m[Kvirtual uint_fast8_t lgfx::v1::Touch_GT911::getTouchRaw(lgfx::v1::touch_point_t*, uint_fast8_t)[m[K’:
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:166:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kmillis[m[K’ is not a member of ‘[01m[Klgfx[m[K’
+  166 |     uint32_t msec = lgfx::[01;31m[Kmillis[m[K();
+      |                           [01;31m[K^~~~~~[m[K
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:170:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kgpio_in[m[K’ was not declared in this scope
+  170 |     if ((_cfg.pin_int < 0 || ![01;31m[Kgpio_in[m[K(_cfg.pin_int)))
+      |                               [01;31m[K^~~~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:370：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/panel/Panel_GDEW0154M09.cpp.o] 错误 1
+[01m[K/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp:181:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kdelay[m[K’ was not declared in this scope
+  181 |           [01;31m[Kdelay[m[K(1);
+      |           [01;31m[K^~~~~[m[K
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:664：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_FT5x06.cpp.o] 错误 1
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:272：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/lgfx_fonts.cpp.o] 错误 1
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:678：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/touch/Touch_GT911.cpp.o] 错误 1
+gmake[3]: *** [m5gfx/CMakeFiles/m5gfx.dir/build.make:230：m5gfx/CMakeFiles/m5gfx.dir/home/nihao/work/dianjixz-lib/github_source/M5GFX/src/lgfx/v1/LGFXBase.cpp.o] 错误 1
+gmake[3]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[2]: *** [CMakeFiles/Makefile2:605：m5gfx/CMakeFiles/m5gfx.dir/all] 错误 2
+gmake[2]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+gmake[1]: *** [Makefile:91：all] 错误 2
+gmake[1]: 离开目录“/home/nihao/work/dianjixz-lib/examples/m5gfx_sh1107/build”
+make: *** [../../tools/Makefile.mk:24：target] 错误 1
+[?2004h]0;nihao@nihao-z690: ~/work/dianjixz-lib/examples/m5gfx_sh1107[01;32mnihao@nihao-z690[00m:[01;34m~/work/dianjixz-lib/examples/m5gfx_sh1107[00m$ [?2004l
+exit
+
+Script done on 2023-08-15 15:07:21+08:00 [COMMAND_EXIT_CODE="2"]

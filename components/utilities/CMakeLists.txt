@@ -37,6 +37,10 @@ if(CONFIG_UTILITIES_ENABLED)
         append_srcs_dir(ADD_SRCS "party/ini")
     endif()
 
+    if(CONFIG_UTILITIES_SIMPILE_DRAW_ENABLED)
+        list(APPEND ADD_INCLUDE "party/simple_draw")
+        append_srcs_dir(ADD_SRCS "party/simple_draw")
+    endif()
     
     
     # if(CONFIG_RTSP_ENABLED)

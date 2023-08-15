@@ -40,7 +40,7 @@ run:
 
 push_run:
 	make push
-	scp $(MSSHF) root@$(PUSH_URL) "./dist/${filedir}"
+	ssh $(MSSHF) root@$(PUSH_URL) "./dist/${filedir}"
 
 clean:
 	python3 project.py clean

@@ -63,7 +63,7 @@ struct i2c_info {
 static int i2c_rw(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 		  size_t buf_len, int write_flag)
 {
-	struct i2c_info *iip = i2c_handle; struct i2c_msg msgs[2];
+	struct i2c_info *iip = (struct i2c_info *)i2c_handle; struct i2c_msg msgs[2];
 	struct i2c_rdwr_ioctl_data ioctl_data;
 	unsigned int idx, count;
 	int ret;
@@ -79,7 +79,7 @@ static int i2c_rw(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 		msgs[0].addr = iip->addr;
 		msgs[0].flags = 0; /* write */
 		msgs[0].len = offset_len;
-		msgs[0].buf = offset;
+		msgs[0].buf = (unsigned char*)offset;
 		idx++;
 		count++;
 	}
@@ -89,7 +89,7 @@ static int i2c_rw(void *i2c_handle, void *offset, size_t offset_len, void *buf,
 		msgs[idx].addr = iip->addr;
 		msgs[idx].flags = write_flag ? 0 : I2C_M_RD;
 		msgs[idx].len = buf_len;
-		msgs[idx].buf = buf;
+		msgs[idx].buf = (unsigned char*)buf;
 		count++;
 	}
 
@@ -156,7 +156,7 @@ int linux_i2c_init(uint8_t i2c_id, uint16_t i2c_addr, void **i2c_handlep)
 	if (!i2c_handlep)
 		return -EINVAL;
 
-	iip = malloc(sizeof(*iip));
+	iip = (struct i2c_info *)malloc(sizeof(*iip));
 	if (!iip)
 		return -ENOMEM;
 
@@ -211,7 +211,7 @@ err_free_iip:
  */
 int linux_i2c_destroy(void *i2c_handle)
 {
-	struct i2c_info *iip = i2c_handle;
+	struct i2c_info *iip = (struct i2c_info *)i2c_handle;
 
 	if (!iip)
 		return -EINVAL;

@@ -31,6 +31,11 @@ menuconfig UTILITIES_ENABLED
         default n
         depends on UTILITIES_ENABLED
 
+    config UTILITIES_SIMPILE_DRAW_ENABLED
+        bool "compile simple_draw lib"
+        default n
+        depends on UTILITIES_ENABLED
+
     config UTILITIES_FRAMEBUFFER_ENABLED
         bool "compile framebuffer lib"
         default n

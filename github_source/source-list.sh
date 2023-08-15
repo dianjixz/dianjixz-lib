@@ -35,4 +35,4 @@ git clone -b  7370acbb2379b54f21ffeba70d72da9dbd5ec801 --single-branch --branch 
 
 
 
-
+git clone -b  bdf7794239a22ab7c17512633b9e498e5d74ea33 --single-branch --branch master git@github.com:dianjixz/minicv2.git
