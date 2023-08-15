@@ -36,6 +36,8 @@
  *
  * Set of routines to provide easy-to-use ways to perform common Linux(tm)
  * I2C operations.
+ * 
+ * No delay !
  */
 
 #include <unistd.h>

@@ -16,7 +16,7 @@
 /* I2C page max bytes */
 #define PAGE_MAX_BYTES 4096
 
-#define GET_I2C_DELAY(delay) ((delay) == 0 ? I2C_DEFAULT_DELAY : (delay))
+#define GET_I2C_DELAY(delay) (delay)
 #define GET_I2C_FLAGS(tenbit, flags) ((tenbit) ? ((flags) | I2C_M_TEN) : (flags))
 #define GET_WRITE_SIZE(addr, remain, page_bytes) ((addr) + (remain) > (page_bytes) ? (page_bytes) - (addr) : remain)
 
@@ -366,5 +366,6 @@ int linuxi2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
 */
 static void linuxi2c_delay(unsigned char msec)
 {
-    usleep(msec * 1e3);
+    if(msec)
+        usleep(msec * 1000);
 }
