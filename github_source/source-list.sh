@@ -31,7 +31,7 @@ git clone -b  2e0cac8bae7a8bc921114b1e482fefd8f8a5d55e --single-branch --branch 
 
 git clone -b  31a02e6e22ece76fe9bca45d472ed28c4dea720b --single-branch --branch master https://github.com/wuhanstudio/u8g2-arm-linux.git
 
-
+git clone -b  7370acbb2379b54f21ffeba70d72da9dbd5ec801 --single-branch --branch master git@github.com:dianjixz/M5GFX.git
 
 
 
