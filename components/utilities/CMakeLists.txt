@@ -42,7 +42,12 @@ if(CONFIG_UTILITIES_ENABLED)
         append_srcs_dir(ADD_SRCS "party/simple_draw")
     endif()
     
+    if(CONFIG_UTILITIES_SPI_ENABLED)
+        list(APPEND ADD_INCLUDE "party/linux_spi")
+        append_srcs_dir(ADD_SRCS "party/linux_spi")
+    endif()
     
+
     # if(CONFIG_RTSP_ENABLED)
 
     #     list(APPEND ADD_INCLUDE "party/RtspServer"
