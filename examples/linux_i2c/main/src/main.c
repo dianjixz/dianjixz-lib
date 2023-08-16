@@ -9,12 +9,12 @@ int main(int argc,char *argv[])
     unsigned char reg;
     unsigned char data;
     unsigned char res;
-    int ret = i2c_init(8, 0x3c, &i2c_p);
+    int ret = linux_i2c_init(8, 0x3c, &i2c_p);
     assert(ret == 0);
 
     while (1)
     {
-        ret = i2c_write(i2c_p, &reg, 1, &data, 1);
+        ret = linux_i2c_write(i2c_p, &reg, 1, &data, 1);
 	    assert(ret == 0);
     }
     
@@ -25,6 +25,6 @@ int main(int argc,char *argv[])
 
 	// ret = i2c_read(i2c_p, &reg, 1, &res, 1);
 	// assert(ret == 0);
-    i2c_destroy(i2c_p);
+    linux_i2c_destroy(i2c_p);
     return 0;
 }

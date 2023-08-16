@@ -5,7 +5,7 @@
 #include <string.h>
 #include "m5_sh1107_dev.h"
 #include "imlib.h"
-
+#include "run_time.h"
 
 
 image_t *tmpp;
@@ -15,8 +15,10 @@ image_t *tmpp;
 void display_show()
 {
 	uint8_t buff[8];
+	// run_time_start();
 	for (int p = 0; p < 64; p++)
 	{
+		
 		memset(buff, 0, 8);
 		for (int i = 0; i < 8; i++)
 			{
@@ -28,9 +30,10 @@ void display_show()
 					}
 				}
 			}
+		
 		m5_sh1107_dev_set_img(0, p, buff, 8);
 	}
-
+	// print_run_time_ms();
 	for (int p = 0; p < 64; p++)
 	{
 		memset(buff, 0, 8);
@@ -55,19 +58,20 @@ void display_show()
 int main()
 {
     m5_sh1107_dev_init();
-
+	
 	tmpp = imlib_image_create(64, 128, PIXFORMAT_BINARY, 0, NULL, 1);
+	
 	memset(tmpp->data, 0, tmpp->size);
 
 
-
+	
 	imlib_draw_circle(tmpp, 32, 32, 5, 1, 1, 1);
 	imlib_draw_circle(tmpp, 32, 96, 5, 1, 1, 1);
 	imlib_draw_line(tmpp, 48, 59, 48, 69, 1, 1);
 	imlib_draw_string(	tmpp, 			// image_t
-						10, 			// x_off
-						83, 			// y_off
-						"nihao", 		// str
+						0, 			// x_off
+						125, 			// y_off
+						"ip:192.168.12.1", 		// str
 						1, 				// c
 						1.0, 			// scale
 						0, 				// x_spacing
@@ -80,11 +84,14 @@ int main()
 						0, 				// string_hmirror
 						0				// string_vflip
 						);
-
-// image_t *img, int x_off, int y_off, const char *str, int c, float scale, int x_spacing, int y_spacing, bool mono_space,
-//                        int char_rotation, bool char_hmirror, bool char_vflip, int string_rotation, bool string_hmirror, bool string_vflip
+	
 	display_show();
+	
+
+
 	m5_sh1107_dev_deinit();
+	
 	imlib_image_destroy(&tmpp);
+	
     return 0;
 }
