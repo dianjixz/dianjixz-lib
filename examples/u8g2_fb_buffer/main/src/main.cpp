@@ -1,5 +1,10 @@
 #include "u8g2.h"
 #include <stdio.h>
+#include "m5_sh1107_dev.h"
+
+#include "linux_i2c.h"
+
+#include <string.h>
 
 /*
  * This example uses the Bitmap device to draw to an in-memory buffer
@@ -46,11 +51,13 @@ static const u8x8_display_info_t au8x8_null_display_info =
         /* tile_hight = */ 1,
         /* default_x_offset = */ 0,
         /* flipmode_x_offset = */ 0,
-        /* pixel_width = */ 128,
-        /* pixel_height = */ 64};
+        /* pixel_width = */ 64,
+        /* pixel_height = */ 128};
 /* a special null device */
 uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
+  uint8_t x, c;
+  uint8_t *ptr;
   printf("au8x8_d_null_cb type:%d \n", msg);
   switch (msg)
   {
@@ -67,15 +74,58 @@ uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, 
   case U8X8_MSG_DISPLAY_SET_CONTRAST: // 14
     break;
   case U8X8_MSG_DISPLAY_DRAW_TILE: // 15
-    break;
+  {
+    // 刷新
+    // u8x8_cad_StartTransfer(u8x8);
+    x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+    x *= 8;
+    x += u8x8->x_offset;
+
+    // // // set column address
+    // // u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4));
+    // // u8x8_cad_SendCmd(u8x8, 0x000 | ((x & 15))); /* probably wrong, should be SendCmd */
+
+    // // // set page address
+    // // u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)); /* probably wrong, should be SendCmd */
+
+    // unsigned char buffer[2];
+    // buffer[0] = I2C_CONTROL_BYTE_CMD_SINGLE;
+    // buffer[1] = 0xb0 | (((u8x8_tile_t *)arg_ptr)->y_pos);		linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+    // buffer[1] = 0x00 | (x & 15);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+    // buffer[1] = 0x10 | (x >> 4);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+
+    printf("page:%d, columLow:%d, columHigh:%d\n", (((u8x8_tile_t *)arg_ptr)->y_pos), (x & 15), (x >> 4));
+
+    do
+    {
+      c = ((u8x8_tile_t *)arg_ptr)->cnt;
+      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+
+      // unsigned char tmp[1024];
+      // tmp[0] = I2C_CONTROL_BYTE_DATA_STREAM;
+      // memcpy(tmp + 1, ptr, c * 8);
+      // linux_i2c_write(i2cdev, tmp, c * 8 + 1, NULL, 0);
+
+printf("hex:%d\n", c * 8);
+for (int i = 0; i < c * 8; i++)
+{
+  printf("%x ", ptr[i]);
+}
+printf("\n");
+
+      // u8x8_cad_SendData(u8x8, c * 8, ptr); /* note: SendData can not handle more than 255 bytes */
+      arg_int--;
+    } while (arg_int > 0);
+
+    // // u8x8_cad_EndTransfer(u8x8);
+
+    printf("dst buff point:%p\n", arg_ptr);
+  }
+  break;
   case U8X8_MSG_DISPLAY_REFRESH: // 16
   {
-    //刷新
-
-
-
   }
-    break;
+  break;
   }
   /* the null device callback will succeed for all messages */
   return 1;
@@ -83,22 +133,22 @@ uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, 
 uint8_t au8x8_cad_empty(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
   printf("au8x8_cad_empty type:%d \n", msg);
-  switch(msg)
+  switch (msg)
   {
-    case U8X8_MSG_CAD_SEND_CMD:
-      // u8x8_byte_SendByte(u8x8, arg_int);
-      break;
-    case U8X8_MSG_CAD_SEND_ARG:
-      // u8x8_byte_SendByte(u8x8, arg_int);
-      break;
-    case U8X8_MSG_CAD_SEND_DATA:
-    case U8X8_MSG_CAD_INIT:
-    case U8X8_MSG_CAD_START_TRANSFER:
-    case U8X8_MSG_CAD_END_TRANSFER:
-      // return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
-      return 1;
-    default:
-      return 0;
+  case U8X8_MSG_CAD_SEND_CMD:
+    // u8x8_byte_SendByte(u8x8, arg_int);
+    break;
+  case U8X8_MSG_CAD_SEND_ARG:
+    // u8x8_byte_SendByte(u8x8, arg_int);
+    break;
+  case U8X8_MSG_CAD_SEND_DATA:
+  case U8X8_MSG_CAD_INIT:
+  case U8X8_MSG_CAD_START_TRANSFER:
+  case U8X8_MSG_CAD_END_TRANSFER:
+    // return u8x8->byte_cb(u8x8, msg, arg_int, arg_ptr);
+    return 1;
+  default:
+    return 0;
   }
   return 1;
 }
@@ -121,10 +171,9 @@ uint8_t au8x8_dummy_cb(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_U
 {
   printf("au8x8_dummy_cb type:%d \n", msg);
   /* the dummy callback will not handle any message and will fail for all messages */
-  // U8X8_MSG_DELAY_NANO 44 
+  // U8X8_MSG_DELAY_NANO 44
   // U8X8_MSG_DELAY_10MICRO 42
   // U8X8_MSG_DELAY_100NANO 43
-  
   // U8X8_MSG_DELAY_I2C 45
   // U8X8_MSG_GPIO_I2C_CLOCK 64 + 12 = 76
   // U8X8_MSG_GPIO_I2C_DATA 64 + 13 = 77
@@ -133,15 +182,8 @@ uint8_t au8x8_dummy_cb(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_U
   // U8X8_MSG_GPIO_MENU_PREV 64 + 18 = 82
   // U8X8_MSG_GPIO_MENU_HOME 64 + 19 = 83
   // U8X8_MSG_GPIO_RESET
-
-
-
-
-
-
-
-
-  // U8X8_MSG_GPIO_AND_DELAY_INIT 40 
+  // 相关调用
+  // U8X8_MSG_GPIO_AND_DELAY_INIT 40
   // U8X8_MSG_GPIO_RESET 75
   // U8X8_MSG_DELAY_MILLI 41
   // U8X8_MSG_GPIO_RESET 75
@@ -152,127 +194,102 @@ uint8_t au8x8_dummy_cb(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_U
   return 0;
 }
 
-void au8g2_ll_hvline_vertical_top_lsb(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
-{
-  printf("au8g2_ll_hvline_vertical_top_lsb --------------\n");
-  //   uint16_t offset;
-  //   uint8_t *ptr;
-  //   uint8_t bit_pos, mask;
-  //   uint8_t or_mask, xor_mask;
-  // #ifdef __unix
-  //   uint8_t *max_ptr = u8g2->tile_buf_ptr + u8g2_GetU8x8(u8g2)->display_info->tile_width*u8g2->tile_buf_height*8;
-  // #endif
-
-  //   //assert(x >= u8g2->buf_x0);
-  //   //assert(x < u8g2_GetU8x8(u8g2)->display_info->tile_width*8);
-  //   //assert(y >= u8g2->buf_y0);
-  //   //assert(y < u8g2_GetU8x8(u8g2)->display_info->tile_height*8);
-
-  //   /* bytes are vertical, lsb on top (y=0), msb at bottom (y=7) */
-  //   bit_pos = y;		/* overflow truncate is ok here... */
-  //   bit_pos &= 7; 	/* ... because only the lowest 3 bits are needed */
-  //   mask = 1;
-  //   mask <<= bit_pos;
-
-  //   or_mask = 0;
-  //   xor_mask = 0;
-  //   if ( u8g2->draw_color <= 1 )
-  //     or_mask  = mask;
-  //   if ( u8g2->draw_color != 1 )
-  //     xor_mask = mask;
-
-  //   offset = y;		/* y might be 8 or 16 bit, but we need 16 bit, so use a 16 bit variable */
-  //   offset &= ~7;
-  //   offset *= u8g2_GetU8x8(u8g2)->display_info->tile_width;
-  //   ptr = u8g2->tile_buf_ptr;
-  //   ptr += offset;
-  //   ptr += x;
-
-  //   if ( dir == 0 )
-  //   {
-  //       do
-  //       {
-  // #ifdef __unix
-  // 	assert(ptr < max_ptr);
-  // #endif
-  // 	*ptr |= or_mask;
-  // 	*ptr ^= xor_mask;
-  // 	ptr++;
-  // 	len--;
-  //       } while( len != 0 );
-  //   }
-  //   else
-  //   {
-  //     do
-  //     {
-  // #ifdef __unix
-  //       assert(ptr < max_ptr);
-  // #endif
-  //       *ptr |= or_mask;
-  //       *ptr ^= xor_mask;
-
-  //       bit_pos++;
-  //       bit_pos &= 7;
-
-  //       len--;
-
-  //       if ( bit_pos == 0 )
-  //       {
-  // 	ptr+=u8g2->pixel_buf_width;	/* 6 Jan 17: Changed u8g2->width to u8g2->pixel_buf_width, issue #148 */
-
-  // 	if ( u8g2->draw_color <= 1 )
-  // 	  or_mask  = 1;
-  // 	if ( u8g2->draw_color != 1 )
-  // 	  xor_mask = 1;
-  //       }
-  //       else
-  //       {
-  // 	or_mask <<= 1;
-  // 	xor_mask <<= 1;
-  //       }
-  //     } while( len != 0 );
-  //   }
-}
-
-
-
 u8g2_t u8g2;
 
+void drawScreenInfo()
+{
+  u8g2_ClearBuffer(&u8g2); // 清空缓冲区
 
+  // 获取屏幕信息
+  int screenWidth = u8g2_GetDisplayWidth(&u8g2);
+  int screenHeight = u8g2_GetDisplayHeight(&u8g2);
+  int fontHeight = u8g2_GetAscent(&u8g2) - u8g2_GetDescent(&u8g2);
+  // int dpiX = u8g2.getDisplayDPI_x();
+  // int dpiY = u8g2.getDisplayDPI_y();
+  // const char* displayMode = u8g2.getMode();
+  int colorDepth = u8g2.draw_color;
+  // const char* colorModeName = u8g2.getColorModeName();
 
-void drawScreenInfo() {
-    u8g2_ClearBuffer(&u8g2); // 清空缓冲区
-
-    // 获取屏幕信息
-    int screenWidth = u8g2_GetDisplayWidth(&u8g2);
-    int screenHeight = u8g2_GetDisplayHeight(&u8g2);
-    int fontHeight = u8g2_GetAscent(&u8g2) - u8g2_GetDescent(&u8g2);
-    // int dpiX = u8g2.getDisplayDPI_x();
-    // int dpiY = u8g2.getDisplayDPI_y();
-    // const char* displayMode = u8g2.getMode();
-    int colorDepth = u8g2.draw_color;
-    // const char* colorModeName = u8g2.getColorModeName();
-    
-    // 在屏幕上打印屏幕信息
-   // 在屏幕上打印屏幕信息
-    printf("screenWidth: %d \n", screenWidth);
-    printf("screenHeight: %d \n", screenHeight);
-    printf("fontHeight: %d \n", fontHeight);
-    // printf("dpiX: %d \n", dpiX);
-    // printf("dpiY: %d \n", dpiY);
-    // printf("displayMode: %s \n", displayMode);
-    printf("colorDepth: %d \n", colorDepth);
-    // printf("colorModeName: %s \n", colorModeName);
+  // 在屏幕上打印屏幕信息
+  // 在屏幕上打印屏幕信息
+  printf("screenWidth: %d \n", screenWidth);
+  printf("screenHeight: %d \n", screenHeight);
+  printf("fontHeight: %d \n", fontHeight);
+  // printf("dpiX: %d \n", dpiX);
+  // printf("dpiY: %d \n", dpiY);
+  // printf("displayMode: %s \n", displayMode);
+  printf("colorDepth: %d \n", colorDepth);
+  // printf("colorModeName: %s \n", colorModeName);
 }
+
+
+//  uint8_t get_bool_img(void *data,int x, int y, int w, int y)
+//  {
+//     int off_index = y * w + x;
+//     int byte_num = off_index / 8;
+//     int bit_num = off_index % 8;
+//     uint8_t *piex = (uint8_t*)data;
+//     // return (piex[byte_num] & 0x1 << )
+
+//  }
+void display_show()
+{
+	uint8_t buff[8];
+	// run_time_start();
+	for (int p = 0; p < 64; p++)
+	{
+		
+		memset(buff, 0, 8);
+		for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if(u8g2_GetBufferTile(&u8g2, 63 - p, i * 8 + j))
+					{
+						buff[i] |= 0x01 << j; 
+					}
+				}
+			}
+		
+		m5_sh1107_dev_set_img(0, p, buff, 8);
+	}
+	// print_run_time_ms();
+	for (int p = 0; p < 64; p++)
+	{
+		memset(buff, 0, 8);
+		for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if(imlib_get_pixel(tmpp, 63 - p, 64 + i * 8 + j))
+					{
+						buff[i] |= 0x01 << j; 
+					}
+				}
+			}
+		m5_sh1107_dev_set_img(8, p, buff, 8);
+	}
+}
+
 
 
 int main(void)
 {
+
+  // m5_sh1107_dev_init();
+
+  // 设置全缓冲
   static uint8_t buf[1024];
 
-  u8g2_SetupDisplay(&u8g2, au8x8_d_null_cb, au8x8_cad_empty, au8x8_byte_empty, au8x8_dummy_cb);
-  u8g2_SetupBuffer(&u8g2, buf, 16, au8g2_ll_hvline_vertical_top_lsb, U8G2_R0);
+  
 
+
+
+
+
+  u8g2_SetupDisplay(&u8g2, au8x8_d_null_cb, au8x8_cad_empty, au8x8_byte_empty, au8x8_dummy_cb);
+  u8g2_SetupBuffer(&u8g2, buf, 16, u8g2_ll_hvline_vertical_top_lsb, U8G2_R0);
+  printf("src buff point:%p\n", buf);
   // uint8_t tile_buf_height;
   // uint8_t *buf;
   // u8g2_SetupDisplay(u8g2, u8x8_d_ssd1306_2040x16, u8x8_cad_001, byte_cb, gpio_and_delay_cb);
@@ -282,17 +299,29 @@ int main(void)
   u8g2_InitDisplay(&u8g2);     // 初始化显示屏
   u8g2_SetPowerSave(&u8g2, 0); // 关闭屏幕节能模式
   drawScreenInfo();
-  while (1)
-  {
-    printf("u8g2_ClearBuffer \n");
-    u8g2_ClearBuffer(&u8g2); // 清空缓冲区
+  // while (1)
+  // {
+  printf("u8g2_ClearBuffer \n");
+  u8g2_ClearBuffer(&u8g2); // 清空缓冲区
 
-    // 画一条线
-    printf("u8g2_DrawLine \n");
-    u8g2_DrawLine(&u8g2, 0, 1, 2, 3);
-    printf("u8g2_SendBuffer \n");
-    u8g2_SendBuffer(&u8g2); // 将缓冲区内容发送到显示屏
-  }
+  // 画一条线
+  printf("u8g2_DrawLine \n");
+  u8g2_DrawLine(&u8g2, 0, 1, 50, 50);
+  printf("u8g2_SendBuffer \n");
+  u8g2_SendBuffer(&u8g2); // 将缓冲区内容发送到显示屏
 
+
+
+  // }
+
+
+
+
+
+
+
+
+
+  // m5_sh1107_dev_deinit();
   return 0;
 }
