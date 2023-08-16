@@ -78,7 +78,7 @@ if(CONFIG_UTILITIES_ENABLED)
     ###############################################
 
     ############## Add source files ###############
-    list(APPEND ADD_SRCS  "test.cpp"
+    list(APPEND ADD_SRCS  "test.c"
         )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
     # FILE(GLOB EXTRA_SRC  "src/*.c")
