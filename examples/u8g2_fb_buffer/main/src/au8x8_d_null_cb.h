@@ -47,7 +47,7 @@ uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, 
   uint8_t x, c;
   uint8_t *ptr;
 
-  printf("au8x8_d_null_cb type:%d \n", msg);
+  // printf("au8x8_d_null_cb type:%d \n", msg);
   switch (msg)
   {
   case U8X8_MSG_DISPLAY_SETUP_MEMORY: // 9
@@ -64,51 +64,49 @@ uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, 
     break;
   case U8X8_MSG_DISPLAY_DRAW_TILE: // 15
   {
-    // 刷新
-    // u8x8_cad_StartTransfer(u8x8);
-    x = ((u8x8_tile_t *)arg_ptr)->x_pos;
-    x *= 8;
-    x += u8x8->x_offset;
+    // // 刷新
+    // // u8x8_cad_StartTransfer(u8x8);
+    // x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+    // x *= 8;
+    // x += u8x8->x_offset;
 
-    // // // set column address
-    // // u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4));
-    // // u8x8_cad_SendCmd(u8x8, 0x000 | ((x & 15))); /* probably wrong, should be SendCmd */
+    // // // // set column address
+    // // // u8x8_cad_SendCmd(u8x8, 0x010 | (x >> 4));
+    // // // u8x8_cad_SendCmd(u8x8, 0x000 | ((x & 15))); /* probably wrong, should be SendCmd */
 
-    // // // set page address
-    // // u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)); /* probably wrong, should be SendCmd */
+    // // // // set page address
+    // // // u8x8_cad_SendCmd(u8x8, 0x0b0 | (((u8x8_tile_t *)arg_ptr)->y_pos)); /* probably wrong, should be SendCmd */
 
-    // unsigned char buffer[2];
-    // buffer[0] = I2C_CONTROL_BYTE_CMD_SINGLE;
-    // buffer[1] = 0xb0 | (((u8x8_tile_t *)arg_ptr)->y_pos);		linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
-    // buffer[1] = 0x00 | (x & 15);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
-    // buffer[1] = 0x10 | (x >> 4);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+    // // unsigned char buffer[2];
+    // // buffer[0] = I2C_CONTROL_BYTE_CMD_SINGLE;
+    // // buffer[1] = 0xb0 | (((u8x8_tile_t *)arg_ptr)->y_pos);		linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+    // // buffer[1] = 0x00 | (x & 15);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
+    // // buffer[1] = 0x10 | (x >> 4);	linux_i2c_write(i2cdev, buffer, 2, NULL, 0);
 
-    printf("page:%d, columLow:%d, columHigh:%d\n", (((u8x8_tile_t *)arg_ptr)->y_pos), (x & 15), (x >> 4));
+    // printf("page:%d, columLow:%d, columHigh:%d\n", (((u8x8_tile_t *)arg_ptr)->y_pos), (x & 15), (x >> 4));
 
-    do
-    {
-      c = ((u8x8_tile_t *)arg_ptr)->cnt;
-      ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+    // do
+    // {
+    //   c = ((u8x8_tile_t *)arg_ptr)->cnt;
+    //   ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
 
-      // unsigned char tmp[1024];
-      // tmp[0] = I2C_CONTROL_BYTE_DATA_STREAM;
-      // memcpy(tmp + 1, ptr, c * 8);
-      // linux_i2c_write(i2cdev, tmp, c * 8 + 1, NULL, 0);
+    //   // unsigned char tmp[1024];
+    //   // tmp[0] = I2C_CONTROL_BYTE_DATA_STREAM;
+    //   // memcpy(tmp + 1, ptr, c * 8);
+    //   // linux_i2c_write(i2cdev, tmp, c * 8 + 1, NULL, 0);
 
-      printf("hex:%d\n", c * 8);
-      for (int i = 0; i < c * 8; i++)
-      {
-        printf("%x ", ptr[i]);
-      }
-      printf("\n");
+    //   printf("hex:%d\n", c * 8);
+    //   for (int i = 0; i < c * 8; i++)
+    //   {
+    //     printf("%x ", ptr[i]);
+    //   }
+    //   printf("\n");
 
-      // u8x8_cad_SendData(u8x8, c * 8, ptr); /* note: SendData can not handle more than 255 bytes */
-      arg_int--;
-    } while (arg_int > 0);
+    //   // u8x8_cad_SendData(u8x8, c * 8, ptr); /* note: SendData can not handle more than 255 bytes */
+    //   arg_int--;
+    // } while (arg_int > 0);
 
-    // // u8x8_cad_EndTransfer(u8x8);
-
-    printf("dst buff point:%p\n", arg_ptr);
+    // // // u8x8_cad_EndTransfer(u8x8);
   }
   break;
   case U8X8_MSG_DISPLAY_REFRESH: // 16
@@ -123,7 +121,7 @@ uint8_t au8x8_d_null_cb(u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, 
 // 用于操作屏幕
 uint8_t au8x8_cad_empty(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
-  printf("au8x8_cad_empty type:%d \n", msg);
+  // printf("au8x8_cad_empty type:%d \n", msg);
   switch (msg)
   {
   case U8X8_MSG_CAD_SEND_CMD:
@@ -146,7 +144,7 @@ uint8_t au8x8_cad_empty(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_pt
 // 用于数据传输接口
 uint8_t au8x8_byte_empty(U8X8_UNUSED u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
-  printf("au8x8_byte_empty type:%d \n", msg);
+  // printf("au8x8_byte_empty type:%d \n", msg);
   switch (msg)
   {
   case U8X8_MSG_BYTE_SEND:
@@ -161,7 +159,7 @@ uint8_t au8x8_byte_empty(U8X8_UNUSED u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint
 // 硬件的抽象控制
 uint8_t au8x8_dummy_cb(U8X8_UNUSED u8x8_t *u8x8, U8X8_UNUSED uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UNUSED void *arg_ptr)
 {
-  printf("au8x8_dummy_cb type:%d \n", msg);
+  // printf("au8x8_dummy_cb type:%d \n", msg);
   /* the dummy callback will not handle any message and will fail for all messages */
   // U8X8_MSG_DELAY_NANO 44
   // U8X8_MSG_DELAY_10MICRO 42

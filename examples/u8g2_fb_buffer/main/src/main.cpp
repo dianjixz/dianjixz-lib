@@ -31,12 +31,21 @@ void drawScreenInfo()
 
 static uint8_t buf[1024];
 
+#define IMAGE_GET_BINARY_PIXEL(image, x, y) \
+({ \
+    uint8_t* _image = (image); \
+    int _x = (x); \
+    int _y = (y); \
+    (_image[(((int)(_y / 8)) * 64 + _x)] >> (_y % 8)) & 1;\
+})
+
 int get_display_buff_pixel(int x, int y)
 {
-  int y_group_num = y / 8;
-  int y_iteam_num = y % 8;
-  int byte_num = y_group_num * 64 + x;
-  int pixel = buf[byte_num] & (0x01 << y_iteam_num) ? 1 : 0;
+  // int y_group_num = y / 8;
+  // int y_iteam_num = y % 8;
+  // int byte_num = y_group_num * 64 + x;
+  // int pixel = (buf[byte_num] >> y_iteam_num) & 0x01;
+  int pixel = (buf[(((int)(y / 8)) * 64 + x)] >> (y % 8)) & 0x01;
   // if(y < 64)
   // printf("x :%d, y :%d, y_group_num: %d, y_iteam_num: %d, byte_num:%d\n", x, y, y_group_num, y_iteam_num, byte_num);
   return pixel;
@@ -45,25 +54,22 @@ int get_display_buff_pixel(int x, int y)
 void display_show()
 {
   uint8_t buff[8];
-  // run_time_start();
   for (int p = 0; p < 64; p++)
   {
-
     memset(buff, 0, 8);
     for (int i = 0; i < 8; i++)
     {
       for (int j = 0; j < 8; j++)
       {
-        if (get_display_buff_pixel(63 - p, i * 8 + j))
+        // if (get_display_buff_pixel(63 - p, i * 8 + j))
+        if (IMAGE_GET_BINARY_PIXEL(buf, 63 - p, i * 8 + j))
         {
           buff[i] |= 0x01 << j;
         }
       }
     }
-
     m5_sh1107_dev_set_img(0, p, buff, 8);
   }
-  // print_run_time_ms();
   for (int p = 0; p < 64; p++)
   {
     memset(buff, 0, 8);
@@ -71,7 +77,8 @@ void display_show()
     {
       for (int j = 0; j < 8; j++)
       {
-        if (get_display_buff_pixel(63 - p, 64 + i * 8 + j))
+        // if (get_display_buff_pixel(63 - p, 64 + i * 8 + j))
+        if (IMAGE_GET_BINARY_PIXEL(buf, 63 - p, 64 + i * 8 + j))
         {
           buff[i] |= 0x01 << j;
         }
@@ -95,6 +102,9 @@ public:
 };
 
 
+// extern const uint8_t u8g2_msyh[] U8G2_FONT_SECTION("u8g2_msyh");
+#include "u8g2_msyh_font.h"
+
 
 int main(void)
 {
@@ -102,8 +112,8 @@ int main(void)
   
   // 设置全缓冲
   u8g2_SetupDisplay(&u8g2, au8x8_d_null_cb, au8x8_cad_empty, au8x8_byte_empty, au8x8_dummy_cb);
-  u8g2_SetupBuffer(&u8g2, buf, 16, u8g2_ll_hvline_vertical_top_lsb, U8G2_R0);
-  printf("src buff point:%p\n", buf);
+  // u8g2_SetupBuffer(&u8g2, buf, 16, u8g2_ll_hvline_vertical_top_lsb, U8G2_R0);
+  u8g2_SetupBuffer(&u8g2, buf, 16, u8g2_ll_hvline_vertical_top_lsb, U8G2_R1);
 
   u8g2_InitDisplay(&u8g2);     // 初始化显示屏
   u8g2_SetPowerSave(&u8g2, 0); // 关闭屏幕节能模式
@@ -128,9 +138,34 @@ int main(void)
   u8g2_DrawLine(&u8g2, 32, 50, 32, 80);
   u8g2_DrawLine(&u8g2, 20, 50, 20, 128);
 
-  printf("u8g2_SendBuffer \n");
+  u8g2_DrawFrame(&u8g2, 50, 10, 10, 10);
 
-  u8g2_SendBuffer(&u8g2); // 将缓冲区内容发送到显示屏
+  u8g2_DrawBox(&u8g2, 70, 10, 10, 10);
+
+  u8g2_DrawRFrame(&u8g2, 85, 10, 20, 20,4);
+  
+  u8g2_DrawTriangle(&u8g2, 20,5, 27,50, 5,32);
+  printf("u8g2_SendBuffer \n");
+  display_show();
+
+  sleep(3);
+  u8g2_ClearBuffer(&u8g2);
+  u8g2_SetFont(&u8g2, au8g2_font_ncenB08_tr);
+  // u8g2_SetFont(&u8g2, u8g2_msyh); 
+  u8g2_DrawStr(&u8g2, 0,10,"Hello World!");
+  u8g2_DrawStr(&u8g2, 0,20,"This is bro cainiao!");
+  u8g2_DrawStr(&u8g2, 0,30,"Welcome to U8G2!");
+
+  u8g2_SetFont(&u8g2, au8g2_font_unifont_t_symbols); 
+  u8g2_DrawStrX2(&u8g2, 5, 55, "anihao");
+
+  // u8g2_SendBuffer(&u8g2); // 将缓冲区内容发送到显示屏
+
+
+  u8g2_SetFont(&u8g2, au8g2_font_open_iconic_weather_6x_t);
+  u8g2_DrawGlyph(&u8g2, 0,48,0x0045);
+
+
   display_show();
 
   // }
@@ -138,3 +173,5 @@ int main(void)
   
   return 0;
 }
+
+// 程序使用注意，关于在字体库中u8g2的字体库相当大，编译出来大概有11m,所以尽量使用缩减字体。可以将字体复制出来单独定义，以减少程序的体积
