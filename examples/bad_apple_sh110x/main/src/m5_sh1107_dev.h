@@ -1,0 +1,16 @@
+#ifndef __M5_SH1107_DEV_H_
+#define __M5_SH1107_DEV_H_
+
+#define I2C_CONTROL_BYTE_CMD_SINGLE    0x80
+#define I2C_CONTROL_BYTE_CMD_STREAM    0x00
+#define I2C_CONTROL_BYTE_DATA_SINGLE   0xC0
+#define I2C_CONTROL_BYTE_DATA_STREAM   0x40
+
+int m5_sh1107_dev_init();
+
+int m5_sh1107_dev_set_img(int page, int seg, void * images, int width);
+
+int m5_sh1107_dev_deinit();
+
+
+#endif /* __M5_SH1107_DEV_H_ */
