@@ -1,9 +1,9 @@
 filename:=$(shell pwd)
 filedir=$(shell basename $(filename))
 
-CROSS_DIR ?= 
-CROSS ?= arm-openwrt-linux-
-DEFAULTS_CROSS=`pwd`/../../tools/config_defaults_cross.mk
+CROSS_DIR ?= /usr/bin
+CROSS ?= arm-linux-gnueabihf-
+DEFAULTS_CROSS=
 PUSH_FILE?=dist
 PUSH_DIR?=/root
 PUSH_URL?=192.168.12.1
