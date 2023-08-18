@@ -13,7 +13,7 @@ int m5_sh1107_dev_deinit()
 
 int m5_sh1107_dev_init()
 {
-    int ret = linux_i2c_init(8, 0x3c, &i2cdev);
+    int ret = linux_i2c_init(1, 0x3c, &i2cdev);
     if(ret != 0 )
     {
         printf("m5_sh1107_dev_init i2c init faile!\n");

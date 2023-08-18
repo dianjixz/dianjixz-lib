@@ -9,6 +9,7 @@ PUSH_DIR?=/root
 PUSH_URL?=192.168.12.1
 MSSHF?=-o StrictHostKeychecking=no
 # SSH_PASSWORLD?=nihao
+SSH_USER?=root
 # CC = $(CROSS)gcc
 # CXX = $(CROSS)g++
 
@@ -40,7 +41,7 @@ run:
 
 push_run:
 	make push
-	ssh $(MSSHF) root@$(PUSH_URL) "./dist/${filedir}"
+	ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) "./dist/${filedir}"
 
 clean:
 	python3 project.py clean
@@ -59,8 +60,8 @@ set_arm:
 	
 
 push:
-	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" scp $(MSSHF) -r $(PUSH_FILE) root@$(PUSH_URL):$(PUSH_DIR) ; else  scp $(MSSHF) -r $(PUSH_FILE) root@$(PUSH_URL):$(PUSH_DIR) ; fi;
+	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" scp $(MSSHF) -r $(PUSH_FILE) ${SSH_USER}@$(PUSH_URL):$(PUSH_DIR) ; else  scp $(MSSHF) -r $(PUSH_FILE) ${SSH_USER}@$(PUSH_URL):$(PUSH_DIR) ; fi;
 
 shell:
-	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" ssh $(MSSHF) root@$(PUSH_URL) ; else ssh $(MSSHF) root@$(PUSH_URL) ; fi;
+	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) ; else ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) ; fi;
 	

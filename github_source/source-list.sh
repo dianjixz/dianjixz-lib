@@ -35,4 +35,10 @@ git clone -b  7370acbb2379b54f21ffeba70d72da9dbd5ec801 --single-branch --branch 
 
 
 
-git clone -b  d71b7aaaba944b2909e1c2a8f369001b2b3f5add --single-branch --branch master git@github.com:dianjixz/minicv2.git
+git clone -b  d71b7aaaba944b2909e1c2a8f369001b2b3f5add --single-branch --branch master https://github.com:dianjixz/minicv2.git
+
+
+
+
+git clone -b  65a769ffe77cf9d759d801bc792ac56af8e911a3 --single-branch --branch master https://github.com/bombela/backward-cpp.git
+
