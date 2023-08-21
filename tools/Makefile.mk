@@ -8,10 +8,8 @@ PUSH_FILE?=dist
 PUSH_DIR?=/root
 PUSH_URL?=192.168.12.1
 MSSHF?=-o StrictHostKeychecking=no
-# SSH_PASSWORLD?=nihao
+SSH_PASSWORLD?=
 SSH_USER?=root
-# CC = $(CROSS)gcc
-# CXX = $(CROSS)g++
 
 define foo2
     @echo "my name is $(0)"

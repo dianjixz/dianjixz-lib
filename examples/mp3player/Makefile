@@ -4,7 +4,7 @@
 # PUSH_DIR?=/root
 # PUSH_URL?=192.168.12.1
 # MSSHF?=-o StrictHostKeychecking=no
-# SSH_PASSWORLD?=nihao
+# SSH_PASSWORLD?=
 
 
 include ../../tools/Makefile.mk
