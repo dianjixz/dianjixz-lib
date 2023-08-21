@@ -46,8 +46,13 @@ if(CONFIG_UTILITIES_ENABLED)
         list(APPEND ADD_INCLUDE "party/linux_spi")
         append_srcs_dir(ADD_SRCS "party/linux_spi")
     endif()
-    
 
+    if(CONFIG_UTILITIES_PTMX_ENABLED)
+        list(APPEND ADD_INCLUDE "party/ptmx")
+        append_srcs_dir(ADD_SRCS "party/ptmx")
+        list(APPEND ADD_REQUIREMENTS pthread)
+    endif()
+    
     # if(CONFIG_RTSP_ENABLED)
 
     #     list(APPEND ADD_INCLUDE "party/RtspServer"
