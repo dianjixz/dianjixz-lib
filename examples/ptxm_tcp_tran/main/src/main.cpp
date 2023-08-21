@@ -1,32 +1,33 @@
+#define USE_MONGOOSE 1
+
+#if USE_LIBHV
 #include "hv/TcpServer.h"
 #include "hv/hlog.h"
 #include "pts_creat.h"
 using namespace hv;
 
-
 TcpServer srv;
 ptmx ptm;
 
-void msg_handl(const char* msg, int size)
+void msg_handl(const char *msg, int size)
 {
     srv.broadcast(msg, size);
 }
 
-
-
-int main(int argc, char* argv[]) {
-
+int main(int argc, char *argv[])
+{
 
     hlog_set_level(LOG_LEVEL_SILENT);
-    if (argc < 3) {
-        // printf("Usage: %s exe port\n", argv[0]);
+    if (argc < 3)
+    {
+        printf("Usage: %s exe port\n", argv[0]);
         return -10;
     }
     int port = atoi(argv[2]);
 
-
     int listenfd = srv.createsocket(port);
-    if (listenfd < 0) {
+    if (listenfd < 0)
+    {
         return -20;
     }
     // printf("server listen on port %d, listenfd=%d ...\n", port, listenfd);
@@ -54,7 +55,7 @@ int main(int argc, char* argv[]) {
     ptm.open();
 
     int pid = fork();
-    if(pid == 0)
+    if (pid == 0)
     {
         freopen(ptm.get_slave_ptmx_name().c_str(), "w", stdout);
         freopen(ptm.get_slave_ptmx_name().c_str(), "w", stderr);
@@ -71,44 +72,85 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+#elif USE_MONGOOSE
+#include "mongoose.h"
+#include "pts_creat.h"
 
 
-// #include "hv/hloop.h"
+struct mg_mgr mgr;
+ptmx ptm;
 
-// void on_close(hio_t* io) {
-// }
+void msg_handl(const char *msg, int size)
+{
+    for (struct mg_connection *item = mgr.conns->next; item != NULL; item = item->next)
+    {
+        mg_send(item, msg, size);
+    }
+}
 
-// void on_recv(hio_t* io, void* buf, int readbytes) {
-// 	// 回显数据
-//     hio_write(io, buf, readbytes);
-// }
 
-// void on_accept(hio_t* io) {
-// 	// 设置close回调
-//     hio_setcb_close(io, on_close);
-//     // 设置read回调
-//     hio_setcb_read(io, on_recv);
-//     // 开始读
-//     hio_read(io);
-// }
 
-// int main(int argc, char** argv) {
-//     if (argc < 2) {
-//         printf("Usage: cmd port\n");
-//         return -10;
-//     }
-//     int port = atoi(argv[1]);
+static void cb(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
+{
+    switch (ev)
+    {
+    case MG_EV_OPEN:
+        break;
+    case MG_EV_ACCEPT:
+    {
+        MG_INFO(("SERVER accepted a connection"));
+    }
+    break;
+    case MG_EV_READ:
+    {
+        // mg_send(c, c->recv.buf, c->recv.len);   // Echo received data back
+        mg_iobuf_del(&c->recv, 0, c->recv.len); // And discard it
+    }
+    break;
+    case MG_EV_CLOSE:
+        break;
+    case MG_EV_ERROR:
+        break;
+    default:
+        break;
+    }
+}
 
-//     // 创建事件循环
-//     hloop_t* loop = hloop_new(0);
-//     // 创建TCP服务
-//     hio_t* listenio = hloop_create_tcp_server(loop, "0.0.0.0", port, on_accept);
-//     if (listenio == NULL) {
-//         return -20;
-//     }
-//     // 运行事件循环
-//     hloop_run(loop);
-//     // 释放事件循环
-//     hloop_free(&loop);
-//     return 0;
-// }
+
+
+
+int main(int argc, char *argv[])
+{
+    if (argc < 3)
+    {
+        printf("Usage: %s exe port\n", argv[0]);
+        return -10;
+    }
+    int port = atoi(argv[2]);
+
+    mg_mgr_init(&mgr); // Init manager
+    char urls[100];
+    sprintf(urls, "tcp://0.0.0.0:%d", port);
+    mg_listen(&mgr, urls, cb, &mgr); // Setup listener
+
+    ptm.set_msg_call_back(msg_handl);
+    ptm.open();
+
+    int pid = fork();
+    if (pid == 0)
+    {
+        freopen(ptm.get_slave_ptmx_name().c_str(), "w", stdout);
+        freopen(ptm.get_slave_ptmx_name().c_str(), "w", stderr);
+        freopen(ptm.get_slave_ptmx_name().c_str(), "r", stdin);
+        execl(argv[1], argv[1],
+              NULL);
+    }
+    for (;;)
+    {
+        mg_mgr_poll(&mgr, 1000); // Event loop
+    }
+    mg_mgr_free(&mgr); // Cleanup
+    return 0;
+}
+
+#endif
