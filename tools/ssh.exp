@@ -1,0 +1,50 @@
+#!/usr/bin/env expect
+
+# 设置远程服务器信息
+set host [lindex $argv 0]
+set user [lindex $argv 1]
+set password [lindex $argv 2]
+set ssh_conf [lindex $argv 3]
+set ssh_cmd [lindex $argv 4]
+
+if { $argc < 4 } {
+puts "Usage: expect ssh.exp host user password ssh_conf"
+exit 1
+}
+
+if {$ssh_cmd eq ""} {
+    # 执行 SSH 登录
+    spawn ssh $ssh_conf $user@$host
+
+    # 使用 expect 来匹配登录过程中的提示信息
+    expect {
+        "yes/no" {
+            send "yes\r"
+            exp_continue
+        }
+        "password:" {
+            send "$password\r"
+        }
+    }
+
+    # 将控制权交给用户进行交互
+    interact
+} else {
+    # 执行 SSH 登录
+    spawn ssh $ssh_conf $user@$host $ssh_cmd
+
+    # 使用 expect 来匹配登录过程中的提示信息
+    expect {
+        "yes/no" {
+            send "yes\r"
+            exp_continue
+        }
+        "password:" {
+            send "$password\r"
+        }
+    }
+
+    expect;
+}
+
+

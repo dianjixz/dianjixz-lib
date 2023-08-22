@@ -3,12 +3,11 @@ filedir=$(shell basename $(filename))
 
 CROSS_DIR ?= /usr/bin
 CROSS ?= arm-linux-gnueabihf-
-DEFAULTS_CROSS=
 PUSH_FILE?=dist
 PUSH_DIR?=/root
 PUSH_URL?=192.168.12.1
 MSSHF?=-o StrictHostKeychecking=no
-SSH_PASSWORLD?=
+SSH_PASSWORLD?=void
 SSH_USER?=root
 
 define foo2
@@ -39,8 +38,8 @@ run:
 
 push_run:
 	make push
-	ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) "./dist/${filedir}"
-
+	expect ../../tools/ssh.exp ${PUSH_URL} ${SSH_USER} ${SSH_PASSWORLD} "${MSSHF}" "cd ${PUSH_DIR};./dist/${filedir}"
+	
 clean:
 	python3 project.py clean
 distclean:
@@ -56,10 +55,8 @@ set_arm:
 	python3 project.py --toolchain $(CROSS_DIR) --toolchain-prefix $(CROSS) config
 	TMPFILE=`mktemp`;cat .config.mk $(DEFAULTS_UNITV3) > $${TMPFILE} ; awk '!a[$$0]++' $${TMPFILE} > .config.mk ; rm $${TMPFILE}
 	
-
 push:
-	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" scp $(MSSHF) -r $(PUSH_FILE) ${SSH_USER}@$(PUSH_URL):$(PUSH_DIR) ; else  scp $(MSSHF) -r $(PUSH_FILE) ${SSH_USER}@$(PUSH_URL):$(PUSH_DIR) ; fi;
+	@expect ../../tools/push.exp ${PUSH_URL} ${SSH_USER} ${SSH_PASSWORLD} "${MSSHF}" ${PUSH_FILE} ${PUSH_DIR}
 
 shell:
-	if [ "$(SSH_PASSWORLD)" != "" ] ; then sshpass -p "$(SSH_PASSWORLD)" ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) ; else ssh $(MSSHF) ${SSH_USER}@$(PUSH_URL) ; fi;
-	
+	@expect ../../tools/ssh.exp ${PUSH_URL} ${SSH_USER} ${SSH_PASSWORLD} "${MSSHF}"

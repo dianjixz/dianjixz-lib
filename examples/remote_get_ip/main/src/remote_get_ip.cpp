@@ -26,17 +26,19 @@ void mqtt_message_callback(hv::MqttClient *cli, mqtt_message_t *msg)
 
     std::vector<ifconfig_t> ifcs;
     ifconfig(ifcs);
-
-    for (auto &item : ifcs)
+    if (tmp_topic == "/get")
     {
-        char tmpbuf[256];
-        sprintf(tmpbuf, "%s\nip: %s\nmask: %s\nbroadcast: %s\nmac: %s\n\n",
-                item.name,
-                item.ip,
-                item.mask,
-                item.broadcast,
-                item.mac);
-        cli->publish(std::string("/get_ip"), std::string(tmpbuf));
+        for (auto &item : ifcs)
+        {
+            char tmpbuf[256];
+            sprintf(tmpbuf, "%s\nip: %s\nmask: %s\nbroadcast: %s\nmac: %s\n\n",
+                    item.name,
+                    item.ip,
+                    item.mask,
+                    item.broadcast,
+                    item.mac);
+            cli->publish(std::string("/get_ip"), std::string(tmpbuf));
+        }
     }
 }
 

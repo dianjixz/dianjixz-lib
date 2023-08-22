@@ -1,0 +1,31 @@
+#!/bin/env expect
+
+set ip [lindex $argv 0]
+set user [lindex $argv 1]
+set passwd [lindex $argv 2]
+set ssh_conf [lindex $argv 3]
+set local_file [lindex $argv 4]
+set remote_file [lindex $argv 5]
+
+
+if { $argc != 6 } {
+puts "host $ip"
+puts "user $user"
+puts "passwd $passwd"
+puts "ssh_conf $ssh_conf"
+puts "local_file $local_file"
+puts "remote_file $remote_file"
+puts "Usage: expect push.exp host user passwd ssh_conf local_file remote_file"
+exit 1
+}
+
+set timeout 30
+spawn scp $ssh_conf -r $local_file $user@$ip:$remote_file
+
+expect {
+    "(yes/no)" {send "yes\r"; exp_continue}
+    "password:" {send "$passwd\r"}
+}
+expect eof
+
+
