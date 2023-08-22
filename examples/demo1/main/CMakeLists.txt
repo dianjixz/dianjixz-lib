@@ -1,7 +1,8 @@
 ############### Add include ###################
-list(APPEND ADD_INCLUDE "include"
+list(APPEND ADD_INCLUDE "."
+                        "include"
     )
-list(APPEND ADD_PRIVATE_INCLUDE "")
+# list(APPEND ADD_PRIVATE_INCLUDE "")
 ###############################################
 
 ############ Add source files #################
@@ -42,6 +43,13 @@ append_srcs_dir(ADD_SRCS "src")       # append source file in src dir to var ADD
 ############ Add static libs ##################
 # list(APPEND ADD_STATIC_LIB "lib/libtest.a")
 ###############################################
+
+############ Add dynamic libs ##################
+# list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+#                             "lib/test2.so"
+# )
+###############################################
+
 
 #### Add compile option for this component ####
 #### Just for this component, won't affect other 

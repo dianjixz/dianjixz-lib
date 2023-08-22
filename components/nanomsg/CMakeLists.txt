@@ -30,9 +30,6 @@ if(CONFIG_NANOMSG_ENABLED)
                               "${PRIVATE_MODULE_DIR}/nanomsg/src/utils"
                               )
 
-
-
-
     # list(APPEND ADD_SRCS  "log.c/src/superlog.c"
     #     )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
@@ -64,8 +61,8 @@ if(CONFIG_NANOMSG_ENABLED)
     ###############################################
 
     ############ Add dynamic libs ##################
-    # list(APPEND ADD_DYNAMIC_LIB "lib/arch/v831/libmaix_nn.so"
-    #                             "lib/arch/v831/libmaix_cam.so"
+    # list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+    #                             "lib/test2.so"
     # )
     ###############################################
 

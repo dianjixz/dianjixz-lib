@@ -58,8 +58,8 @@ if(CONFIG_U8G2_COMPONENT_ENABLED)
     ###############################################
 
     ############ Add dynamic libs ##################
-    # list(APPEND ADD_DYNAMIC_LIB "lib/arch/v831/libmaix_nn.so"
-    #                             "lib/arch/v831/libmaix_cam.so"
+    # list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+    #                             "lib/test2.so"
     # )
     ###############################################
 
@@ -70,13 +70,7 @@ if(CONFIG_U8G2_COMPONENT_ENABLED)
 	# list(APPEND ADD_LINKOPTIONS_PRIVATE -DLV_CONF_INCLUDE_SIMPLE)
     #### Add compile option for this component
     #### and components denpend on this component
-    # list(APPEND ADD_DEFINITIONS_PRIVATE -Wall -Wextra 
-    # -Wshadow -Wundef -Wmaybe-uninitialized -Wmissing-prototypes -Wno-discarded-qualifiers 
-    # -Wno-unused-function -Wno-error=strict-prototypes -Wpointer-arith -fno-strict-aliasing -Wno-error=cpp -Wuninitialized 
-    # -Wno-unused-parameter -Wno-missing-field-initializers -Wno-format-nonliteral -Wno-cast-qual -Wunreachable-code -Wno-switch-default  
-    # -Wreturn-type -Wmultichar -Wformat-security -Wno-ignored-qualifiers -Wno-error=pedantic -Wno-sign-compare -Wno-error=missing-prototypes -Wdouble-promotion -Wclobbered -Wdeprecated  
-    # -Wempty-body -Wshift-negative-value -Wstack-usage=4096 
-    # -Wtype-limits -Wsizeof-pointer-memaccess -Wpointer-arith)
+    # list(APPEND ADD_DEFINITIONS_PRIVATE -Wall )
     # list(APPEND ADD_DEFINITIONS -w)
     ###############################################
 

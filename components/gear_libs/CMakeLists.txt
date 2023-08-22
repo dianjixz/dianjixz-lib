@@ -69,8 +69,8 @@ if(CONFIG_GEAR_LIBS_ENABLED)
     ###############################################
 
     ############ Add dynamic libs ##################
-    # list(APPEND ADD_DYNAMIC_LIB "lib/arch/v831/libmaix_nn.so"
-    #                             "lib/arch/v831/libmaix_cam.so"
+    # list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+    #                             "lib/test2.so"
     # )
     ###############################################
 

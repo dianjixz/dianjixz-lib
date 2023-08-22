@@ -7,7 +7,7 @@ if(CONFIG_ANYANY_ENABLED)
     # list(APPEND ADD_PRIVATE_INCLUDE "include_private")
     ###############################################
     if(CONFIG_ANYANY_SRC_ENABLED)
-    list(APPEND ADD_SRCS  "src/any.cpp")
+        list(APPEND ADD_SRCS  "src/any.cpp")
     endif()
     ############## Add source files ###############
     list(APPEND ADD_SRCS  "test.c")
@@ -40,8 +40,8 @@ if(CONFIG_ANYANY_ENABLED)
     ###############################################
 
     ############ Add dynamic libs ##################
-    # list(APPEND ADD_DYNAMIC_LIB "lib/arch/v831/libmaix_nn.so"
-    #                             "lib/arch/v831/libmaix_cam.so"
+    # list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+    #                             "lib/test2.so"
     # )
     ###############################################
 

@@ -3,19 +3,14 @@ set(PRIVATE_MODULE_DIR "../../github_source")
 if(CONFIG_BACKWARD_CPP_ENABLED)
 
     ################# Add include #################
-
 	list(APPEND ADD_INCLUDE "include"            
     )
-
+    # list(APPEND ADD_PRIVATE_INCLUDE "include_private")
     ###############################################
 
     ############## Add source files ###############
-
-
     list(APPEND ADD_SRCS  "test.cpp"
         )
-
-
     # list(APPEND ADD_SRCS  "log.c/src/superlog.c"
     #     )
     # FILE(GLOB_RECURSE EXTRA_SRC  "src/*.c")
@@ -47,8 +42,8 @@ if(CONFIG_BACKWARD_CPP_ENABLED)
     ###############################################
 
     ############ Add dynamic libs ##################
-    # list(APPEND ADD_DYNAMIC_LIB "lib/arch/v831/libmaix_nn.so"
-    #                             "lib/arch/v831/libmaix_cam.so"
+    # list(APPEND ADD_DYNAMIC_LIB "lib/test1.so"
+    #                             "lib/test2.so"
     # )
     ###############################################
 
@@ -56,11 +51,11 @@ if(CONFIG_BACKWARD_CPP_ENABLED)
     #### Just for this component, won't affect other 
     #### modules, including component that depend 
     #### on this component
+    #### Add compile option for this component
 	# list(APPEND ADD_LINKOPTIONS_PRIVATE 
     # -Wl,--whole-archive
     # hal
     # -Wl,--no-whole-archive)
-    #### Add compile option for this component
     #### and components denpend on this component
     # list(APPEND ADD_DEFINITIONS_PRIVATE -w)
     # list(APPEND ADD_DEFINITIONS -w)
