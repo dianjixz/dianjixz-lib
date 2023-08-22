@@ -48,9 +48,9 @@ int main()
     push_ip.onClose = std::bind(&mqtt_connect_callback, std::placeholders::_1);
     push_ip.onMessage = std::bind(&mqtt_message_callback, std::placeholders::_1, std::placeholders::_2);
     push_ip.setID("asdxejzass");
-    push_ip.setAuth("nihao", "nihao");
+    push_ip.setAuth("xxx", "xxx");
     push_ip.setPingInterval(30);
-    push_ip.connect("175.178.223.115", 6665);
+    push_ip.connect("xxx", 12524);
 
     reconn_setting_t parm;
     parm.max_delay = 10000;
