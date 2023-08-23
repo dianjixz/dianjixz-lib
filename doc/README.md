@@ -39,7 +39,8 @@ dianjixz-lib/
 框架依赖 make cmake python3 expect 软件包。请确保安装上述软件包，
 ``` bash
 # 安装依赖(只需要安装一次)
-sudo apt install make cmake python3
+sudo apt update
+sudo apt install make cmake python3 expect
 
 # 假定你目前的终端在 dianjixz-lib 目录。进入 examples/demo1
 cd examples/demo1
