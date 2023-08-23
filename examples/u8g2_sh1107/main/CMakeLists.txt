@@ -23,7 +23,8 @@ append_srcs_dir(ADD_SRCS "src")       # append source file in src dir to var ADD
 ###############################################
 
 ###### Add required/dependent components ######
-list(APPEND ADD_REQUIREMENTS DeviceDriver u8g2_component Cimg)
+include(${SDK_PATH}/components/components.cmake)
+# list(APPEND ADD_REQUIREMENTS DeviceDriver u8g2_component Cimg )
 # if(CONFIG_COMPONENT2_ENABLED)
 #     list(APPEND ADD_REQUIREMENTS component2)
 # endif()
@@ -57,7 +58,7 @@ list(APPEND ADD_REQUIREMENTS DeviceDriver u8g2_component Cimg)
 
 ############ Add static libs ##################
 #### Update parent's variables like CMAKE_C_LINK_FLAGS
-# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group libmaix/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
+# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group lib/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
 ###############################################
 
 

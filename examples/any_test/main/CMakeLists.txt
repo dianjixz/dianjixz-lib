@@ -57,7 +57,7 @@ list(APPEND ADD_REQUIREMENTS anyany)
 
 ############ Add static libs ##################
 #### Update parent's variables like CMAKE_C_LINK_FLAGS
-# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group libmaix/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
+# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group lib/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
 ###############################################
 
 

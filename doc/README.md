@@ -12,25 +12,19 @@ dianjixz-lib/
     ├── component1  # 组件库模板，可以依照该模板快速添加组件库
     ├── hv          # 添加的 libhv 组件库
     ├── lvgl_component  # 添加的 libhv 组件库
-    └── utilities   # 添加的非标准的杂项库
+    └── DeviceDriver   # 添加的 linux 硬件组件库
         ├── include # 头文件的 include 目录
         ├── party
-            ├── easymsgcpp  # 一个小型的 c++ 消息库
-            ├── fmt         # c++ 的 fmt 库
             ├── framebuffer # linux framebuffer 开发的简单库
             ├── linux_i2c   # linux i2c 硬件使用库
             ├── linux_spi   # linux spi 硬件使用库
             ├── linux_uart  # linux uart 硬件使用库
             ├── ptmx        # linux pts虚拟终端库
-    .
-    .
-    .
+    ...
 ├── doc     # 文档目录
 ├── examples    # 大量的开发示例库，同时项目的源代码也会在该目录中。
 │   ├── demo1   # 项目的模板，可以复制该目录，快速建立一个开发工程。
-    .
-    .
-    .
+    ...
 ├── github_source # github 源码存放位置
 │   ├── source-list.sh # github 源码仓库索引，需要手动下载文件到该目录。该目录除了 source-list.sh 文件外，其他的文件不会被纳入仓库的记录范围。
 │   ├── libhv   # libhv源码
@@ -42,7 +36,7 @@ dianjixz-lib/
 ```
 
 想要使用一个框架，首先了解框架的主要目录结构是基础，然后开始编译一个 hello world! 程序作为我们的开始。  
-框架依赖 make cmake python3 软件包。请确保安装上述软件包，
+框架依赖 make cmake python3 expect 软件包。请确保安装上述软件包，
 ``` bash
 # 安装依赖(只需要安装一次)
 sudo apt install make cmake python3
@@ -84,7 +78,44 @@ make distclean
 
 在项目的 examples 目录下,拥有多线程，多线程同步锁，守护进程，动态库调用，linux 硬件总线开发，lvgl gui， u8g2 驱动 sh1107 等众多示例，可以随时在其他仓库中复制代码添加到自己的项目中.
 
+## 编译本机程序
+``` bash
+# 进入工作目录
+cd examples/demo1
+# 编译
+make
+# 测试运行程序
+make run
+```
+
+## 交叉编译程序
+``` bash
+# 进入工作目录
+cd examples/demo1
+# 设置交叉编译工具链
+make set_arm
+# 编译
+make
+# 使用 scp 上传 
+make push
+# 使用 ssh 命令运行程序
+# make push_run
+```
+## 相关命令
+``` bash
+# 清理编译文件
+make clean
+# 彻底清理编译文件
+make distclean
+# 编译优化版程序（可能出现异常）
+make release
+# 输出详细的编译过程
+make verbose
+# 打开或者关闭自带的库
+make menuconfig
+```
 
 ## 更多信息
 
 请查看阅读 doc 目录下的文档文件.
+- [该框架的详细使用](./assets/README.md)

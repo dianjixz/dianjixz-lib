@@ -1,7 +1,5 @@
 ############### Add include ###################
-list(APPEND ADD_INCLUDE "."
-                        "include"
-    )
+list(APPEND ADD_INCLUDE "include")
 # list(APPEND ADD_PRIVATE_INCLUDE "")
 ###############################################
 
@@ -24,6 +22,7 @@ append_srcs_dir(ADD_SRCS "src")       # append source file in src dir to var ADD
 ###############################################
 
 ###### Add required/dependent components ######
+include(${SDK_PATH}/components/components.cmake)
 # list(APPEND ADD_REQUIREMENTS component1)
 # if(CONFIG_COMPONENT2_ENABLED)
 #     list(APPEND ADD_REQUIREMENTS component2)
@@ -65,10 +64,8 @@ append_srcs_dir(ADD_SRCS "src")       # append source file in src dir to var ADD
 
 ############ Add static libs ##################
 #### Update parent's variables like CMAKE_C_LINK_FLAGS
-# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group libmaix/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
+# set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group lib/libtest.a -ltest2 -Wl,--end-group" PARENT_SCOPE)
 ###############################################
-
-
 
 register_component()
 
