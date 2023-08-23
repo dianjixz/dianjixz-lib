@@ -3,36 +3,18 @@ menuconfig UTILITIES_ENABLED
     bool "Enable threerDparty"
     default n
 
-
     config UTILITIES_FMT_ENABLED
         bool "compile fmt lib"
         default n
         depends on UTILITIES_ENABLED
-
 
     config UTILITIES_EASYMSGCPP_ENABLED
         bool "compile easy-msg-cpp lib"
         default n
         depends on UTILITIES_ENABLED
 
-
     config UTILITIES_BASE64_ENABLED
         bool "compile base64 lib"
-        default n
-        depends on UTILITIES_ENABLED
-
-    config UTILITIES_UART_ENABLED
-        bool "compile uart lib"
-        default n
-        depends on UTILITIES_ENABLED
-
-    config UTILITIES_I2C_ENABLED
-        bool "compile i2c lib"
-        default n
-        depends on UTILITIES_ENABLED
-
-    config UTILITIES_SPI_ENABLED
-        bool "compile spi lib"
         default n
         depends on UTILITIES_ENABLED
 
@@ -41,18 +23,8 @@ menuconfig UTILITIES_ENABLED
         default n
         depends on UTILITIES_ENABLED
 
-    config UTILITIES_FRAMEBUFFER_ENABLED
-        bool "compile framebuffer lib"
-        default n
-        depends on UTILITIES_ENABLED
-
     config UTILITIES_INI_ENABLED
         bool "compile ini lib"
-        default n
-        depends on UTILITIES_ENABLED
-
-    config UTILITIES_PTMX_ENABLED
-        bool "compile ptmx lib"
         default n
         depends on UTILITIES_ENABLED
 

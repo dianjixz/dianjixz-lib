@@ -64,7 +64,11 @@ int can_test_main(int argc,char *argv[])
 			if(debugging)
 			{
 				printf("ID=0x%X DLC=%d ", frame.can_id, frame.can_dlc);
-				for(int i = 0; i < frame.len; ++ i )
+#if 1
+				for(int i = 0; i < frame.len; ++ i ) // 新版本接口
+#else
+				for(int i = 0; i < frame.can_dlc; ++ i ) // 已经弃用的接口，在底版本中要用到。遇到报错了，请手动调整。
+#endif
 				{
 					printf("data[0]=0x%X ", frame.data[i]);
 				}

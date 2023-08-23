@@ -3,7 +3,7 @@
 #if USE_LIBHV
 #include "hv/TcpServer.h"
 #include "hv/hlog.h"
-#include "pts_creat.h"
+#include "ptmx/pts_creat.h"
 using namespace hv;
 
 TcpServer srv;
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
 #elif USE_MONGOOSE
 #include "mongoose.h"
-#include "pts_creat.h"
+#include "ptmx/pts_creat.h"
 
 
 struct mg_mgr mgr;

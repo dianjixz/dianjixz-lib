@@ -257,7 +257,7 @@ int main(int argc, char **argv)
 
 #include <stdio.h>
 #include <string.h>
-#include "fbtools.h"
+#include "framebuffer/fbtools.h"
 int main(int argc, char **argv)
 {
     FBDEV fbdev;

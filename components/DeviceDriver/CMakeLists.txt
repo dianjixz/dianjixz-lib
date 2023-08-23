@@ -1,78 +1,45 @@
 # Config enable component3 or not in Kconfig
-# set(PRIVATE_MODULE_DIR "../../github_source")
 set(PRIVATE_MODULE_DIR "${SDK_PATH}/github_source")
+if(CONFIG_DEVICE_DRIVER_ENABLED)
 
+    list(APPEND ADD_INCLUDE "party")
 
-if(CONFIG_LHV_ENABLED)
+    if(CONFIG_M5DEVICE_SH1107)
+        append_srcs_dir(ADD_SRCS "party/m5_sh1107")
+    endif()
+
+    if(CONFIG_DEVICE_UART_ENABLED)
+        append_srcs_dir(ADD_SRCS "party/linux_uart")
+    endif()
+
+    if(CONFIG_DEVICE_I2C_ENABLED)
+        append_srcs_dir(ADD_SRCS "party/linux_i2c")
+    endif()
+
+    if(CONFIG_DEVICE_SPI_ENABLED)
+        append_srcs_dir(ADD_SRCS "party/linux_spi")
+    endif()
+
+    if(CONFIG_DEVICE_FRAMEBUFFER_ENABLED)
+        append_srcs_dir(ADD_SRCS "party/framebuffer")
+    endif()
+
+    if(CONFIG_DEVICE_PTMX_ENABLED)
+        append_srcs_dir(ADD_SRCS "party/ptmx")
+    endif()
+
 
     ################# Add include #################
 
 	list(APPEND ADD_INCLUDE "include")
 
-    list(APPEND ADD_PRIVATE_INCLUDE "${PRIVATE_MODULE_DIR}/libhv"
-                                    "${PRIVATE_MODULE_DIR}/libhv/base"
-                                    "${PRIVATE_MODULE_DIR}/libhv/util"
-                                    "${PRIVATE_MODULE_DIR}/libhv/event"
-                                    "${PRIVATE_MODULE_DIR}/libhv/ssl"
-                                    "${PRIVATE_MODULE_DIR}/libhv/event/kcp"
-                                    "${PRIVATE_MODULE_DIR}/libhv/protocol"
-                                    "${PRIVATE_MODULE_DIR}/libhv/evpp"
-                                    "${PRIVATE_MODULE_DIR}/libhv/cpputil"
-                                    "${PRIVATE_MODULE_DIR}/libhv/http"
-                                    "${PRIVATE_MODULE_DIR}/libhv/http/client"
-                                    "${PRIVATE_MODULE_DIR}/libhv/http/server"
-                                    "${PRIVATE_MODULE_DIR}/libhv/mqtt"
-    )
+    # list(APPEND ADD_PRIVATE_INCLUDE ""
+    # )
     ###############################################
 
     ############## Add source files ###############
 
-
-	append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/base"
-	                         "${PRIVATE_MODULE_DIR}/libhv/util"
-	                         "${PRIVATE_MODULE_DIR}/libhv/event"
-	                         "${PRIVATE_MODULE_DIR}/libhv/ssl"
-                             )
-
-	if(CONFIG_LHV_WITH_KCP)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/event/kcp")
-		list(APPEND ADD_DEFINITIONS_PRIVATE -DWITH_KCP)
-	endif()
-
-	if(CONFIG_LHV_WITH_PROTOCOL)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/protocol")
-	endif()
-
-	if(CONFIG_LHV_WITH_EVPP)
-		# append_srcs_dir(ADD_SRCS "libhv/evpp")
-
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/cpputil")
-		if(CONFIG_LHV_WITH_HTTP)
-			append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http")
-			if(CONFIG_LHV_WITH_WITH_HTTP_CLIENT)
-				append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http/client")
-			endif()
-			if(CONFIG_LHV_WITH_HTTP_SERVER)
-				append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/http/server")
-			endif()
-		endif()
-	endif()
-
-
-	if(CONFIG_LHV_WITH_MQTT)
-		append_srcs_dir(ADD_SRCS "${PRIVATE_MODULE_DIR}/libhv/mqtt")
-		# list(APPEND ADD_INCLUDE "libhv/mqtt")
-	endif()
-
-	
-	if(CONFIG_LHV_WITH_OPENSSL)
-		# list(APPEND ADD_DEFINITIONS_PRIVATE -DWITH_OPENSSL)
-		# find_package(OpenSSL)
-		# list(APPEND ADD_REQUIREMENTS OpenSSL)
-	else()
-		list(APPEND ADD_DEFINITIONS_PRIVATE -DHV_WITHOUT_SSL)
-	endif()
-
+	append_srcs_dir(ADD_SRCS "test.c")
 
     # list(APPEND ADD_SRCS  "log.c/src/superlog.c"
     #     )
@@ -127,7 +94,7 @@ if(CONFIG_LHV_ENABLED)
     ###############################################
 
     # register component, DYNAMIC or SHARED flags will make component compiled to dynamic(shared) lib
-    if(CONFIG_LHV_DYNAMIC)
+    if(CONFIG_DEVICE_DRIVER_DYNAMIC)
         register_component(DYNAMIC)
     else()
         register_component()

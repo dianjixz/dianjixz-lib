@@ -250,6 +250,8 @@ macro(project name)
     find_components(components_dirs components_kconfig_files kconfig_defaults_files_args found_main ${PROJECT_SOURCE_DIR}/../components/*)
     # Find components in project folder
     find_components(components_dirs components_kconfig_files kconfig_defaults_files_args found_main ${PROJECT_SOURCE_DIR}/*)
+    
+    find_components(components_dirs components_kconfig_files kconfig_defaults_files_args found_main ${SDK_PATH}/components/deprecated/*)
 
     if(NOT found_main)
         message(FATAL_ERROR "=================\nCan not find main component(folder) in project folder!!\n=================")

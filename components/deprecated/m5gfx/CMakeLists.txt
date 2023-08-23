@@ -1,5 +1,5 @@
 # Config enable component3 or not in Kconfig
-set(PRIVATE_MODULE_DIR "../../github_source")
+set(PRIVATE_MODULE_DIR "../../../github_source")
 if(CONFIG_M5GFX_ENABLED)
 
     # # message(WARNING "source path: ${LV_CONF_INCLUDE_SIMPLE}-------")

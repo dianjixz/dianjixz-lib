@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <linuxi2c.h>
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "m5_sh1107_dev.h"
+#include "m5_sh1107/m5_sh1107.h"
 #include "imlib.h"
-#include "run_time.h"
+// #include "run_time.h"
 
 
 image_t *tmpp;
@@ -57,7 +56,7 @@ void display_show()
 
 int main()
 {
-    m5_sh1107_dev_init();
+    m5_sh1107_dev_init(1);
 	
 	tmpp = imlib_image_create(64, 128, PIXFORMAT_BINARY, 0, NULL, 1);
 	

@@ -1,5 +1,5 @@
 #include <stdio.h> /*标准输入输出定义*/
-#include <linux_i2c.h>
+#include <linux_i2c/linux_i2c.h>
 #include <assert.h>
 
 void *i2c_p = NULL;

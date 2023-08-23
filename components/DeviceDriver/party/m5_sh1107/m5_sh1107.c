@@ -1,6 +1,6 @@
 
-#include "m5_sh1107_dev.h"
-#include "linux_i2c.h"
+#include "m5_sh1107.h"
+#include "linux_i2c/linux_i2c.h"
 #include <assert.h>
 #include <stdio.h>
 void *i2cdev;
@@ -11,9 +11,9 @@ int m5_sh1107_dev_deinit()
     return 0;
 }
 
-int m5_sh1107_dev_init()
+int m5_sh1107_dev_init(int num)
 {
-    int ret = linux_i2c_init(1, 0x3c, &i2cdev);
+    int ret = linux_i2c_init(num, 0x3c, &i2cdev);
     if(ret != 0 )
     {
         printf("m5_sh1107_dev_init i2c init faile!\n");

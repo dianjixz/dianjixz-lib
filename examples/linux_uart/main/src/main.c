@@ -6,7 +6,7 @@
 #include <fcntl.h> /*文件控制定义*/
 #include <termios.h> /*PPSIX 终端控制定义*/
 #include <errno.h> /*错误号定义*/
-#include "linux_uart.h"
+#include "linux_uart/linux_uart.h"
 char uart_one[20];
 
 uart_t uart_parm = {
