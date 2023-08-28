@@ -1,0 +1,524 @@
+# 目标编译
+# Program('src/main.c')
+# Program('new_hello1', ['src/main.c'])
+# Program('new_hello2', Glob('src/*.c'))
+
+envx=Environment(CC='gcc', CCFLAGS='-O2')
+envx.Program('new_hello3', Glob('src/*.c'))
+# dictx=envx.Dictionary()
+# print(dictx)
+print(envx.Dump())
+# Decider('MD5') 显示指定使用MD5签名，使用Decider函数
+# Decider('timestamp-newer') 显示指定使用时间戳，使用Decider函数
+# 静态库编译
+# Library('foo', ['f1.c', 'f2.c', 'f3.c'])
+
+# 显式静态库编译
+# StaticLibrary('foo', ['f1.c', 'f2.c', 'f3.c'])
+
+# 显式动态库编译
+# SharedLibrary('foo', ['f1.c', 'f2.c', 'f3.c'])
+
+# 库链接
+# Program('prog', 'prog.c', LIBS=['foo', 'bar'], LIBPATH='.')
+
+
+# 独单目标编译
+# unix
+# Object('hello.c', CCFLAGS='-DHELLO')
+# Object('goodbye.c', CCFLAGS='-DGOODBYE')
+# Program('hello', ['hello.o', 'goodbye.o']) 
+
+# windos
+# hello_list = Object('hello.c', CCFLAGS='-DHELLO')
+# goodbye_list = Object('goodbye.c', CCFLAGS='-DGOODBYE')
+# Program(hello_list + goodbye_list) 
+
+# 显示依赖：Depends函数
+# hello=Program('hello.c')
+# goodbye=Program('goodbye.c')
+# Depends(hello,goodbye) 
+
+
+
+# 环境变量
+'''
+LINKFLAGS 
+External Environment（外部环境）
+Execution Environment（执行环境）
+
+import os
+env=Environment(CC='gcc', CCFLAGS='-O2')
+env.Program('foo.c')
+
+
+
+
+
+
+
+
+
+
+{ 'AR': 'ar',
+  'ARCOM': '$AR $ARFLAGS $TARGET $SOURCES',
+  'ARFLAGS': ['rc'],
+  'AS': 'as',
+  'ASCOM': '$AS $ASFLAGS -o $TARGET $SOURCES',
+  'ASFLAGS': [],
+  'ASPPCOM': '$CC $ASPPFLAGS $CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS -c -o '
+             '$TARGET $SOURCES',
+  'ASPPFLAGS': '$ASFLAGS',
+  'BUILDERS': { 'CopyAs': <SCons.Builder.BuilderBase object at 0x7fb9618f4c70>,
+                'CopyTo': <SCons.Builder.BuilderBase object at 0x7fb9618f4c40>,
+                'JarFile': <SCons.Builder.BuilderBase object at 0x7fb9618f5270>,
+                'JavaClassDir': <SCons.Builder.BuilderBase object at 0x7fb9618f5570>,
+                'JavaClassFile': <SCons.Builder.BuilderBase object at 0x7fb9618f54b0>,
+                'JavaFile': <SCons.Builder.CompositeBuilder object at 0x7fb9618f53c0>,
+                'Library': <SCons.Builder.BuilderBase object at 0x7fb9618f4880>,
+                'LoadableModule': <SCons.Builder.BuilderBase object at 0x7fb961aaf310>,
+                'Object': <SCons.Builder.CompositeBuilder object at 0x7fb961aaf4c0>,
+                'Program': <SCons.Builder.BuilderBase object at 0x7fb961aaf040>,
+                'ProgramAllAtOnce': <SCons.Builder.BuilderBase object at 0x7fb9618f4a90>,
+                'RMIC': <SCons.Builder.BuilderBase object at 0x7fb961a731c0>,
+                'RPCGenClient': <SCons.Builder.BuilderBase object at 0x7fb9618f4d90>,
+                'RPCGenHeader': <SCons.Builder.BuilderBase object at 0x7fb9618f4df0>,
+                'RPCGenService': <SCons.Builder.BuilderBase object at 0x7fb9618f4e50>,
+                'RPCGenXDR': <SCons.Builder.BuilderBase object at 0x7fb9618f4eb0>,
+                'SharedLibrary': <SCons.Builder.BuilderBase object at 0x7fb961aaf100>,
+                'SharedObject': <SCons.Builder.CompositeBuilder object at 0x7fb961aaf6a0>,
+                'StaticLibrary': <SCons.Builder.BuilderBase object at 0x7fb9618f4880>,
+                'StaticObject': <SCons.Builder.CompositeBuilder object at 0x7fb961aaf4c0>,
+                'Substfile': <SCons.Builder.BuilderBase object at 0x7fb961aaee90>,
+                'Tar': <SCons.Builder.BuilderBase object at 0x7fb961aaca00>,
+                'Textfile': <SCons.Builder.BuilderBase object at 0x7fb961aaee30>,
+                'Zip': <SCons.Builder.BuilderBase object at 0x7fb961aacca0>},
+  'CC': 'gcc',
+  'CCCOM': '$CC -o $TARGET -c $CFLAGS $CCFLAGS $_CCCOMCOM $SOURCES',
+  'CCDEPFLAGS': '-MMD -MF ${TARGET}.d',
+  'CCFLAGS': '-O2',
+  'CCVERSION': '11.3.0',
+  'CFILESUFFIX': '.c',
+  'CFLAGS': [],
+  'CONFIGUREDIR': '#/.sconf_temp',
+  'CONFIGURELOG': '#/config.log',
+  'COPYSTR': 'Copy file(s): "$SOURCES" to "$TARGETS"',
+  'CPPDEFPREFIX': '-D',
+  'CPPDEFSUFFIX': '',
+  'CPPSUFFIXES': [ '.c',
+                   '.C',
+                   '.cxx',
+                   '.cpp',
+                   '.c++',
+                   '.cc',
+                   '.h',
+                   '.H',
+                   '.hxx',
+                   '.hpp',
+                   '.hh',
+                   '.F',
+                   '.fpp',
+                   '.FPP',
+                   '.m',
+                   '.mm',
+                   '.S',
+                   '.spp',
+                   '.SPP',
+                   '.sx'],
+  'CXX': 'g++',
+  'CXXCOM': '$CXX -o $TARGET -c $CXXFLAGS $CCFLAGS $_CCCOMCOM $SOURCES',
+  'CXXFILESUFFIX': '.cc',
+  'CXXFLAGS': [],
+  'CXXVERSION': '11.3.0',
+  'DC': 'dmd',
+  'DCOM': '$DC $_DINCFLAGS $_DVERFLAGS $_DDEBUGFLAGS $_DFLAGS -c -of$TARGET '
+          '$SOURCES',
+  'DDEBUG': [],
+  'DDEBUGPREFIX': '-debug=',
+  'DDEBUGSUFFIX': '',
+  'DFILESUFFIX': '.d',
+  'DFLAGPREFIX': '-',
+  'DFLAGS': [],
+  'DFLAGSUFFIX': '',
+  'DINCPREFIX': '-I',
+  'DINCSUFFIX': '',
+  'DLIB': 'ar cr',
+  'DLIBCOM': '$DLIB $_DLIBFLAGS $TARGET $SOURCES $_DLIBFLAGS',
+  'DLIBDIRPREFIX': '-L-L',
+  'DLIBDIRSUFFIX': '',
+  'DLIBFLAGPREFIX': '-',
+  'DLIBFLAGSUFFIX': '',
+  'DLIBLINKPREFIX': '-L-l',
+  'DLIBLINKSUFFIX': '',
+  'DLINK': '$DC',
+  'DLINKCOM': '$DLINK -of$TARGET $DLINKFLAGS $__DRPATH $SOURCES $_DLIBDIRFLAGS '
+              '$_DLIBFLAGS',
+  'DLINKFLAGS': [],
+  'DPATH': ['#/'],
+  'DRPATHPREFIX': '-L-rpath=',
+  'DRPATHSUFFIX': '',
+  'DSUFFIXES': ['.d'],
+  'DVERPREFIX': '-version=',
+  'DVERSIONS': [],
+  'DVERSUFFIX': '',
+  'Dir': <SCons.Defaults.Variable_Method_Caller object at 0x7fb961debf10>,
+  'Dirs': <SCons.Defaults.Variable_Method_Caller object at 0x7fb961debfa0>,
+  'ENV': {'PATH': '/usr/local/bin:/opt/bin:/bin:/usr/bin:/snap/bin'},
+  'ESCAPE': <function escape at 0x7fb9619d60e0>,
+  'F03': 'gfortran',
+  'F03COM': '$F03 -o $TARGET -c $FORTRANCOMMONFLAGS $F03FLAGS $_F03INCFLAGS '
+            '$_FORTRANMODFLAG $SOURCES',
+  'F03FLAGS': [],
+  'F03PPCOM': '$F03 -o $TARGET -c $FORTRANCOMMONFLAGS $F03FLAGS $CPPFLAGS '
+              '$_CPPDEFFLAGS $_F03INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'F08': 'gfortran',
+  'F08COM': '$F08 -o $TARGET -c $FORTRANCOMMONFLAGS $F08FLAGS $_F08INCFLAGS '
+            '$_FORTRANMODFLAG $SOURCES',
+  'F08FLAGS': [],
+  'F08PPCOM': '$F08 -o $TARGET -c $FORTRANCOMMONFLAGS $F08FLAGS $CPPFLAGS '
+              '$_CPPDEFFLAGS $_F08INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'F77': 'gfortran',
+  'F77COM': '$F77 -o $TARGET -c $FORTRANCOMMONFLAGS $F77FLAGS $_F77INCFLAGS '
+            '$SOURCES',
+  'F77FLAGS': [],
+  'F77PPCOM': '$F77 -o $TARGET -c $FORTRANCOMMONFLAGS $F77FLAGS $CPPFLAGS '
+              '$_CPPDEFFLAGS $_F77INCFLAGS $SOURCES',
+  'F90': 'gfortran',
+  'F90COM': '$F90 -o $TARGET -c $FORTRANCOMMONFLAGS $F90FLAGS $_F90INCFLAGS '
+            '$_FORTRANMODFLAG $SOURCES',
+  'F90FLAGS': [],
+  'F90PPCOM': '$F90 -o $TARGET -c $FORTRANCOMMONFLAGS $F90FLAGS $CPPFLAGS '
+              '$_CPPDEFFLAGS $_F90INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'F95': 'gfortran',
+  'F95COM': '$F95 -o $TARGET -c $FORTRANCOMMONFLAGS $F95FLAGS $_F95INCFLAGS '
+            '$_FORTRANMODFLAG $SOURCES',
+  'F95FLAGS': [],
+  'F95PPCOM': '$F95 -o $TARGET -c $FORTRANCOMMONFLAGS $F95FLAGS $CPPFLAGS '
+              '$_CPPDEFFLAGS $_F95INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'FILE_ENCODING': 'utf-8',
+  'FORTRAN': 'f77',
+  'FORTRANCOM': '$FORTRAN -o $TARGET -c $FORTRANCOMMONFLAGS $FORTRANFLAGS '
+                '$_FORTRANINCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'FORTRANFLAGS': [],
+  'FORTRANMODDIR': '',
+  'FORTRANMODDIRPREFIX': '-J',
+  'FORTRANMODDIRSUFFIX': '',
+  'FORTRANMODPREFIX': '',
+  'FORTRANMODSUFFIX': '.mod',
+  'FORTRANPPCOM': '$FORTRAN -o $TARGET -c $FORTRANCOMMONFLAGS $FORTRANFLAGS '
+                  '$CPPFLAGS $_CPPDEFFLAGS $_FORTRANINCFLAGS $_FORTRANMODFLAG '
+                  '$SOURCES',
+  'FORTRANSUFFIXES': [ '.f',
+                       '.for',
+                       '.ftn',
+                       '.fpp',
+                       '.FPP',
+                       '.F',
+                       '.FOR',
+                       '.FTN',
+                       '.f77',
+                       '.F77',
+                       '.f90',
+                       '.F90',
+                       '.f95',
+                       '.F95',
+                       '.f03',
+                       '.F03',
+                       '.f08',
+                       '.F08'],
+  'FRAMEWORKPATH': [],
+  'FRAMEWORKS': [],
+  'File': <SCons.Defaults.Variable_Method_Caller object at 0x7fb961debf70>,
+  'HOST_ARCH': 'x86_64',
+  'HOST_OS': 'posix',
+  'IDLSUFFIXES': ['.idl', '.IDL'],
+  'INCF03PREFIX': '-I',
+  'INCF03SUFFIX': '',
+  'INCF08PREFIX': '-I',
+  'INCF08SUFFIX': '',
+  'INCF77PREFIX': '-I',
+  'INCF77SUFFIX': '',
+  'INCF90PREFIX': '-I',
+  'INCF90SUFFIX': '',
+  'INCF95PREFIX': '-I',
+  'INCF95SUFFIX': '',
+  'INCFORTRANPREFIX': '$INCPREFIX',
+  'INCFORTRANSUFFIX': '$INCSUFFIX',
+  'INCPREFIX': '-I',
+  'INCSUFFIX': '',
+  'JAR': 'jar',
+  'JARCOM': "${TEMPFILE('$_JARCOM','$JARCOMSTR')}",
+  'JARFLAGS': ['cf'],
+  'JARSUFFIX': '.jar',
+  'JAVABOOTCLASSPATH': [],
+  'JAVAC': 'javac',
+  'JAVACCOM': "${TEMPFILE('$_JAVACCOM','$JAVACCOMSTR')}",
+  'JAVACFLAGS': [],
+  'JAVACLASSPATH': [],
+  'JAVACLASSSUFFIX': '.class',
+  'JAVAINCLUDES': [],
+  'JAVAPROCESSORPATH': [],
+  'JAVASOURCEPATH': [],
+  'JAVASUFFIX': '.java',
+  'LDMODULE': '$SHLINK',
+  'LDMODULECOM': '$LDMODULE -o $TARGET $LDMODULEFLAGS $__LDMODULEVERSIONFLAGS '
+                 '$__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS ',
+  'LDMODULEEMITTER': [ <function lib_emitter at 0x7fb961e06680>,
+                       <function ldmod_symlink_emitter at 0x7fb9619d75b0>],
+  'LDMODULEFLAGS': '$SHLINKFLAGS',
+  'LDMODULENAME': '${LDMODULEPREFIX}$_get_ldmodule_stem${_LDMODULESUFFIX}',
+  'LDMODULENOVERSIONSYMLINKS': '$SHLIBNOVERSIONSYMLINKS',
+  'LDMODULEPREFIX': '$SHLIBPREFIX',
+  'LDMODULESUFFIX': '$SHLIBSUFFIX',
+  'LDMODULEVERSION': '$SHLIBVERSION',
+  'LDMODULE_NOVERSION_SYMLINK': '$_get_shlib_dir${LDMODULEPREFIX}$_get_ldmodule_stem${LDMODULESUFFIX}',
+  'LDMODULE_SONAME_SYMLINK': '$_get_shlib_dir$_LDMODULESONAME',
+  'LIBDIRPREFIX': '-L',
+  'LIBDIRSUFFIX': '',
+  'LIBLINKPREFIX': '-l',
+  'LIBLINKSUFFIX': '',
+  'LIBPREFIX': 'lib',
+  'LIBPREFIXES': ['$LIBPREFIX'],
+  'LIBSUFFIX': '.a',
+  'LIBSUFFIXES': ['$LIBSUFFIX', '$SHLIBSUFFIX'],
+  'LINESEPARATOR': '\n',
+  'LINK': '$SMARTLINK',
+  'LINKCOM': '$LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS '
+             '$_LIBFLAGS',
+  'LINKFLAGS': [],
+  'MAXLINELENGTH': 128072,
+  'NINJA_DEPFILE_PARSE_FORMAT': 'gcc',
+  'OBJPREFIX': '',
+  'OBJSUFFIX': '.o',
+  'PLATFORM': 'posix',
+  'PROGPREFIX': '',
+  'PROGSUFFIX': '',
+  'PSPAWN': <function piped_env_spawn at 0x7fb9619d6320>,
+  'RANLIB': 'ranlib',
+  'RANLIBCOM': '$RANLIB $RANLIBFLAGS $TARGET',
+  'RANLIBFLAGS': [],
+  'RDirs': <SCons.Defaults.Variable_Method_Caller object at 0x7fb961e20040>,
+  'RMIC': 'rmic',
+  'RMICCOM': '$RMIC $RMICFLAGS -d ${TARGET.attributes.java_lookupdir} '
+             '-classpath ${SOURCE.attributes.java_classdir} '
+             '${SOURCES.attributes.java_classname}',
+  'RMICFLAGS': [],
+  'RPATHPREFIX': '-Wl,-rpath=',
+  'RPATHSUFFIX': '',
+  'RPCGEN': 'rpcgen',
+  'RPCGENCLIENTFLAGS': [],
+  'RPCGENFLAGS': [],
+  'RPCGENHEADERFLAGS': [],
+  'RPCGENSERVICEFLAGS': [],
+  'RPCGENXDRFLAGS': [],
+  'SCANNERS': [<SCons.Scanner.ScannerBase object at 0x7fb961deb7c0>],
+  'SHCC': '$CC',
+  'SHCCCOM': '$SHCC -o $TARGET -c $SHCFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES',
+  'SHCCFLAGS': ['$CCFLAGS', '-fPIC'],
+  'SHCFLAGS': ['$CFLAGS'],
+  'SHCXX': '$CXX',
+  'SHCXXCOM': '$SHCXX -o $TARGET -c $SHCXXFLAGS $SHCCFLAGS $_CCCOMCOM $SOURCES',
+  'SHCXXFLAGS': ['$CXXFLAGS'],
+  'SHDC': '$DC',
+  'SHDCOM': '$DC $_DINCFLAGS $_DVERFLAGS $_DDEBUGFLAGS $_DFLAGS -c -fPIC '
+            '-of$TARGET $SOURCES',
+  'SHDLINK': '$DC',
+  'SHDLINKCOM': '$DLINK -of$TARGET $SHDLINKFLAGS $__SHDLIBVERSIONFLAGS '
+                '$__DRPATH $SOURCES $_DLIBDIRFLAGS $_DLIBFLAGS',
+  'SHDLINKFLAGS': ['$DLINKFLAGS', '-shared', '-defaultlib=libphobos2.so'],
+  'SHELL': 'sh',
+  'SHF03': '$F03',
+  'SHF03COM': '$SHF03 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF03FLAGS '
+              '$_F03INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'SHF03FLAGS': ['$F03FLAGS', '-fPIC'],
+  'SHF03PPCOM': '$SHF03 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF03FLAGS '
+                '$CPPFLAGS $_CPPDEFFLAGS $_F03INCFLAGS $_FORTRANMODFLAG '
+                '$SOURCES',
+  'SHF08': '$F08',
+  'SHF08COM': '$SHF08 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF08FLAGS '
+              '$_F08INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'SHF08FLAGS': ['$F08FLAGS', '-fPIC'],
+  'SHF08PPCOM': '$SHF08 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF08FLAGS '
+                '$CPPFLAGS $_CPPDEFFLAGS $_F08INCFLAGS $_FORTRANMODFLAG '
+                '$SOURCES',
+  'SHF77': '$F77',
+  'SHF77COM': '$SHF77 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF77FLAGS '
+              '$_F77INCFLAGS $SOURCES',
+  'SHF77FLAGS': ['$F77FLAGS', '-fPIC'],
+  'SHF77PPCOM': '$SHF77 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF77FLAGS '
+                '$CPPFLAGS $_CPPDEFFLAGS $_F77INCFLAGS $SOURCES',
+  'SHF90': '$F90',
+  'SHF90COM': '$SHF90 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF90FLAGS '
+              '$_F90INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'SHF90FLAGS': ['$F90FLAGS', '-fPIC'],
+  'SHF90PPCOM': '$SHF90 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF90FLAGS '
+                '$CPPFLAGS $_CPPDEFFLAGS $_F90INCFLAGS $_FORTRANMODFLAG '
+                '$SOURCES',
+  'SHF95': '$F95',
+  'SHF95COM': '$SHF95 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF95FLAGS '
+              '$_F95INCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'SHF95FLAGS': ['$F95FLAGS', '-fPIC'],
+  'SHF95PPCOM': '$SHF95 -o $TARGET -c $FORTRANCOMMONFLAGS $SHF95FLAGS '
+                '$CPPFLAGS $_CPPDEFFLAGS $_F95INCFLAGS $_FORTRANMODFLAG '
+                '$SOURCES',
+  'SHFORTRAN': '$FORTRAN',
+  'SHFORTRANCOM': '$SHFORTRAN -o $TARGET -c $FORTRANCOMMONFLAGS '
+                  '$SHFORTRANFLAGS $_FORTRANINCFLAGS $_FORTRANMODFLAG $SOURCES',
+  'SHFORTRANFLAGS': ['$FORTRANFLAGS'],
+  'SHFORTRANPPCOM': '$SHFORTRAN -o $TARGET -c $FORTRANCOMMONFLAGS '
+                    '$SHFORTRANFLAGS $CPPFLAGS $_CPPDEFFLAGS $_FORTRANINCFLAGS '
+                    '$_FORTRANMODFLAG $SOURCES',
+  'SHLIBEMITTER': [ <function lib_emitter at 0x7fb961e06680>,
+                    <function shlib_symlink_emitter at 0x7fb9619d7880>],
+  'SHLIBNAME': '${_get_shlib_dir}${SHLIBPREFIX}$_get_shlib_stem${_SHLIBSUFFIX}',
+  'SHLIBPREFIX': '$LIBPREFIX',
+  'SHLIBSONAMEFLAGS': '-Wl,-soname=$_SHLIBSONAME',
+  'SHLIBSUFFIX': '.so',
+  'SHLIB_NOVERSION_SYMLINK': '${_get_shlib_dir}${SHLIBPREFIX}$_get_shlib_stem${SHLIBSUFFIX}',
+  'SHLIB_SONAME_SYMLINK': '${_get_shlib_dir}$_SHLIBSONAME',
+  'SHLINK': '$LINK',
+  'SHLINKCOM': '$SHLINK -o $TARGET $SHLINKFLAGS $__SHLIBVERSIONFLAGS $__RPATH '
+               '$SOURCES $_LIBDIRFLAGS $_LIBFLAGS',
+  'SHLINKFLAGS': ['$LINKFLAGS', '-shared'],
+  'SHOBJPREFIX': '$OBJPREFIX',
+  'SHOBJSUFFIX': '.os',
+  'SMARTLINK': <function smart_link at 0x7fb961e065f0>,
+  'SPAWN': <function subprocess_spawn at 0x7fb9619d6200>,
+  'STATIC_AND_SHARED_OBJECTS_ARE_THE_SAME': 0,
+  'SUBSTFILEPREFIX': '',
+  'SUBSTFILESUFFIX': '',
+  'TAR': 'tar',
+  'TARCOM': '$TAR $TARFLAGS -f $TARGET $SOURCES',
+  'TARFLAGS': ['-c'],
+  'TARGET_ARCH': None,
+  'TARGET_OS': None,
+  'TARSUFFIX': '.tar',
+  'TEMPFILE': <class 'SCons.Platform.TempFileMunge'>,
+  'TEMPFILEARGESCFUNC': <function quote_spaces at 0x7fb961f39900>,
+  'TEMPFILEARGJOIN': ' ',
+  'TEMPFILEPREFIX': '@',
+  'TEXTFILEPREFIX': '',
+  'TEXTFILESUFFIX': '.txt',
+  'TOOLS': [ 'default',
+             'gnulink',
+             'gcc',
+             'g++',
+             'gfortran',
+             'gas',
+             'ar',
+             'dmd',
+             'filesystem',
+             'rpcgen',
+             'jar',
+             'javac',
+             'rmic',
+             'tar',
+             'zip',
+             'textfile'],
+  'ZIP': 'zip',
+  'ZIPCOM': <SCons.Action.FunctionAction object at 0x7fb961aacb50>,
+  'ZIPCOMPRESSION': 8,
+  'ZIPFLAGS': [],
+  'ZIPROOT': [],
+  'ZIPSUFFIX': '.zip',
+  '_CCCOMCOM': '$CPPFLAGS $_CPPDEFFLAGS $_CPPINCFLAGS',
+  '_CPPDEFFLAGS': '${_defines(CPPDEFPREFIX, CPPDEFINES, CPPDEFSUFFIX, __env__, '
+                  'TARGET, SOURCE)}',
+  '_CPPINCFLAGS': '${_concat(INCPREFIX, CPPPATH, INCSUFFIX, __env__, RDirs, '
+                  'TARGET, SOURCE, affect_signature=False)}',
+  '_DDEBUGFLAGS': '${_concat(DDEBUGPREFIX, DDEBUG, DDEBUGSUFFIX, __env__)}',
+  '_DFLAGS': '${_concat(DFLAGPREFIX, DFLAGS, DFLAGSUFFIX, __env__)}',
+  '_DINCFLAGS': '${_concat(DINCPREFIX, DPATH, DINCSUFFIX, __env__, RDirs, '
+                'TARGET, SOURCE)}',
+  '_DLIBDIRFLAGS': '${_concat(DLIBDIRPREFIX, LIBPATH, DLIBDIRSUFFIX, __env__, '
+                   'RDirs, TARGET, SOURCE)}',
+  '_DLIBFLAGS': '${_stripixes(DLIBLINKPREFIX, LIBS, DLIBLINKSUFFIX, '
+                'LIBPREFIXES, LIBSUFFIXES,  __env__)}',
+  '_DRPATH': '${_concat(DRPATHPREFIX, RPATH, DRPATHSUFFIX, __env__)}',
+  '_DVERFLAGS': '${_concat(DVERPREFIX, DVERSIONS, DVERSUFFIX, __env__)}',
+  '_F03INCFLAGS': '${_concat(INCF03PREFIX, F03PATH, INCF03SUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_F08INCFLAGS': '${_concat(INCF08PREFIX, F08PATH, INCF08SUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_F77INCFLAGS': '${_concat(INCF77PREFIX, F77PATH, INCF77SUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_F90INCFLAGS': '${_concat(INCF90PREFIX, F90PATH, INCF90SUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_F95INCFLAGS': '${_concat(INCF95PREFIX, F95PATH, INCF95SUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_FORTRANINCFLAGS': '${_concat(INCFORTRANPREFIX, FORTRANPATH, '
+                      'INCFORTRANSUFFIX, __env__, RDirs, TARGET, SOURCE, '
+                      'affect_signature=False)}',
+  '_FORTRANMODFLAG': '$( ${_concat(FORTRANMODDIRPREFIX, FORTRANMODDIR, '
+                     'FORTRANMODDIRSUFFIX, __env__, RDirs, TARGET, SOURCE)} $)',
+  '_JARCOM': '$JAR $_JARFLAGS $TARGET $_JARMANIFEST $_JARSOURCES',
+  '_JARFLAGS': <function jarFlags at 0x7fb961a9dab0>,
+  '_JARMANIFEST': <function jarManifest at 0x7fb961a9da20>,
+  '_JARSOURCES': <function jarSources at 0x7fb961a39c60>,
+  '_JAVABOOTCLASSPATH': '${_javapathopt("-bootclasspath", '
+                        '"JAVABOOTCLASSPATH")} ',
+  '_JAVACCOM': '$JAVAC $JAVACFLAGS $_JAVABOOTCLASSPATH $_JAVAPROCESSORPATH '
+               '$_JAVACLASSPATH -d ${TARGET.attributes.java_classdir} '
+               '$_JAVASOURCEPATH $SOURCES',
+  '_JAVACLASSPATH': '${_javapathopt("-classpath", "JAVACLASSPATH")} ',
+  '_JAVAPROCESSORPATH': '${_javapathopt("-processorpath", '
+                        '"JAVAPROCESSORPATH")} ',
+  '_JAVASOURCEPATH': '${_javapathopt("-sourcepath", "JAVASOURCEPATH", '
+                     '"_JAVASOURCEPATHDEFAULT")} ',
+  '_JAVASOURCEPATHDEFAULT': '${TARGET.attributes.java_sourcedir}',
+  '_LDMODULESONAME': <function _ldmodule_soname at 0x7fb9619d7d00>,
+  '_LDMODULESOVERSION': <function _ldmodule_soversion at 0x7fb9619d7c70>,
+  '_LDMODULESUFFIX': '${LDMODULESUFFIX}${_LDMODULEVERSION}',
+  '_LDMODULEVERSION': <function _LDMODULEVERSION at 0x7fb9619d7d90>,
+  '_LDMODULEVERSIONFLAGS': '$LDMODULEVERSIONFLAGS -Wl,-soname=$_LDMODULESONAME',
+  '_LIBDIRFLAGS': '${_concat(LIBDIRPREFIX, LIBPATH, LIBDIRSUFFIX, __env__, '
+                  'RDirs, TARGET, SOURCE, affect_signature=False)}',
+  '_LIBFLAGS': '${_stripixes(LIBLINKPREFIX, LIBS, LIBLINKSUFFIX, LIBPREFIXES, '
+               'LIBSUFFIXES, __env__)}',
+  '_RPATH': '${_concat(RPATHPREFIX, RPATH, RPATHSUFFIX, __env__)}',
+  '_SHDLIBVERSIONFLAGS': '$SHDLIBVERSIONFLAGS -L-soname=$_SHLIBSONAME',
+  '_SHLIBSONAME': <function _soname at 0x7fb9619d79a0>,
+  '_SHLIBSOVERSION': <function _soversion at 0x7fb9619d7910>,
+  '_SHLIBSUFFIX': '${SHLIBSUFFIX}${_SHLIBVERSION}',
+  '_SHLIBVERSION': "${SHLIBVERSION and '.'+SHLIBVERSION or ''}",
+  '_SHLIBVERSIONFLAGS': '$SHLIBVERSIONFLAGS -Wl,-soname=$_SHLIBSONAME',
+  '__DRPATH': '$_DRPATH',
+  '__DSHLIBVERSIONFLAGS': '${__libversionflags(__env__,"DSHLIBVERSION","_DSHLIBVERSIONFLAGS")}',
+  '__LDMODULEVERSIONFLAGS': '${__libversionflags(__env__,"LDMODULEVERSION","_LDMODULEVERSIONFLAGS")}',
+  '__RPATH': '$_RPATH',
+  '__SHLIBVERSIONFLAGS': '${__libversionflags(__env__,"SHLIBVERSION","_SHLIBVERSIONFLAGS")}',
+  '__lib_either_version_flag': <function __lib_either_version_flag at 0x7fb961e1ce50>,
+  '__libversionflags': <function __libversionflags at 0x7fb961e1cb80>,
+  '_concat': <function _concat at 0x7fb961e1c8b0>,
+  '_defines': <function _defines at 0x7fb961e1caf0>,
+  '_get_ldmodule_stem': <function _get_ldmodule_stem at 0x7fb9619d7be0>,
+  '_get_shlib_dir': <function _get_shlib_dir at 0x7fb9619d7ac0>,
+  '_get_shlib_stem': <function _get_shlib_stem at 0x7fb9619d7a30>,
+  '_javapathopt': <class 'SCons.Tool.javac.pathopt'>,
+  '_stripixes': <function _stripixes at 0x7fb961e1c9d0>}
+
+
+
+scons浅入浅出
+https://blog.csdn.net/flyingcys/article/details/61196557
+
+Scons环境搭建和编译原理概述及嵌入式开发常用模板
+https://blog.csdn.net/wenbo13579/article/details/126881034
+
+
+scons_demo 
+https://github.com/bobwenstudy/scons_demo.git
+
+
+
+
+
+
+
+'''
+
+
+
+
+
+
