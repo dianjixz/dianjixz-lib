@@ -127,7 +127,7 @@ else:
 
 env.Append(CPPPATH=[str(Path(PROJECT_PATH)/'build'/'config')])
 
-print(env['ENV']['PATH'])
+# print(env['ENV']['PATH'])
 
 
 
@@ -185,7 +185,7 @@ async def _commpile(task):
 
     build_env = env.Clone()
     OBJS = []
-    print(task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB'])
+    # print(task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB'])
 
     reduse = lambda value: sorted(set(value),key=value.index)
     _LIBS = reduse(task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB'])
