@@ -16,6 +16,7 @@
  */
 
 #include <stdio.h>
+#include <curses.h>
 #include "toolkit.h"
 #include "test.h"
 /* 事件1句柄 */

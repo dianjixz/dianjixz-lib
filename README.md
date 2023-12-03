@@ -29,10 +29,6 @@ dianjixz-lib/
 │   ├── source-list.sh # github 源码仓库索引，需要手动下载文件到该目录。该目录除了 source-list.sh 文件外，其他的文件不会被纳入仓库的记录范围。
 │   ├── libhv   # libhv源码
 └── tools   # 脚本和工具的存放目录
-    ├── cmake   # cmake 编译脚本
-    ├── config_defaults_cross.mk    # 交叉平台的默认配置，主要用于交叉编译的 sdk 设置。
-    ├── kconfig # make menuconfig 的主要库目录
-    ├── Makefile.mk # 通用 make 操作的实现。
 ```
 
 想要使用一个框架，首先了解框架的主要目录结构是基础，然后开始编译一个 hello world! 程序作为我们的开始。  
@@ -41,22 +37,24 @@ dianjixz-lib/
 # 安装依赖(只需要安装一次)
 sudo apt update
 sudo apt install make cmake python3 expect
-
+python3 -m pip install scons
 # 假定你目前的终端在 dianjixz-lib 目录。进入 examples/demo1
 cd examples/demo1
 
-# 开始编译,有时可能会出现编译失败的情况，使用 `make distclean` 可以彻底清理项目编译文件。
-make
+# 配置
+scons menuconfig
 
-# 执行完 make 命令后，项目将会完成编译，生成的可执行文件和相关依赖库会被复制到 dist 目录向。可以选择 make 运行或者手动运行
-make run    # make 运行测试
+# 开始编译,有时可能会出现编译失败的情况，使用 `scons distclean` 可以彻底清理项目编译文件。
+scons
+
+# 执行完编译命令后，项目将会完成编译，生成的可执行文件和相关依赖库会被复制到 dist 目录向。
 # cd dist;./demo1   # 手动运行测试
 
 # 清理编译文件
-make clean
+scons -c
 
 # 彻底清理编译文件，包括 make menuconfig 生成的编译项
-make distclean
+scons distclean
 ```
 
 ## 特性
@@ -84,9 +82,9 @@ make distclean
 # 进入工作目录
 cd examples/demo1
 # 编译
-make
+scons
 # 测试运行程序
-make run
+cd dist;./demo1
 ```
 
 ## 交叉编译程序
@@ -94,26 +92,23 @@ make run
 # 进入工作目录
 cd examples/demo1
 # 设置交叉编译工具链
-make set_arm
+scons menuconfig
 # 编译
-make
-# 使用 scp 上传 
-make push
-# 使用 ssh 命令运行程序
-# make push_run
+scons
+
 ```
 ## 相关命令
 ``` bash
 # 清理编译文件
-make clean
+scons clean
 # 彻底清理编译文件
-make distclean
+scons distclean
 # 编译优化版程序（可能出现异常）
-make release
+scons release
 # 输出详细的编译过程
-make verbose
+scons verbose
 # 打开或者关闭自带的库
-make menuconfig
+scons menuconfig
 ```
 
 ## 更多信息

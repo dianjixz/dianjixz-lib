@@ -1,0 +1,78 @@
+# component2/SConscript
+Import("env")
+import os
+
+with open(env["PROJECT_TOOL_S"]) as f:
+    exec(f.read())
+
+
+if "CONFIG_UTILITIES_ENABLED" in os.environ:
+    SRCS = []
+    INCLUDE = []
+    PRIVATE_INCLUDE = []
+    REQUIREMENTS = []
+    STATIC_LIB = []
+    DYNAMIC_LIB = []
+    DEFINITIONS = []
+    DEFINITIONS_PRIVATE = []
+    LDFLAGS = []
+    LINK_SEARCH_PATH = []
+
+    INCLUDE.append(ADir("include"))
+    SRCS.append(AFile("test.c"))
+
+    if "CONFIG_UTILITIES_FMT_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/fmt/include"))
+
+    if "CONFIG_UTILITIES_EASYMSGCPP_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/easymsgcpp/src/include"))
+        SRCS += AGlob("party/easymsgcpp/src/*.c*")
+
+    if "CONFIG_UTILITIES_UART_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/linux_uart"))
+        SRCS += AGlob("party/linux_uart/*.c*")
+
+    if "CONFIG_UTILITIES_I2C_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/linux_i2c"))
+        SRCS += AGlob("party/linux_i2c/*.c*")
+
+    if "CONFIG_UTILITIES_FRAMEBUFFER_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/framebuffer"))
+        SRCS += AGlob("party/framebuffer/*.c*")
+
+    if "CONFIG_UTILITIES_INI_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/ini"))
+        SRCS += AGlob("party/ini/*.c*")
+
+    if "CONFIG_UTILITIES_SIMPILE_DRAW_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/simple_draw"))
+        SRCS += AGlob("party/simple_draw/*.c*")
+
+    if "CONFIG_UTILITIES_SPI_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/linux_spi"))
+        SRCS += AGlob("party/linux_spi/*.c*")
+
+    if "CONFIG_UTILITIES_PTMX_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/ptmx"))
+        SRCS += AGlob("party/ptmx/*.c*")
+
+    if "CONFIG_UTILITIES_PTMX_ENABLED" in os.environ:
+        INCLUDE.append(ADir("party/base64"))
+        SRCS += AGlob("party/base64/*.c*")
+
+    env["COMPONENTS"].append(
+        {
+            "target": os.path.basename(env["component_dir"]),
+            "SRCS": SRCS,
+            "INCLUDE": INCLUDE,
+            "PRIVATE_INCLUDE": PRIVATE_INCLUDE,
+            "REQUIREMENTS": REQUIREMENTS,
+            "STATIC_LIB": STATIC_LIB,
+            "DYNAMIC_LIB": DYNAMIC_LIB,
+            "DEFINITIONS": DEFINITIONS,
+            "DEFINITIONS_PRIVATE": DEFINITIONS_PRIVATE,
+            "LDFLAGS": LDFLAGS,
+            "LINK_SEARCH_PATH": LINK_SEARCH_PATH,
+            "REGISTER": "static",
+        }
+    )

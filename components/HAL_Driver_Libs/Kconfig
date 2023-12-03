@@ -1,0 +1,10 @@
+
+menuconfig HAL_DRIVER_LIBS_COMPONENT_ENABLED
+    bool "Enable HAL_Driver_Libs"
+    default n
+
+    config HAL_DRIVER_LIBS_COMPONENT_DYNAMIC
+        bool "compile component as dynamic(shared) lib"
+        default n
+        depends on HAL_DRIVER_LIBS_COMPONENT_ENABLED
+

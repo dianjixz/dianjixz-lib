@@ -3,6 +3,7 @@
 #include "linux_i2c/linux_i2c.h"
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 void *i2cdev;
 
 int m5_sh1107_dev_deinit()

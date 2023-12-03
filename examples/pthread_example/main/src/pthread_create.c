@@ -1,7 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<pthread.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
 /* 声明结构体 */
 struct member
 {
@@ -10,7 +10,7 @@ struct member
 };
 
 /* 定义线程pthread */
-static void * pthread(void *arg)
+static void *pthread(void *arg)
 {
     struct member *temp;
 
@@ -23,34 +23,33 @@ static void * pthread(void *arg)
     int loop = 400000;
     while (loop)
     {
-        loop --;
-        printf("pthread loop:%d\n",loop);
+        loop--;
+        printf("pthread loop:%d\n", loop);
         // sleep(1);
         // usleep(1000 * 100);
     }
-    
 
     /* 打印传入参数 */
     temp = (struct member *)arg;
-    printf("member->num:%d\n",temp->num);
-    printf("member->name:%s\n",temp->name);
+    printf("member->num:%d\n", temp->num);
+    printf("member->name:%s\n", temp->name);
 
     return NULL;
 }
 
 /* main函数 */
-int main(int agrc,char* argv[])
+int main(int agrc, char *argv[])
 {
     pthread_t tidp;
     struct member *b;
 
     /* 为结构体变量b赋值 */
     b = (struct member *)malloc(sizeof(struct member));
-    b->num=1;
-    b->name="mlq";
+    b->num = 1;
+    b->name = "mlq";
 
     /* 创建线程pthread */
-    if ((pthread_create(&tidp, NULL, pthread, (void*)b)) == -1)
+    if ((pthread_create(&tidp, NULL, pthread, (void *)b)) == -1)
     {
         printf("create error!\n");
         return 1;
@@ -60,12 +59,11 @@ int main(int agrc,char* argv[])
     int loop = 20;
     while (loop)
     {
-        loop --;
-        printf("main loop:%d\n",loop);
+        loop--;
+        printf("main loop:%d\n", loop);
         // sleep(1);
         usleep(1000 * 100);
     }
-    
 
     /* 线程pthread睡眠2s，此时main可以先执行 */
     printf("mian continue!\n");
