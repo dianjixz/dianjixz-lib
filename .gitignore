@@ -63,3 +63,4 @@ __pycache__
 
 github_source
 
+*.sconsign.dblite

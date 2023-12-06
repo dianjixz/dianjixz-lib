@@ -123,7 +123,7 @@ elif sys.platform.startswith('linux'):
             env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip(
                 '"') + ':' + env['ENV']['PATH']
 else:
-    print('未知的操作系统')
+    print('unknow os!')
 
 env.Append(CPPPATH=[str(Path(PROJECT_PATH)/'build'/'config')])
 
@@ -283,17 +283,15 @@ async def _commpile(task):
 async def main():
     global task_lists
 
-    # 创建事件对象
     for iteam in task_lists:
         task_lists[iteam]['event'] = asyncio.Event()
-    # 创建任务
+
     tasks = []
     for iteam in task_lists:
         tasks.append(_commpile(task_lists[iteam]))
 
     await asyncio.gather(*tasks)
 
-# 运行主函数
 asyncio.run(main())
 
 
