@@ -1,4 +1,4 @@
-# component2/SConscript
+# component/SConscript
 Import('env')
 import os
 with open(env['PROJECT_TOOL_S']) as f:
