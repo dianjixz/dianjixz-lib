@@ -1,4 +1,4 @@
-# component/SConscript
+# component2/SConscript
 Import('env')
 import os
 with open(env['PROJECT_TOOL_S']) as f:
@@ -6,10 +6,10 @@ with open(env['PROJECT_TOOL_S']) as f:
 
 
 
-if 'CONFIG_HAL_DRIVER_LIBS_COMPONENT_ENABLED' in os.environ:
-    SRCS=[AFile('test.c')]
-    INCLUDE=[]
-    PRIVATE_INCLUDE=[]
+if 'CONFIG_C_PERIPHERY_COMPONENT_ENABLED' in os.environ:
+    SRCS=Glob('src/*.c*')
+    INCLUDE=[ADir('include')]
+    PRIVATE_INCLUDE=[ADir('include/c_periphery')]
     REQUIREMENTS=[]
     STATIC_LIB=[]
     DYNAMIC_LIB=[]
@@ -17,9 +17,6 @@ if 'CONFIG_HAL_DRIVER_LIBS_COMPONENT_ENABLED' in os.environ:
     DEFINITIONS_PRIVATE=[]
     LDFLAGS=[]
     LINK_SEARCH_PATH=[]
-    if 'CONFIG_HAL_DRIVER_LIBS_OLED_ENABLED' in os.environ:
-        SRCS += AGlob('OLED/*.c*')
-        INCLUDE.append(ADir('OLED'))
 
 
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
