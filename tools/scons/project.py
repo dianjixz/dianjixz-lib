@@ -4,296 +4,290 @@ import os, sys, shutil
 import copy
 from SCons.Node.FS import File
 import subprocess
+import parse
+from collections.abc import Iterable
+import configparser
+# from parse import compile as parse_compile
+SDK_PATH = os.environ.get('SDK_PATH', str(Path(os.getcwd())/'..'/'..'))
+PROJECT_NAME = os.environ.get('PROJECT_NAME', os.path.basename(sys.path[0]))
+PROJECT_PATH = os.environ.get('PROJECT_PATH', sys.path[0])
+BUILD_PATH = os.environ.get('BUILD_PATH', str(Path(PROJECT_PATH)/'build'))
+BUILD_CONFIG_PATH = os.environ.get('BUILD_CONFIG_PATH', str(Path(PROJECT_PATH)/'build'/'config'))
+CONFIG_TOOL_FILE = os.environ.get('CONFIG_TOOL_FILE', str(Path(SDK_PATH)/'tools'/'kconfig'/'genconfig.py'))
+CONFIG_DEFAULT_FILE = os.environ.get('CONFIG_DEFAULT_FILE', str(Path(PROJECT_PATH)/'config_defaults.mk'))
+KCONFIG_FILE = os.environ.get('KCONFIG_FILE', str(Path(SDK_PATH)/'Kconfig'))
+GLOBAL_CONFIG_MK_FILE = os.environ.get('GLOBAL_CONFIG_MK_FILE', str(Path(PROJECT_PATH)/'build'/'config'/'global_config.mk'))
+GLOBAL_CONFIG_H_FILE = os.environ.get('GLOBAL_CONFIG_H_FILE', str(Path(PROJECT_PATH)/'build'/'config'/'global_config.h'))
+TOOL_FILE = os.environ.get('TOOL_FILE', str(Path(SDK_PATH)/'tools'))
 
-SDK_PATH = str(Path(os.getcwd())/'..'/'..')
-PROJECT_NAME = os.path.basename(sys.path[0])
-PROJECT_PATH = sys.path[0]
-
-# print(sys.argv)
-if 'menuconfig' in sys.argv:
-    if not os.path.exists(str(Path(PROJECT_PATH)/'build')):
-        os.mkdir(str(Path(PROJECT_PATH)/'build'))
-    if not os.path.exists(str(Path(PROJECT_PATH)/'build'/'config')):
-        os.mkdir(str(Path(PROJECT_PATH)/'build'/'config'))
+def menuconfig_fun():
+    os.makedirs(BUILD_CONFIG_PATH, exist_ok=True)
 
     build_type = 'Debug'
-    tool_path = str(Path(SDK_PATH)/'tools'/'kconfig'/'genconfig.py')
-    if not os.path.exists(tool_path):
-        print("[ERROR] kconfig tool not found:", tool_path)
+    if not os.path.exists(CONFIG_TOOL_FILE):
+        print("[ERROR] kconfig tool not found:", CONFIG_TOOL_FILE)
         exit(1)
     # get default files
     # config_files = get_config_files(project_args.config_file, sdk_path, project_path)
-    cmd = [sys.executable, tool_path, "--kconfig", str(Path(SDK_PATH)/'Kconfig')]
-    for path in [str(Path(PROJECT_PATH)/'config_defaults.mk')]:
+    cmd = [sys.executable, CONFIG_TOOL_FILE, "--kconfig", KCONFIG_FILE]
+    for path in [CONFIG_DEFAULT_FILE]:
         cmd.extend(["--defaults", path])
     cmd.extend(["--menuconfig", "True", "--env", "SDK_PATH={}".format(SDK_PATH),
                                         "--env", "PROJECT_PATH={}".format(PROJECT_PATH),
                                         "--env", "BUILD_TYPE={}".format(build_type)])
-    cmd.extend(["--output", "makefile", str(Path(PROJECT_PATH)/'build'/'config'/'global_config.mk')])
-    cmd.extend(["--output", "header", str(Path(PROJECT_PATH)/'build'/'config'/'global_config.h')])
-    res = subprocess.call(cmd)
-
+    cmd.extend(["--output", "makefile", GLOBAL_CONFIG_MK_FILE])
+    cmd.extend(["--output", "header", GLOBAL_CONFIG_H_FILE])
+    subprocess.call(cmd)
     exit(0)
 
-# print(sys.argv)
-if 'clean' in sys.argv:
-    try:
-        shutil.rmtree('build')
-    except:
-        pass
-    try:
-        os.remove('.sconsign.dblite')
-    except:
-        pass
-    
+def clean_fun():
+    subprocess.call(['scons', '-c'])
     exit(0)
 
-if 'distclean' in sys.argv:
+def distclean_fun():
     paths_to_remove = ['build', 'dist', '.sconsign.dblite', '.config.old', '.config', '.config.mk']
     for path in paths_to_remove:
         try:
-            if os.path.exists(path):
-                if os.path.isdir(path):
-                    shutil.rmtree(path)
-                else:
-                    os.remove(path)
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
         except :
             pass
     exit(0)
+def save_fun():
+    if os.path.exists(GLOBAL_CONFIG_MK_FILE):
+        shutil.copy(GLOBAL_CONFIG_MK_FILE, CONFIG_DEFAULT_FILE)
+    exit(0)
 
-if not os.path.exists(str(Path(PROJECT_PATH)/'build'/'config'/'global_config.mk')):
-    if not os.path.exists(str(Path(PROJECT_PATH)/'build')):
-        os.mkdir(str(Path(PROJECT_PATH)/'build'))
-    if not os.path.exists(str(Path(PROJECT_PATH)/'build'/'config')):
-        os.mkdir(str(Path(PROJECT_PATH)/'build'/'config'))
+def set_tools_fun():
+    config_file = GLOBAL_CONFIG_MK_FILE
+    for confs in sys.argv:
+        if confs.startswith('CROSS_DIR'):
+            with open(config_file, 'a') as fs:
+                fs.write("\n")
+                fs.write(f'CONFIG_TOOLCHAIN_PATH="{confs.split("=")[1]}"\n')
+        elif confs.startswith('CROSS'):
+            with open(config_file, 'a') as fs:
+                fs.write("\n")
+                fs.write(f'CONFIG_TOOLCHAIN_PREFIX="{confs.split("=")[1]}"\n')
+    exit(0)
 
-    build_type = 'Debug'
-    tool_path = str(Path(SDK_PATH)/'tools'/'kconfig'/'genconfig.py')
-    if not os.path.exists(tool_path):
-        print("[ERROR] kconfig tool not found:", tool_path)
+def push_fun():
+    if not os.path.exists('setup.ini'):
+        print("please creat setup.ini!")
         exit(1)
-    # get default files
-    # config_files = get_config_files(project_args.config_file, sdk_path, project_path)
-    cmd = [sys.executable, tool_path, "--kconfig", str(Path(SDK_PATH)/'Kconfig')]
-    for path in [str(Path(PROJECT_PATH)/'config_defaults.mk')]:
-        cmd.extend(["--defaults", path])
-    cmd.extend(["--env", "SDK_PATH={}".format(SDK_PATH),
-                                        "--env", "PROJECT_PATH={}".format(PROJECT_PATH),
-                                        "--env", "BUILD_TYPE={}".format(build_type)])
-    cmd.extend(["--output", "makefile", str(Path(PROJECT_PATH)/'build'/'config'/'global_config.mk')])
-    cmd.extend(["--output", "header", str(Path(PROJECT_PATH)/'build'/'config'/'global_config.h')])
-    res = subprocess.call(cmd)
-
-with open(str(Path(PROJECT_PATH)/'build'/'config'/'global_config.mk'), 'r') as f:
-    for line in f.readlines():
-        if not line.startswith('#') and line.strip():
-            tmpstr = line.split('=')
-            os.environ[tmpstr[0]] = tmpstr[1].replace(
-                '\n', '').replace('""', '')
-
-# Set the compiler and flags (modify as needed)
-# env = Environment(platform='posix')
-# env = Environment(tools=['gcc','link', 'g++', ''])
+    config = configparser.ConfigParser()
+    config.read(str(Path(PROJECT_PATH)/'setup.ini'))
+    cmd = [sys.executable, str(Path(SDK_PATH)/'tools'/'scons'/'push.py'), config['ssh']['local_file_path']
+                                                                        , config['ssh']['remote_file_path']
+                                                                        , config['ssh']['remote_host']
+                                                                        , config['ssh']['remote_port']
+                                                                        , config['ssh']['username']
+                                                                        , config['ssh']['password']]
+    print(cmd)
+    subprocess.call(cmd)
+    exit(0)
 
 
-if sys.platform.startswith('win'):
-    env = Environment(tools=['gcc', 'link', 'ar', 'g++', 'as'])
-    if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
-        if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
-            env['CC'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'gcc.exe')) 
-            env['AS'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'as.exe' ))
-            env['AR'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'ar.exe' ))
-            env['CXX'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"')) / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
-            env['LINK'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))/ str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
-            env['PROGSUFFIX'] = ''
-        if os.environ['CONFIG_TOOLCHAIN_PATH']:
-            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ';' + env['ENV']['PATH']
-        
-elif sys.platform.startswith('linux'):
-    env = Environment()
-    if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
-        if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
-            env['CC'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'gcc'
-            env['AS'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'as'
-            env['AR'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'ar'
-            env['CXX'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++'
-            env['LINK'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++'
-
-        if os.environ['CONFIG_TOOLCHAIN_PATH']:
-            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip(
-                '"') + ':' + env['ENV']['PATH']
-else:
-    print('unknow os!')
-
-env.Append(CPPPATH=[str(Path(PROJECT_PATH)/'build'/'config')])
-
-# print(env['ENV']['PATH'])
-
-
-
-env['PROJECT_PATH'] = PROJECT_PATH
-env['PROJECT_NAME'] = os.path.basename(PROJECT_PATH)
-env['PROJECT_TOOL_S'] = str(Path(SDK_PATH)/'tools'/'scons'/'SConstruct_tool.py')
-
-env['COMPONENTS'] = []
-env['COMPONENTS_ENV'] = env.Clone()
-env['COMPONENTS_PATH'] = [str(Path(SDK_PATH)/'components')]
-# env['COMPONENTS_PATH'] = []
-
-
-
-for component in env['COMPONENTS_PATH']:
-    for component_name in os.listdir(component):
-        if os.path.exists(str(Path(component)/component_name/'SConscript')):
-            env['component_dir'] = str(Path(component)/component_name)
-            SConscript(str(Path(component)/component_name/'SConscript'), exports='env')
-
-
-
-for project_dir in os.listdir(PROJECT_PATH):
-    if project_dir.startswith("main"):
-        env['component_dir'] = str(Path(PROJECT_PATH)/project_dir)
-        SConscript(str(Path(PROJECT_PATH)/project_dir/'SConscript'), exports='env')
-
+env = None
 task_lists = {}
-for iteam in env['COMPONENTS']:
-    task_lists[iteam['target']] = iteam
 
-# print(task_lists)
-import asyncio
-
-
-async def _commpile(task):
-    global task_lists
+def build_task_init():
     global env
-    for requirement in task['REQUIREMENTS']:
-        if requirement in task_lists:
-            await task_lists[requirement]['event'].wait()
+    global task_lists
+    fun_list = {'menuconfig':menuconfig_fun, 'clean':clean_fun, 'distclean':distclean_fun, 'save':save_fun, 'SET_CROSS':set_tools_fun, 'push':push_fun}
+    for fun_name in fun_list:
+        if fun_name in sys.argv:
+            fun_list[fun_name]()
+
+
+    if not os.path.exists(GLOBAL_CONFIG_MK_FILE):
+        os.makedirs(BUILD_CONFIG_PATH, exist_ok=True)
+        build_type = 'Debug'
+        tool_path = CONFIG_TOOL_FILE
+        if not os.path.exists(tool_path):
+            print("[ERROR] kconfig tool not found:", tool_path)
+            exit(1)
+        cmd = [sys.executable, tool_path, "--kconfig", KCONFIG_FILE]
+        for path in [CONFIG_DEFAULT_FILE]:
+            cmd.extend(["--defaults", path])
+        cmd.extend(["--env", f'SDK_PATH={SDK_PATH}'])
+        cmd.extend(["--env", f'PROJECT_PATH={PROJECT_PATH}'])
+        cmd.extend(["--env", f'BUILD_TYPE={build_type}'])
+        cmd.extend(["--output", "makefile", GLOBAL_CONFIG_MK_FILE])
+        cmd.extend(["--output", "header", GLOBAL_CONFIG_H_FILE])
+        subprocess.call(cmd)
+
+
+    with open(GLOBAL_CONFIG_MK_FILE, 'r') as f:
+        pattern = parse.compile("CONFIG_{}={}\n")
+        for line in f.readlines():
+            Pobj = pattern.parse(line)
+            if Pobj:
+                key, value = Pobj.fixed
+                os.environ['CONFIG_' + key] = value.strip('"')
+
+
+
+    if sys.platform.startswith('win'):
+        env = Environment(tools=['gcc', 'g++', 'gnulink', 'ar', 'gas', 'as'])
+        if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
+            if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
+                env['CC'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'gcc.exe')) 
+                env['AS'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'as.exe' ))
+                env['AR'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'ar.exe' ))
+                env['CXX'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"')) / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
+                env['LINK'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))/ str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
+                env['PROGSUFFIX'] = ''
+            if os.environ['CONFIG_TOOLCHAIN_PATH']:
+                env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ';' + env['ENV']['PATH']
+            
+    elif sys.platform.startswith('linux'):
+        env = Environment()
+        if 'CONFIG_TOOLCHAIN_PREFIX' in os.environ:
+            CONFIG_TOOLCHAIN_PATH = os.environ['CONFIG_TOOLCHAIN_PREFIX']
+            env['CC'] = CONFIG_TOOLCHAIN_PATH + 'gcc'
+            env['AS'] = CONFIG_TOOLCHAIN_PATH + 'as'
+            env['AR'] = CONFIG_TOOLCHAIN_PATH + 'ar'
+            env['CXX'] = CONFIG_TOOLCHAIN_PATH + 'g++'
+            env['LINK'] = CONFIG_TOOLCHAIN_PATH + 'g++'
+        if 'CONFIG_TOOLCHAIN_PATH' in os.environ:
+            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ':' + env['ENV']['PATH']
+
+        # if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
+        #     if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
+        #         CONFIG_TOOLCHAIN_PATH = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"')
+        #         env['CC'] = CONFIG_TOOLCHAIN_PATH + 'gcc'
+        #         env['AS'] = CONFIG_TOOLCHAIN_PATH + 'as'
+        #         env['AR'] = CONFIG_TOOLCHAIN_PATH + 'ar'
+        #         env['CXX'] = CONFIG_TOOLCHAIN_PATH + 'g++'
+        #         env['LINK'] = CONFIG_TOOLCHAIN_PATH + 'g++'
+
+        #     if os.environ['CONFIG_TOOLCHAIN_PATH']:
+        #         env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip(
+        #             '"') + ':' + env['ENV']['PATH']
+    else:
+        print('unknow os!')
+
+    env.Append(CPPPATH=[BUILD_CONFIG_PATH])
+    # env['LINKCOM'] = '$LINK -o $TARGET $SOURCES $LINKFLAGS $__RPATH  $_LIBDIRFLAGS '
+
     
-    mkasdad = copy.deepcopy(task['REQUIREMENTS'])
+    env['CCCOMSTR'] = "CC $TARGET"
+    env['CXXCOMSTR'] = "CXX $TARGET"
+    env['SHCCCOMSTR'] = "CC -fPIC $TARGET"
+    env['SHCXXCOMSTR'] = "CXX -fPIC $TARGET"
+    env['ARCOMSTR'] = "LD $TARGET"
+    env['SHLINKCOMSTR'] = "Linking $TARGET"
 
-    for requirement in mkasdad:
-        if requirement in task_lists:
-            task_lists[task['target']]['PRIVATE_INCLUDE'] += task_lists[requirement]['INCLUDE']
-            task_lists[task['target']]['REQUIREMENTS'] += task_lists[requirement]['REQUIREMENTS']
-            task_lists[task['target']]['LINK_SEARCH_PATH'] += task_lists[requirement]['LINK_SEARCH_PATH']
-            task_lists[task['target']]['DEFINITIONS'] += task_lists[requirement]['DEFINITIONS']
-            task_lists[task['target']]['LINK_SEARCH_PATH'].append(os.path.dirname(str(task_lists[requirement]['COMPONENT'][0])))
+    env['PROJECT_PATH'] = PROJECT_PATH
+    env['PROJECT_NAME'] = os.path.basename(PROJECT_PATH)
+    env['PROJECT_TOOL_S'] = str(Path(SDK_PATH)/'tools'/'scons'/'SConstruct_tool.py')
 
+    env['COMPONENTS'] = []
+    env['COMPONENTS_ENV'] = env.Clone()
+    env['COMPONENTS_PATH'] = [str(Path(SDK_PATH)/'components')]
+    # env['COMPONENTS_PATH'] = []
+
+
+    for component in env['COMPONENTS_PATH']:
+        for component_name in os.listdir(component):
+            if os.path.exists(str(Path(component)/component_name/'SConscript')):
+                env['component_dir'] = str(Path(component)/component_name)
+                SConscript(str(Path(component)/component_name/'SConscript'), exports='env')
+
+
+
+    for project_dir in os.listdir(PROJECT_PATH):
+        if project_dir.startswith("main"):
+            env['component_dir'] = str(Path(PROJECT_PATH)/project_dir)
+            SConscript(str(Path(PROJECT_PATH)/project_dir/'SConscript'), exports='env')
+
+    
+    for iteam in env['COMPONENTS']:
+        task_lists[iteam['target']] = iteam
+
+
+
+def creat_commpile_Program():
     if not os.path.exists('build'):
         os.mkdir('build')
-
-    build_env = env.Clone()
-    OBJS = []
-    # print(task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB'])
-
-    reduse = lambda value: sorted(set(value),key=value.index)
-    _LIBS = reduse(task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB'])
-    _LIBPATH = reduse(task_lists[task['target']]['LINK_SEARCH_PATH'])
-    _CCFLAGS = reduse(task_lists[task['target']]['DEFINITIONS_PRIVATE'] + task_lists[task['target']]['DEFINITIONS'])
-    _CPPPATH = reduse(task_lists[task['target']]['INCLUDE'] + task_lists[task['target']]['PRIVATE_INCLUDE'])
-    _LINKFLAGS = reduse(task_lists[task['target']]['LDFLAGS'])
-    
-    
-    # _LIBS = ((task_lists[task['target']]['REQUIREMENTS'] + task_lists[task['target']]['STATIC_LIB'] + task_lists[task['target']]['DYNAMIC_LIB']))
-    # _LIBPATH = ((task_lists[task['target']]['LINK_SEARCH_PATH']))
-    # _CCFLAGS = ((task_lists[task['target']]['DEFINITIONS_PRIVATE'] + task_lists[task['target']]['DEFINITIONS']))
-    # _CPPPATH = ((task_lists[task['target']]['INCLUDE'] + task_lists[task['target']]['PRIVATE_INCLUDE']))
-    # _LINKFLAGS = ((task_lists[task['target']]['LDFLAGS']))
-    build_env.Append(LIBS=_LIBS)
-    build_env.Append(LIBPATH=_LIBPATH)
-    build_env.MergeFlags(_CCFLAGS)
-    build_env.Append(CPPPATH=_CPPPATH)
-    build_env.Append(LINKFLAGS=_LINKFLAGS)
-
-
-    if task['REGISTER'] == 'project':
-        component_dir = 'main_' + task['target']
-        component_dir = str(Path('build')/component_dir)
-        if not os.path.exists(component_dir):
-            os.mkdir(component_dir)
-        
-        for sfile in task_lists[task['target']]['SRCS']:
-            if isinstance(sfile, str) or isinstance(sfile, File):
-                file = str(sfile)
-            elif isinstance(sfile, list):
-                file = str(sfile[0])
+    for task in task_lists:
+        component = task_lists[task]
+        _BUILD_ENV = env.Clone()
+        component_build_dir = str(Path('build')/component['target'])
+        _TARGET = str(Path(component_build_dir)/component['target'])
+        component['_component_build_dir'] = component_build_dir
+        if not os.path.exists(component_build_dir):
+            os.mkdir(component_build_dir)
+        def deep_iter_or_return(obj):
+            if isinstance(obj, Iterable) and not isinstance(obj, str):
+                for item in obj:
+                    yield from deep_iter_or_return(item)
+            else:
+                yield obj
+        def get_srcs(obj):
+            file = str(obj)
             ofile = file.replace('/', '_')
             ofile = ofile.replace('\\', '_')
             ofile = ofile.replace(':', '_')
-            
-            ofile = str(Path(component_dir)/ofile) + '.o'
-            OBJS.append(build_env.Object(target = ofile, source = file))
-
-        component=build_env.Program(target=str(Path('build')/task['target']), source=OBJS)
-        # print(build_env.Dump())
-        task_lists[task['target']]['COMPONENT'] = component
-        build_env.Command(os.path.join('dist', task['target']), str(Path('build')/task['target']), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
-
-        def find_file_in_directories(directories, target_file):
-            for directory in directories:
-                result = search_file_recursive(directory, target_file)
-                if result:
-                    return result
-            return None
-
-        def search_file_recursive(directory, target_file):
-            for root, dirs, files in os.walk(directory):
-                if target_file in files:
-                    return os.path.join(root, target_file)
-            return None
-        for obj in _LIBS:
-            if '.so' in obj:
-                result = find_file_in_directories(_LIBPATH, obj)
-                if result:
-                    build_env.Command(result, str(Path('build')/os.path.basename(result)), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
-
-    elif task['REGISTER'] == 'static':
-        component_dir = task['target']
-        component_dir = str(Path('build')/component_dir)
-        if not os.path.exists(component_dir):
-            os.mkdir(component_dir)
+            ofile = str(Path(component_build_dir)/ofile) + '.o'
+            return ofile
+        _srcs = [str(o) for o in deep_iter_or_return(component['SRCS'])]
+        _srco = list(map(get_srcs, _srcs))
         
-        for sfile in task_lists[task['target']]['SRCS']:
-            if isinstance(sfile, str) or isinstance(sfile, File):
-                file = str(sfile)
-            elif isinstance(sfile, list):
-                file = str(sfile[0])
-            ofile = file.replace('/', '_')
-            ofile = ofile.replace('\\', '_')
-            ofile = ofile.replace(':', '_')
-            
-            ofile = str(Path(component_dir)/ofile) + '.o'
-            OBJS.append(build_env.Object(target = ofile, source = file))
-        component=build_env.Library(target=str(Path('build')/task['target']/task['target']), source=OBJS)
+        _BUILD_ENV.Append(CPPPATH=component['INCLUDE'])
+        _BUILD_ENV.Append(CPPPATH=component['PRIVATE_INCLUDE'])
 
-    elif task['REGISTER'] == 'shared':
-        component = None
-    
-    task_lists[task['target']]['COMPONENT'] = component
-    task_lists[task['target']]['event'].set()
+        _BUILD_ENV.MergeFlags(component['DEFINITIONS'])
+        _BUILD_ENV.MergeFlags(component['DEFINITIONS_PRIVATE'])
 
-    requirement_lists = []
-    for requirement in mkasdad:
-        if requirement in task_lists:
-            requirement_lists.append(task_lists[requirement]['COMPONENT'])
-    if requirement_lists:
-        Depends(component, requirement_lists)
+        _BUILD_ENV.Append(LINKFLAGS=component['LDFLAGS'])
 
-async def main():
-    global task_lists
+        _BUILD_ENV.Append(LIBPATH=component['LINK_SEARCH_PATH'])
 
-    for iteam in task_lists:
-        task_lists[iteam]['event'] = asyncio.Event()
+        for requirement in component['REQUIREMENTS']:
+            if requirement in task_lists:
+                _BUILD_ENV.Append(CPPPATH=task_lists[requirement]['INCLUDE'])
+                _BUILD_ENV.Append(LIBS=[requirement])
+                _BUILD_ENV.Append(LIBPATH=str(Path('build')/requirement))
+            else:
+                _BUILD_ENV.Append(LIBS=[requirement])
 
-    tasks = []
-    for iteam in task_lists:
-        tasks.append(_commpile(task_lists[iteam]))
+        if component['REGISTER'] == 'static':
+            _OBJS = list(map(lambda file: _BUILD_ENV.Object(target = file[0], source = file[1]), list(zip(_srco, _srcs))))
+            _LIBO = list(map(lambda o: str(o), component['STATIC_LIB']))
+            component['_target'] = _BUILD_ENV.Library(target = _TARGET, source = _OBJS + _LIBO)
+            component['_target_build_env'] = _BUILD_ENV
+        elif component['REGISTER'] == 'shared':
+            _OBJS = list(map(lambda file: _BUILD_ENV.SharedObject(target = file[0], source = file[1]), list(zip(_srco, _srcs))))
+            _LIBO = list(map(lambda o: str(o), component['DYNAMIC_LIB']))
+            component['_target'] = _BUILD_ENV.SharedLibrary(target = _TARGET, source = _OBJS + _LIBO)
+            component['_target_build_env'] = _BUILD_ENV
+            _BUILD_ENV.Command(os.path.join('dist', f'lib{component["target"]}.so'), str(Path('build')/component['target']/f'lib{component["target"]}.so'), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+        elif component['REGISTER'] == 'project':
+            _OBJS = list(map(lambda file: _BUILD_ENV.Object(target = file[0], source = file[1]), list(zip(_srco, _srcs))))
+            _LIBO = list(map(lambda o: str(o), component['DYNAMIC_LIB'] + component['STATIC_LIB']))
+            _BUILD_ENV.Library(target = _TARGET, source = _OBJS)
+            open(str(Path(component_build_dir)/'empty_src_file.c'), 'w').close()
+            component['_target'] = _BUILD_ENV.Program(target = _TARGET, source = [str(Path(component_build_dir)/'empty_src_file.c')] + _LIBO)
+            _BUILD_ENV['LIBS'] = [component['target']] + _BUILD_ENV['LIBS']
+            _BUILD_ENV.Append(LIBPATH=[component_build_dir])
+            component['_target_build_env'] = _BUILD_ENV
+            _BUILD_ENV.Command(os.path.join('dist', component['target']), str(Path('build')/component['target']/component['target']), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
 
-    await asyncio.gather(*tasks)
+def add_commpile_Program_requirements():
+    for task in task_lists:
+        component = task_lists[task]
+        for requirement in component['REQUIREMENTS']:
+            if requirement in task_lists:
+                Depends(component['_target'], task_lists[requirement]['_target'])
 
-asyncio.run(main())
 
+build_task_init()
+creat_commpile_Program()
+add_commpile_Program_requirements()
 
 
 
