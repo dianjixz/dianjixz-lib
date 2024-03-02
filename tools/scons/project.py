@@ -132,54 +132,59 @@ def build_task_init():
 
     if sys.platform.startswith('win'):
         env = Environment(tools=['gcc', 'g++', 'gnulink', 'ar', 'gas', 'as'])
-        if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
-            if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
+        
+        if os.environ['CONFIG_TOOLCHAIN_PATH']:
+            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ';' + env['ENV']['PATH']
+        else:
+            env['ENV']['PATH'] = env['ENV']['PATH'] + ';' +  os.getenv('Path')
+        if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
+            if os.environ['CONFIG_TOOLCHAIN_PATH']:
                 env['CC'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'gcc.exe')) 
                 env['AS'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'as.exe' ))
                 env['AR'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))  / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'ar.exe' ))
                 env['CXX'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"')) / str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
                 env['LINK'] = str(Path(os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"'))/ str(os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'))
                 env['PROGSUFFIX'] = ''
-            if os.environ['CONFIG_TOOLCHAIN_PATH']:
-                env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ';' + env['ENV']['PATH']
+            else:
+                env['CC'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'gcc.exe' 
+                env['AS'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'as.exe' 
+                env['AR'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'ar.exe' 
+                env['CXX'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'
+                env['LINK'] = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"') + 'g++.exe'
+                env['PROGSUFFIX'] = ''
+        else:
+            env['CC'] = 'gcc.exe'
+            env['AS'] = 'as.exe'
+            env['AR'] = 'ar.exe'
+            env['CXX'] = 'g++.exe'
+            env['LINK'] = 'g++.exe'
+            env['PROGSUFFIX'] = ''
+        
             
     elif sys.platform.startswith('linux'):
         env = Environment()
-        if 'CONFIG_TOOLCHAIN_PREFIX' in os.environ:
+        if os.environ['CONFIG_TOOLCHAIN_PATH']:
+            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ':' + env['ENV']['PATH']
+        if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
             CONFIG_TOOLCHAIN_PATH = os.environ['CONFIG_TOOLCHAIN_PREFIX']
             env['CC'] = CONFIG_TOOLCHAIN_PATH + 'gcc'
             env['AS'] = CONFIG_TOOLCHAIN_PATH + 'as'
             env['AR'] = CONFIG_TOOLCHAIN_PATH + 'ar'
             env['CXX'] = CONFIG_TOOLCHAIN_PATH + 'g++'
             env['LINK'] = CONFIG_TOOLCHAIN_PATH + 'g++'
-        if 'CONFIG_TOOLCHAIN_PATH' in os.environ:
-            env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip('"') + ':' + env['ENV']['PATH']
-
-        # if os.environ.get('CONFIG_TOOLCHAIN_PREFIX') is not None:
-        #     if os.environ['CONFIG_TOOLCHAIN_PREFIX']:
-        #         CONFIG_TOOLCHAIN_PATH = os.environ['CONFIG_TOOLCHAIN_PREFIX'].strip('"')
-        #         env['CC'] = CONFIG_TOOLCHAIN_PATH + 'gcc'
-        #         env['AS'] = CONFIG_TOOLCHAIN_PATH + 'as'
-        #         env['AR'] = CONFIG_TOOLCHAIN_PATH + 'ar'
-        #         env['CXX'] = CONFIG_TOOLCHAIN_PATH + 'g++'
-        #         env['LINK'] = CONFIG_TOOLCHAIN_PATH + 'g++'
-
-        #     if os.environ['CONFIG_TOOLCHAIN_PATH']:
-        #         env['ENV']['PATH'] = os.environ['CONFIG_TOOLCHAIN_PATH'].strip(
-        #             '"') + ':' + env['ENV']['PATH']
     else:
         print('unknow os!')
 
     env.Append(CPPPATH=[BUILD_CONFIG_PATH])
     # env['LINKCOM'] = '$LINK -o $TARGET $SOURCES $LINKFLAGS $__RPATH  $_LIBDIRFLAGS '
 
-    
-    env['CCCOMSTR'] = "CC $TARGET"
-    env['CXXCOMSTR'] = "CXX $TARGET"
-    env['SHCCCOMSTR'] = "CC -fPIC $TARGET"
-    env['SHCXXCOMSTR'] = "CXX -fPIC $TARGET"
-    env['ARCOMSTR'] = "LD $TARGET"
-    env['SHLINKCOMSTR'] = "Linking $TARGET"
+    if 'CONFIG_COMMPILE_DEBUG' not in os.environ:
+        env['CCCOMSTR'] = "CC $TARGET"
+        env['CXXCOMSTR'] = "CXX $TARGET"
+        env['SHCCCOMSTR'] = "CC -fPIC $TARGET"
+        env['SHCXXCOMSTR'] = "CXX -fPIC $TARGET"
+        env['ARCOMSTR'] = "LD $TARGET"
+        env['SHLINKCOMSTR'] = "Linking $TARGET"
 
     env['PROJECT_PATH'] = PROJECT_PATH
     env['PROJECT_NAME'] = os.path.basename(PROJECT_PATH)
@@ -265,17 +270,30 @@ def creat_commpile_Program():
             _LIBO = list(map(lambda o: str(o), component['DYNAMIC_LIB']))
             component['_target'] = _BUILD_ENV.SharedLibrary(target = _TARGET, source = _OBJS + _LIBO)
             component['_target_build_env'] = _BUILD_ENV
-            _BUILD_ENV.Command(os.path.join('dist', f'lib{component["target"]}.so'), str(Path('build')/component['target']/f'lib{component["target"]}.so'), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            if os.environ['CONFIG_TOOLCHAIN_SYSTEM'] == 'linux':
+                _BUILD_ENV.Command(os.path.join('dist', f'lib{component["target"]}.so'), str(Path('build')/component['target']/f'lib{component["target"]}.so'), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            elif os.environ['CONFIG_TOOLCHAIN_SYSTEM'] == 'win':
+                _BUILD_ENV.Command(os.path.join('dist', f'lib{component["target"]}.dll'), str(Path('build')/component['target']/f'lib{component["target"]}.dll'), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            else:
+                pass
+            
         elif component['REGISTER'] == 'project':
             _OBJS = list(map(lambda file: _BUILD_ENV.Object(target = file[0], source = file[1]), list(zip(_srco, _srcs))))
             _LIBO = list(map(lambda o: str(o), component['DYNAMIC_LIB'] + component['STATIC_LIB']))
             _BUILD_ENV.Library(target = _TARGET, source = _OBJS)
-            open(str(Path(component_build_dir)/'empty_src_file.c'), 'w').close()
-            component['_target'] = _BUILD_ENV.Program(target = _TARGET, source = [str(Path(component_build_dir)/'empty_src_file.c')] + _LIBO)
+            empty_src_file = str(Path(component_build_dir)/'empty_src_file.cpp')
+            open(empty_src_file, 'w').close()
+            component['_target'] = _BUILD_ENV.Program(target = _TARGET, source = [empty_src_file] + _LIBO)
             _BUILD_ENV['LIBS'] = [component['target']] + _BUILD_ENV['LIBS']
             _BUILD_ENV.Append(LIBPATH=[component_build_dir])
             component['_target_build_env'] = _BUILD_ENV
-            _BUILD_ENV.Command(os.path.join('dist', component['target']), str(Path('build')/component['target']/component['target']), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            if os.environ['CONFIG_TOOLCHAIN_SYSTEM'] == 'linux':
+                 _BUILD_ENV.Command(os.path.join('dist', component['target']), str(Path('build')/component['target']/component['target']), action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            elif os.environ['CONFIG_TOOLCHAIN_SYSTEM'] == 'win':
+                 _BUILD_ENV.Command(os.path.join('dist', component['target']) + '.exe', str(Path('build')/component['target']/component['target']) + '.exe', action=[Mkdir("dist"), Copy("$TARGET", "$SOURCE")])
+            else:
+                pass
+           
 
 def add_commpile_Program_requirements():
     for task in task_lists:

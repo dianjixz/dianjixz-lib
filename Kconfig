@@ -15,6 +15,10 @@ menu "Toolchain configuration"
 		default "linux"
 		help
 			linux or win
+
+	config COMMPILE_DEBUG
+		bool 'commpile debug msg!'
+		default n
 endmenu
 
 menu "Components configuration"
