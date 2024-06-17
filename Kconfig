@@ -10,11 +10,26 @@ menu "Toolchain configuration"
 		string "toolchain prefix"
 		default ""
 
-	config TOOLCHAIN_SYSTEM
-		string "toolchain system"
-		default "linux"
-		help
-			linux or win
+	config TOOLCHAIN_FLAGS
+		string "toolchain FLAGS"
+		default ""
+
+	config LIB_LINK_SEARCH_PATH
+		string "lib link search patch"
+		default ""
+
+	choice
+		prompt "host system type"
+		default TOOLCHAIN_SYSTEM_UNIX
+	config TOOLCHAIN_SYSTEM_UNIX
+		bool "unix"
+	config TOOLCHAIN_SYSTEM_WIN
+		bool "win"
+	endchoice
+
+	config REPO_AUTOMATION
+		bool 'Download automation for the repo.'
+		default n
 
 	config COMMPILE_DEBUG
 		bool 'commpile debug msg!'
