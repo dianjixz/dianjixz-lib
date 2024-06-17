@@ -1,0 +1,3 @@
+config ALTHTTPD_SSL_ENABLED
+    bool "enable ssl"
+    default n
