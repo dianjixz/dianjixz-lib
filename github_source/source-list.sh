@@ -21,7 +21,7 @@ git_clone_and_checkout_commit https://github.com/dianjixz/gear-lib.git      cf68
 git_clone_and_checkout_commit https://github.com/dianjixz/stb.git           5736b15f7ea0ffb08dd38af21067c314d6a3aae9
 git_clone_and_checkout_commit https://github.com/dianjixz/libs.git          a6456b8e7f1564b0c94c329509fe9652bb5a096b
 git_clone_and_checkout_commit https://github.com/dianjixz/nanomsg.git       2d01e935e4554580da4e9dbd94964af94e0ded9c
-git_clone_and_checkout_commit https://github.com/dianjixz/nng.git           c5e9d8acfc226418dedcf2e34a617bffae043ff6
+git_clone_and_checkout_commit https://github.com/dianjixz/nng.git           d3652db599cb3bf4101cf2e6cf42c764d65b6fb8
 # cd lvgl && git_clone_and_checkout_commit https://github.com/dianjixz/lvgl.git          5cdf242a21a0897ee1f24b85040d2993a817b822
 # cd lvgl && git_clone_and_checkout_commit https://github.com/lvgl/lv_drivers.git        820341ea15d0e9f0faaf0b508ba03c3ef9cb1a88
 git_clone_and_checkout_commit https://github.com/dianjixz/toolkit.git       64120e079446c77990d892865fa5a105fc46036f
@@ -40,8 +40,10 @@ git_clone_and_checkout_commit https://github.com/lovyan03/LovyanGFX.git   4fd713
 git_clone_and_checkout_commit https://github.com/Tencent/ncnn.git   5e9bf90455b02a25e7991dab4ab8b3035a4bebb3
 git_clone_and_checkout_commit https://github.com/libtom/libtommath.git   97e500351e653472b2ea00b37137ad0414165efe
 git_clone_and_checkout_commit https://github.com/talybin/firebird.git   16bb82d461bbb0bae10390adc20fe75ef4f420d4
+git_clone_and_checkout_commit https://github.com/Smalldy/EasyMsgCpp.git   a265a4049eddd844a19c74850e4e6e53ca007a7f
+git_clone_and_checkout_commit https://github.com/fukuchi/libqrencode.git   715e29fd4cd71b6e452ae0f4e36d917b43122ce8
+git_clone_and_checkout_commit https://github.com/tinyalsa/tinyalsa.git   7f06b2f219294de385caf9bcbca24b0709224f8c
 
-git_clone_and_checkout_commit https://github.com:dianjixz/minicv2.git   e265532942671c34b4d502bfe47fadfca73b7730
 # opencv-mobile-2.4.13.7-armlinux https://github.com/nihui/opencv-mobile/releases/download/v26/opencv-mobile-2.4.13.7-armlinux.zip
 
 # git clone -b dd5118cab0813078dbbfd116f1489c6a03a42cae --single-branch --branch master https://github.com/dianjixz/mongoose.git
@@ -63,4 +65,3 @@ git_clone_and_checkout_commit https://github.com:dianjixz/minicv2.git   e2655329
 # git clone -b  65a769ffe77cf9d759d801bc792ac56af8e911a3 --single-branch --branch master https://github.com/bombela/backward-cpp.git
 # git clone -b  a901500618405760a564e64a6816705e29f50f9f --single-branch --branch master https://github.com/OpenEtherCATsociety/SOEM.git
 # git clone -b  ec31b393abd63620d555cd99cdc9d1b77d88887b --single-branch --branch master https://github.com/dianjixz/c-periphery.git
-
