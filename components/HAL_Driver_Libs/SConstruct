@@ -7,7 +7,7 @@ with open(env['PROJECT_TOOL_S']) as f:
 
 
 if 'CONFIG_HAL_DRIVER_LIBS_COMPONENT_ENABLED' in os.environ:
-    SRCS=[AFile('test.c')]
+    SRCS=[]
     INCLUDE=[]
     PRIVATE_INCLUDE=[]
     REQUIREMENTS=[]
