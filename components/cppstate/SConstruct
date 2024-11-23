@@ -6,11 +6,11 @@ with open(env['PROJECT_TOOL_S']) as f:
 
 
 
-if 'CONFIG_CPPSTATE_ENABLED' in os.environ:
-    SRCS=[AFile('test.c')]
+if 'CONFIG_CIMG_COMPONENT_ENABLED' in os.environ:
+    SRCS=[]
     INCLUDE=[ADir('include')]
     PRIVATE_INCLUDE=[]
-    REQUIREMENTS=[]
+    REQUIREMENTS=['m']
     STATIC_LIB=[]
     DYNAMIC_LIB=[]
     DEFINITIONS=[]

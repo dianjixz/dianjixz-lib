@@ -47,4 +47,3 @@ menuconfig LHV_ENABLED
         bool "compile component as dynamic(shared) lib"
         default n
         depends on LHV_ENABLED
-
