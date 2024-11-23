@@ -112,7 +112,6 @@ def wget_github_commit(url, commit):
     down_url = github_url + "/archive/{}.zip".format(commit)
     zip_file_name = '{}-{}.zip'.format(repo[3], commit)
     file_path = wget_zip(down_url, zip_file_name)
-    print(os.path.join(file_path, zip_file_name[:-4]), os.path.join(os.environ['GIT_REPO_PATH'], repo[3]))
     shutil.move(os.path.join(file_path, zip_file_name[:-4]), os.path.join(os.environ['GIT_REPO_PATH'], repo[3]))
     shutil.rmtree(file_path)
     return down_url
