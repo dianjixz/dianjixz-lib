@@ -80,6 +80,16 @@ def sample_wget(down_url, file_path):
             env.Fatal("{} down failed".format(down_url))
     return file_path
 
+def wget_tar_xz(url, file_name):
+    file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
+    path  = file_path[:-7]
+    if not os.path.exists(path):
+        sample_wget(url, file_path)
+        import  tarfile
+        with tarfile.open(file_path, 'r:xz') as tar:
+            tar.extractall(path=path)
+    return path
+
 def wget_tar_gz(url, file_name):
     file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
     path  = file_path[:-7]
@@ -133,6 +143,46 @@ def check_component(component_name):
                     env.Fatal("Cloning failed.: {}".format(e))
             else:
                 env.Fatal('Please manually download {} to {}.'.format(env['GIT_REPO_LISTS'][component_name]['url'], env['GIT_REPO_LISTS'][component_name]['path']))
+
+def check_wget_down(url, file_name):
+    if file_name.endswith('.zip'):
+        file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
+        path  = file_path[:-4]
+        if not os.path.exists(path):
+            if 'CONFIG_REPO_AUTOMATION' in os.environ:
+                down = 'y'
+            else:
+                down = input('{} does not exist. Please choose whether to download it automatically? Y/N :'.format(file_path))
+                down = down.lower()
+            if down == 'y':
+                return wget_zip(url, file_name)
+        return path
+    elif file_name.endswith('.tar.gz'):
+        file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
+        path  = file_path[:-7]
+        if not os.path.exists(path):
+            if 'CONFIG_REPO_AUTOMATION' in os.environ:
+                down = 'y'
+            else:
+                down = input('{} does not exist. Please choose whether to download it automatically? Y/N :'.format(file_path))
+                down = down.lower()
+            if down == 'y':
+                return wget_tar_gz(url, file_name)
+        return path
+    elif file_name.endswith('.tar.xz'):
+        file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
+        path  = file_path[:-7]
+        if not os.path.exists(path):
+            if 'CONFIG_REPO_AUTOMATION' in os.environ:
+                down = 'y'
+            else:
+                down = input('{} does not exist. Please choose whether to download it automatically? Y/N :'.format(file_path))
+                down = down.lower()
+            if down == 'y':
+                return wget_tar_xz(url, file_name)
+        return path
+    else:
+        env.Fatal('{} not support'.format(file_name))
 
 def CC_cmd_execute(cmd):
     import os
