@@ -1,23 +1,20 @@
-# component/SConscript
+# component2/SConscript
 Import('env')
 import os
 with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
-
-
-if 'CONFIG_BACKWARD_CPP_ENABLED' in os.environ:
-    SRCS=[]
+if 'CONFIG_AX_COMMON_HAL_ENABLED' in os.environ:
+    SRCS=AGlob('src/*.c*')
     INCLUDE=[ADir('include')]
     PRIVATE_INCLUDE=[]
-    REQUIREMENTS=['dw']
+    REQUIREMENTS=['ax_msp']
     STATIC_LIB=[]
     DYNAMIC_LIB=[]
     DEFINITIONS=[]
-    DEFINITIONS_PRIVATE=[]
+    DEFINITIONS_PRIVATE=['']
     LDFLAGS=[]
     LINK_SEARCH_PATH=[]
-
 
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
                             'SRCS':SRCS,
@@ -32,3 +29,4 @@ if 'CONFIG_BACKWARD_CPP_ENABLED' in os.environ:
                             'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
                             'REGISTER':'static'
                             })
+

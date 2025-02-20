@@ -1,0 +1,5 @@
+menuconfig AX_COMMON_HAL_ENABLED
+    bool "Enable ax_common_hal support"
+    default n
+    help
+        enable axera ax_common_hal support

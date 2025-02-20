@@ -182,7 +182,16 @@ def check_wget_down(url, file_name):
                 return wget_tar_xz(url, file_name)
         return path
     else:
-        env.Fatal('{} not support'.format(file_name))
+        file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
+        if not os.path.exists(file_path):
+            if 'CONFIG_REPO_AUTOMATION' in os.environ:
+                down = 'y'
+            else:
+                down = input('{} does not exist. Please choose whether to download it automatically? Y/N :'.format(file_path))
+                down = down.lower()
+            if down == 'y':
+                return sample_wget(url, file_path)
+        return file_path
 
 def CC_cmd_execute(cmd):
     import os

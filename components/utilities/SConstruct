@@ -19,7 +19,6 @@ if "CONFIG_UTILITIES_ENABLED" in os.environ:
     LINK_SEARCH_PATH = []
 
     INCLUDE.append(ADir("include"))
-    SRCS.append(AFile("test.c"))
 
     if "CONFIG_UTILITIES_FMT_ENABLED" in os.environ:
         INCLUDE.append(ADir("party/fmt/include"))
