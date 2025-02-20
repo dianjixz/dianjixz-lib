@@ -13,7 +13,7 @@
 #include "ax_sys_api.h"
 #include "ax_ivps_api.h"
 #include "base/obj_type.h"
-#define SAMPLE_ENGINE_MODEL_FILE "./yolov8s-pose.axmodel"
+#define SAMPLE_ENGINE_MODEL_FILE "./axera-share-npu-yolov8s-pose.axmodel"
 #define SAMPLE_ENGINE_OBJ_MAX_COUNT 32
 #define INFER_WIDTH     640
 #define INFER_HEIHGT    640
