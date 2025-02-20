@@ -102,7 +102,7 @@ def wget_tar_gz(url, file_name):
 
 def wget_zip(url, file_name):
     file_path = os.path.join(os.environ['GIT_REPO_PATH'], file_name)
-    path  = file_path[:-7]
+    path  = file_path[:-4]
     if not os.path.exists(path):
         sample_wget(url, file_path)
         import  zipfile
