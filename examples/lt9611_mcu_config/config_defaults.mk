@@ -1,0 +1,6 @@
+CONFIG_TOOLCHAIN_PATH="/opt/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin"
+CONFIG_TOOLCHAIN_PREFIX="aarch64-none-linux-gnu-"
+
+CONFIG_DEVICE_DRIVER_ENABLED=y
+CONFIG_DEVICE_I2C_ENABLED=y
+
