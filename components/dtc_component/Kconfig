@@ -1,0 +1,11 @@
+
+menuconfig DTC_COMPONENT_ENABLED
+    bool "Enable dtc & libfdt"
+    default n
+
+    config DTS_AUTO_CONFIG_COMMON_ENABLED
+        bool "Enable dts auto config common"
+        default n
+        depends on DTC_COMPONENT_ENABLED
+        help
+            enable dts auto config common

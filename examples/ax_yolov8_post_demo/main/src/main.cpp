@@ -37,6 +37,18 @@ static void ai_out_farm(AX_VIDEO_FRAME_T *fram, void *ctx)
 {
     // printf("ai_out_farm ---- \n");
     AX_VIDEO_FRAME_T *tVideoFrame = (AX_VIDEO_FRAME_T *)fram;
+
+    // {
+    //     static int count = 0;
+    //     if(count < 120) {
+    //         cv::Mat camera_rgb_img(tVideoFrame->u32Height, tVideoFrame->u32Width, CV_8UC(3), (unsigned char *)tVideoFrame->u64VirAddr[0]);
+    //         std::string image_name = "camera_rgb_img_" + std::to_string(count) + ".jpg";
+    //         cv::imwrite(image_name, camera_rgb_img);
+    //         count++;
+    //     }
+    // }
+
+
     SAMPLE_ENGINE_Results stResults;
     // stResults.obj_count = 0;
     printf("tVideoFrame\n");
@@ -57,14 +69,64 @@ ax_vo_hal display;
 static void vo_out_farm(AX_VIDEO_FRAME_T *fram, void *ctx)
 {
     AX_VIDEO_FRAME_T *tVideoFrame = (AX_VIDEO_FRAME_T *)fram;
-    void *nihao                   = display.get_frame(&display, 0, 0);
+    AX_VIDEO_FRAME_T *nihao                   = (AX_VIDEO_FRAME_T *)display.get_frame(&display, 0, 0);
     int ret =
         AX_IVPS_AlphaBlendingTdp(tVideoFrame, (osd_switch ? &osd[0] : &osd[1]), (AX_IVPS_POINT_T){0, 0}, 255, &osd[2]);
     if (ret != 0) {
         printf("AX_IVPS_AlphaBlendingTdp:%x\n", ret);
     }
-    AX_IVPS_FlipAndRotationTdp(&osd[2], AX_IVPS_CHN_MIRROR, AX_IVPS_ROTATION_90, (AX_VIDEO_FRAME_T *)nihao);
+    AX_IVPS_FlipAndRotationTdp(&osd[2], AX_IVPS_CHN_MIRROR, AX_IVPS_ROTATION_90, nihao);
+
+    // {
+    //     static int count = 0;
+    //     if(count < 120) {
+    //         cv::Mat vo_yuv_img(nihao->u32Height + nihao->u32Height / 2, nihao->u32Width, CV_8UC(1), (unsigned char *)nihao->u64VirAddr[0]);
+    //         cv::Mat vo_rgb_img;
+    //         cv::cvtColor(vo_yuv_img, vo_rgb_img, cv::COLOR_YUV2BGR_I420);
+    //         std::string image_name = "vo_rgb_img_" + std::to_string(count) + ".jpg";
+    //         cv::imwrite(image_name, vo_rgb_img);
+    //         count++;
+    //     }
+    // }
+
+
     display.put_frame(&display, 0, 0);
+}
+
+static void set_Vo_mode_par_custum(struct ax_vo_hal_t *self)
+{
+    self->stVoConfig.u32VDevNr                                        = 1;
+    self->stVoConfig.stVoDev[0].enMode                                = AX_VO_MODE_OFFLINE;
+    self->stVoConfig.stVoDev[0].enVoIntfType                          = AX_VO_INTF_DSI;
+    self->stVoConfig.stVoDev[0].enIntfSync                            = AX_VO_OUTPUT_USER;
+    self->stVoConfig.stVoDev[0].u32SyncIndex                          = SAMPLE_VO_SYNC_USER_CUSTUM;
+    self->stVoConfig.stVoDev[0].enVoOutfmt                            = AX_VO_OUT_FMT_RGB888;
+    /************************************************************************/
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Vact                   = 1280;  /* 垂直有效显示区域 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Vbb                    = 16;    /* 垂直后肩 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Vfb                    = 16;    /* 垂直前肩 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Vpw                    = 4;     /* 垂直同步脉冲宽度 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Hact                   = 720;   /* 水平有效显示区域 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Hbb                    = 40;    /* 水平后肩 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Hfb                    = 40;    /* 水平前肩 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u16Hpw                    = 4;     /* 水平同步脉冲宽度 */
+    self->stVoConfig.stVoDev[0].stSyncInfos.u32Pclk                   = 56000; /* 像素时钟，单位 kHz */
+    self->stVoConfig.stVoDev[0].stSyncInfos.bIdv                      = AX_FALSE;     /* 数据有效信号的极性（根据需求配置） */
+    self->stVoConfig.stVoDev[0].stSyncInfos.bIhs                      = AX_FALSE;     /* 水平同步信号的极性（根据需求配置） */
+    self->stVoConfig.stVoDev[0].stSyncInfos.bIvs                      = AX_FALSE;     /* 垂直同步信号的极性（根据需求配置） */
+    /************************************************************************/
+    self->stVoConfig.u32LayerNr                                       = 1;
+    self->stVoConfig.stVoLayer[0].bindVoDev[0]                        = 2;
+    self->stVoConfig.stVoLayer[0].bindVoDev[1]                        = 2;
+    self->stVoConfig.stVoLayer[0].stVoLayerAttr.stImageSize.u32Width  = 720;
+    self->stVoConfig.stVoLayer[0].stVoLayerAttr.stImageSize.u32Height = 1280;
+    self->stVoConfig.stVoLayer[0].stVoLayerAttr.enPixFmt              = AX_FORMAT_YUV420_SEMIPLANAR;
+    self->stVoConfig.stVoLayer[0].stVoLayerAttr.u32DispatchMode       = 1;
+    self->stVoConfig.stVoLayer[0].stVoLayerAttr.f32FrmRate            = 30;
+    self->stVoConfig.stVoLayer[0].enVoMode                            = VO_MODE_1MUX;
+    self->stVoConfig.stVoLayer[0].enChnFrmFmt                         = AX_FORMAT_YUV420_SEMIPLANAR;
+    self->stVoConfig.stVoLayer[0].u32ChnNr                            = 1;
+    printf("set config is custum------------------------------------\n");
 }
 
 int main(int argc, char *argv[])
@@ -78,7 +140,7 @@ int main(int argc, char *argv[])
     ax_create_sensor(&sensor);
     ax_create_ivps(&ivps);
     ax_create_vo(&display);
-
+    display.set_Vo_mode_par[8] = set_Vo_mode_par_custum;
     // sensor.InitSensor(&sensor, SAMPLE_VIN_SINGLE_OS04A10, 1);
     sensor.InitSensor(&sensor, SAMPLE_VIN_SINGLE_SC850SL, 1);
     COMMON_SYS_Init(&sensor.tCommonArgs);
@@ -112,7 +174,7 @@ int main(int argc, char *argv[])
 
     SAMPLE_ENGINE_Load((AX_CHAR *)SAMPLE_ENGINE_MODEL_FILE);
     ivps.superior_link(&ivps, 1, sensor.get_link_mod(&sensor, 0));
-    display.InitVo(&display, 0, 0);
+    display.InitVo(&display, 0, 8);
     display.OpenVo(&display, 0);
     ivps.InitGRP(&ivps, 1, 0);
     ivps.OpenGRP(&ivps, 1);

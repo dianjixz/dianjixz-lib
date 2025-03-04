@@ -38,6 +38,7 @@ git_clone_and_checkout_commit https://github.com/libjpeg-turbo/libjpeg-turbo.git
 git_clone_and_checkout_commit https://github.com/wqking/eventpp.git c472fb22e71ead0e58ff7df89e12c66b0bdfb533
 git_clone_and_checkout_commit https://github.com/DaveGamble/cJSON.git 078c4e6c53f13dff15f0eaac1611abb6379e0206
 git_clone_and_checkout_commit https://github.com/zpl-c/zpl.git 7e4d5889e9fc7c67251e627d30b7673c915fab0d
+git_clone_and_checkout_commit https://github.com/dgibson/dtc.git ce1d8588880aecd7af264e422a16a8b33617cef7
 
 # opencv-mobile-2.4.13.7-armlinux https://github.com/nihui/opencv-mobile/releases/download/v26/opencv-mobile-2.4.13.7-armlinux.zip
 

@@ -54,7 +54,7 @@ static void hal_set_GRP_mode_par_1(struct ax_ivps_hal_t *self, int GRP)
     stPipelineAttr->tFilter[0][0].nDstPicHeight = 1520;
     stPipelineAttr->tFilter[0][0].nDstPicStride = ALIGN_UP(stPipelineAttr->tFilter[0][0].nDstPicWidth, 16);
     stPipelineAttr->tFilter[0][0].eDstPicFormat = AX_FORMAT_YUV420_SEMIPLANAR;
-    stPipelineAttr->tFilter[0][0].eEngine       = AX_IVPS_ENGINE_TDP;
+    stPipelineAttr->tFilter[0][0].eEngine       = AX_IVPS_ENGINE_VPP;
     // // 全尺寸 chn0
     stPipelineAttr->tFilter[1][0].bEngage       = AX_TRUE;
     stPipelineAttr->tFilter[1][0].nDstPicWidth  = 2688;
@@ -80,7 +80,7 @@ static void hal_set_GRP_mode_par_1(struct ax_ivps_hal_t *self, int GRP)
     stPipelineAttr->tFilter[3][0].nDstPicHeight = 720;
     stPipelineAttr->tFilter[3][0].nDstPicStride = ALIGN_UP(stPipelineAttr->tFilter[3][0].nDstPicWidth, 16);
     stPipelineAttr->tFilter[3][0].eDstPicFormat = AX_FORMAT_YUV420_SEMIPLANAR;
-    stPipelineAttr->tFilter[3][0].eEngine       = AX_IVPS_ENGINE_VPP;
+    stPipelineAttr->tFilter[3][0].eEngine       = AX_IVPS_ENGINE_TDP;
     stPipelineAttr->nOutFifoDepth[2]            = 1;
 }
 static int hal_InitGRP(struct ax_ivps_hal_t *self, int GRP, int mode)

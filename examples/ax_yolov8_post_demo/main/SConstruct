@@ -28,14 +28,23 @@ REQUIREMENTS += ['ax_opal', 'ax_ae', 'ax_skel', 'ax_opal', 'ax_venc', 'ax_mipi',
 REQUIREMENTS += ['ax_audio_3a','samplerate', 'ax_fdk', 'fdk-aac', 'ax_awb', 'ax_af', 'ax_nt_stream', 'ax_nt_ctrl']
 
  
-INCLUDE += [os.path.join(env["MSP_PATH"], 'third-party/opencv/include/opencv4')]
+# INCLUDE += [os.path.join(env["MSP_PATH"], 'third-party/opencv/include/opencv4')]
+# static_file = []
+# static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/lib*.a'))
+# static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/opencv4/3rdparty/lib*.a'))
+
+
+INCLUDE += ['/home/nihao/w2T/axera/StackFlow/projects/test_kit_demo2/include/opencv4']
 static_file = []
-static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/lib*.a'))
-static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/opencv4/3rdparty/lib*.a'))
+static_file += Glob('/home/nihao/w2T/axera/StackFlow/projects/test_kit_demo2/static_lib/libopencv-4.6-aarch64-none/lib/*.a')
+# static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/opencv4/3rdparty/lib*.a'))
+
+
+
 
 mode_path = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/axera-share-npu-yolov8s-pose.axmodel", 'axera-share-npu-yolov8s-pose.axmodel')
 
-STATIC_LIB += static_file * 2
+STATIC_LIB += static_file * 4
 STATIC_FILES += [mode_path]
 
 env['COMPONENTS'].append({'target':env['PROJECT_NAME'],

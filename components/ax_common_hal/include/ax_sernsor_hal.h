@@ -62,6 +62,16 @@ typedef enum {
     AX_SENSOR_GET_FRAME_THREAD = 0b10000,
 } AX_SENSOR_STATUS;
 
+enum {
+    AX_SENSOR_PAR_0,
+    AX_SENSOR_PAR_1,
+    AX_SENSOR_PAR_2,
+    AX_SENSOR_PAR_3,
+    AX_SENSOR_PAR_4,
+    AX_SENSOR_PAR_CUSTOM,
+    AX_SENSOR_PAR_MAX
+};
+
 typedef hal_buffer_t Sensor_Frame;
 
 typedef struct {
@@ -79,7 +89,6 @@ typedef struct {
 } ax_sensor_dev_info;
 
 #define AX_MAX_SENSOR_CHN_        3
-#define AX_MAX_SENSOR_CHN_CONFIG_ 10
 typedef struct ax_sensor_hal_t {
     int ChnSize;
     SAMPLE_VIN_PARAM_T VinParam;
@@ -100,8 +109,8 @@ typedef struct ax_sensor_hal_t {
     int (*GetFrameRate)(struct ax_sensor_hal_t *, int);
     int (*getStatus)(struct ax_sensor_hal_t *, int);
 
-    void (*set_Sensor_mode_par[AX_MAX_SENSOR_CHN_CONFIG_])(struct ax_sensor_hal_t *);
-    void (*set_Sensor_mode_par_after[AX_MAX_SENSOR_CHN_CONFIG_])(struct ax_sensor_hal_t *);
+    void (*set_Sensor_mode_par[AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
+    void (*set_Sensor_mode_par_after[AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
 
     void *(*get_link_mod)(struct ax_sensor_hal_t *, int);
 } ax_sensor_hal;

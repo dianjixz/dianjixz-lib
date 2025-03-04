@@ -104,7 +104,7 @@ static void set_Vo_mode_par_0(struct ax_vo_hal_t *self)
         .enMode       = AX_VO_MODE_OFFLINE,
         .enVoIntfType = AX_VO_INTF_DSI,
         .enIntfSync   = AX_VO_OUTPUT_USER,
-        .u32SyncIndex = 3,
+        .u32SyncIndex = SAMPLE_VO_SYNC_USER_CUSTUM,
         .enVoOutfmt   = AX_VO_OUT_FMT_RGB888,
         .stSyncInfos =
             {
@@ -398,8 +398,8 @@ int ax_create_vo(ax_vo_hal *vo_dev)
     vo_dev->get_frame_mem      = get_frame_mem;
     vo_dev->put_frame          = put_frame_mem;
     vo_dev->get_frame          = get_frame;
-    vo_dev->set_Vo_mode_par[0] = set_Vo_mode_par_0;
-    vo_dev->set_Vo_mode_par[1] = set_Vo_mode_par_1;
+    vo_dev->set_Vo_mode_par[AX_VO_PAR_0] = set_Vo_mode_par_0;
+    vo_dev->set_Vo_mode_par[AX_VO_PAR_1] = set_Vo_mode_par_1;
 
     return 0;
 }

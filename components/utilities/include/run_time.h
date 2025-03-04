@@ -11,6 +11,12 @@
 #define _RUN_TIME_H_
 #include <time.h>
 #include <stdio.h>
+
+#ifdef RUN_TIME_INIT 
+struct timespec _run_time_start;
+struct timespec _run_time_end;
+#endif
+
 extern struct timespec _run_time_start;
 extern struct timespec _run_time_end;
 

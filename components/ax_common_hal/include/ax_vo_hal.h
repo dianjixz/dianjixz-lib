@@ -28,6 +28,16 @@ typedef enum {
     AX_VO_OPEN       = 0b10000,
 } AX_VO_STATUS;
 
+enum {
+    AX_VO_PAR_0,
+    AX_VO_PAR_1,
+    AX_VO_PAR_2,
+    AX_VO_PAR_3,
+    AX_VO_PAR_4,
+    AX_VO_PAR_CUSTOM,
+    AX_VO_PAR_MAX
+};
+
 typedef struct {
     int status;
     int Chn;
@@ -37,7 +47,6 @@ typedef struct {
 } ax_vo_dev_info;
 
 #define AX_MAX_VO_CHN_        3
-#define AX_MAX_VO_CHN_CONFIG_ 10
 typedef struct ax_vo_hal_t {
     SAMPLE_VO_CONFIG_S stVoConfig;
     ax_vo_dev_info dev[AX_MAX_VO_CHN_];
@@ -53,7 +62,7 @@ typedef struct ax_vo_hal_t {
     void (*put_frame)(struct ax_vo_hal_t *, AX_U32, AX_U32);
 
     int (*getStatus)(struct ax_vo_hal_t *, int);
-    void (*set_Vo_mode_par[AX_MAX_VO_CHN_CONFIG_])(struct ax_vo_hal_t *);
+    void (*set_Vo_mode_par[AX_VO_PAR_MAX])(struct ax_vo_hal_t *);
 } ax_vo_hal;
 
 int ax_create_vo(ax_vo_hal *vo_dev);

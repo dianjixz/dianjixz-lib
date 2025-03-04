@@ -412,12 +412,536 @@ static void venc_set_Chn_mode_par_0(struct ax_venc_hal_t *self, int chn)
     self->dev[chn].stVencChnAttr = stVencChnAttr;
 }
 
+// H264
+static void venc_set_Chn_mode_par_1(struct ax_venc_hal_t *self, int chn)
+{
+    AX_S32 s32Ret = -1;
+    AX_S32 maxPicWidth = 1280;
+    AX_S32 maxPicHeight = 720;
+    AX_U32 virILen = 15;
+    AX_U32 strmBufSize = 0;
+    
+    AX_U32 gopLen = 120;
+    AX_U32 bitRate = 2048;  // kbps
+    AX_U16 qpMin = 10;
+    AX_U16 qpMax = 51;
+    AX_U16 qpMinI = 10;
+    AX_U16 qpMaxI = 51;
+    AX_U16 u32IQp = 25;
+    AX_U16 u32PQp = 30;
+    AX_U16 maxIprop = 40;
+    AX_U16 minIprop = 10;
+    AX_S32 intraQpDelta = -2;
+
+    AX_VENC_GOP_MODE_E gopType = AX_VENC_GOPMODE_NORMALP;
+    
+
+    AX_S32 ctbRcMode;
+    AX_S32 qpMapType;
+    AX_S32 qpMapBlkType;
+    AX_S32 qpMapBlockUnit;
+    AX_BOOL bDeBreathEffect = 0;
+    AX_BOOL bRefRingbuf = 0;
+    AX_ROTATION_E rotation = AX_ROTATION_0;
+    // AX_VENC_CHN_ATTR_T stVencChnAttr;
+    AX_LINK_MODE_E enLinkMode = AX_LINK_MODE;
+    AX_MEMORY_SOURCE_E enMemSource = AX_MEMORY_SOURCE_CMM;
+    memset(&self->dev[chn].stVencChnAttr, 0, sizeof(AX_VENC_CHN_ATTR_T));
+
+    if ((self->dev[chn].rcMode == SAMPLE_RC_VBR) || (self->dev[chn].rcMode == SAMPLE_RC_AVBR)) {
+        /* if user not set qp use def config for vbr/avbr */
+        qpMin = 31;
+        qpMax = 46;
+        qpMinI = 31;
+        qpMaxI = 46;
+    }
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicWidth = maxPicWidth;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicHeight = maxPicHeight;
+    self->dev[chn].stVencChnAttr.stVencAttr.enLinkMode = enLinkMode;
+    self->dev[chn].stVencChnAttr.stVencAttr.enMemSource = enMemSource;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8InFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8OutFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.enRotation = rotation;
+    self->dev[chn].stVencChnAttr.stVencAttr.bDeBreathEffect = bDeBreathEffect;
+    self->dev[chn].stVencChnAttr.stVencAttr.bRefRingbuf = bRefRingbuf;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32BufSize = strmBufSize;
+
+    /* crop setting */
+    // if (pstArg->bCrop) {
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.bEnable = AX_TRUE;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32X = pstArg->cropX;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32Y = pstArg->cropY;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Width = pstArg->cropW;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Height = pstArg->cropH;
+    // }
+    self->dev[chn].stVencChnAttr.stVencAttr.enProfile = AX_VENC_H264_MAIN_PROFILE;
+    self->dev[chn].stVencChnAttr.stVencAttr.enLevel = AX_VENC_H264_LEVEL_5_1;
+    if (self->dev[chn].rcMode == SAMPLE_RC_CBR) {
+        AX_VENC_H264_CBR_T stH264Cbr;
+        memset(&stH264Cbr, 0, sizeof(AX_VENC_H264_CBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264CBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        
+
+
+        stH264Cbr.u32Gop = gopLen;
+        stH264Cbr.u32BitRate = bitRate;
+        stH264Cbr.u32MinQp = qpMin;
+        stH264Cbr.u32MaxQp = qpMax;
+        stH264Cbr.u32MinIQp = qpMinI;
+        stH264Cbr.u32MaxIQp = qpMaxI;
+        stH264Cbr.u32MinIprop = maxIprop;
+        stH264Cbr.u32MaxIprop = minIprop;
+        stH264Cbr.s32IntraQpDelta = intraQpDelta;
+        stH264Cbr.u32IdrQpDeltaRange = 10;
+        stH264Cbr.s32DeBreathQpDelta = -2;
+
+
+        stH264Cbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH264Cbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH264Cbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH264Cbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH264Cbr = stH264Cbr;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_VBR) {
+        AX_VENC_H264_VBR_T stH264Vbr;
+        memset(&stH264Vbr, 0, sizeof(AX_VENC_H264_VBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264VBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH264Vbr.u32Gop = gopLen;
+        stH264Vbr.u32MaxBitRate = bitRate;
+        stH264Vbr.u32MinQp = qpMin;
+        stH264Vbr.u32MaxQp = qpMax;
+        stH264Vbr.u32MinIQp = qpMinI;
+        stH264Vbr.u32MaxIQp = qpMaxI;
+        stH264Vbr.s32IntraQpDelta = intraQpDelta;
+        stH264Vbr.u32IdrQpDeltaRange = 10;
+        stH264Vbr.s32DeBreathQpDelta = -2;
+        stH264Vbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH264Vbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH264Vbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH264Vbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+        stH264Vbr.enVQ = AX_VENC_VBR_QUALITY_LEVEL_INV;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH264Vbr = stH264Vbr;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_AVBR) {
+        AX_VENC_H264_AVBR_T stH264AVbr;
+        memset(&stH264AVbr, 0, sizeof(AX_VENC_H264_AVBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264AVBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH264AVbr.u32Gop = gopLen;
+        stH264AVbr.u32MaxBitRate = bitRate;
+        stH264AVbr.u32MinQp = qpMin;
+        stH264AVbr.u32MaxQp = qpMax;
+        stH264AVbr.u32MinIQp = qpMinI;
+        stH264AVbr.u32MaxIQp = qpMaxI;
+        stH264AVbr.s32IntraQpDelta = intraQpDelta;
+        stH264AVbr.u32IdrQpDeltaRange = 10;
+        stH264AVbr.s32DeBreathQpDelta = -2;
+        stH264AVbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH264AVbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH264AVbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH264AVbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH264AVbr, &stH264AVbr, sizeof(AX_VENC_H264_AVBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_CVBR) {
+        AX_VENC_H264_CVBR_T stH264CVbr;
+        memset(&stH264CVbr, 0, sizeof(AX_VENC_H264_CVBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264CVBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH264CVbr.u32Gop = gopLen;
+        stH264CVbr.u32MaxBitRate = bitRate;
+
+        stH264CVbr.u32MinQp = qpMin;
+        stH264CVbr.u32MaxQp = qpMax;
+        stH264CVbr.u32MinIQp = qpMinI;
+        stH264CVbr.u32MaxIQp = qpMaxI;
+        stH264CVbr.u32MaxIprop = maxIprop;
+        stH264CVbr.u32MinIprop = minIprop;
+        stH264CVbr.s32IntraQpDelta = intraQpDelta;
+        stH264CVbr.u32IdrQpDeltaRange = 10;
+        stH264CVbr.s32DeBreathQpDelta = -2;
+
+
+        stH264CVbr.u32MinQpDelta = 0;
+        stH264CVbr.u32MaxQpDelta = 0;
+
+        stH264CVbr.u32LongTermMinBitrate = 0;
+        stH264CVbr.u32LongTermMaxBitrate = 0;
+        stH264CVbr.u32LongTermStatTime = 0;
+        stH264CVbr.u32ShortTermStatTime = 0;
+
+        stH264CVbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH264CVbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH264CVbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH264CVbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH264CVbr, &stH264CVbr, sizeof(AX_VENC_H264_CVBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_FIXQP) {
+        AX_VENC_H264_FIXQP_T stH264FixQp;
+        memset(&stH264FixQp, 0, sizeof(AX_VENC_H264_FIXQP_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264FIXQP;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH264FixQp.u32Gop = 120;
+        stH264FixQp.u32IQp = 25;
+        stH264FixQp.u32PQp = 30;
+        stH264FixQp.u32BQp = 32;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH264FixQp = stH264FixQp;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_QPMAP) {
+        AX_VENC_H264_QPMAP_T stH264QpMap;
+        memset(&stH264QpMap, 0, sizeof(AX_VENC_H264_QPMAP_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H264QPMAP;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+
+        stH264QpMap.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH264QpMap.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH264QpMap.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH264QpMap.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        stH264QpMap.u32Gop = gopLen;
+        stH264QpMap.u32TargetBitRate = bitRate;
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH264QpMap, &stH264QpMap, sizeof(AX_VENC_H264_QPMAP_T));
+    }
+    /* GOP table setting */
+    switch (gopType) {
+        case AX_VENC_GOPMODE_NORMALP: {
+            self->dev[chn].stVencChnAttr.stGopAttr.enGopMode = AX_VENC_GOPMODE_NORMALP;
+            break;
+        }
+        case AX_VENC_GOPMODE_ONELTR: {
+            /* Normal frame configures */
+            self->dev[chn].stVencChnAttr.stGopAttr.enGopMode = AX_VENC_GOPMODE_ONELTR;
+            self->dev[chn].stVencChnAttr.stGopAttr.stOneLTR.stPicConfig.s32QpOffset = 0;
+            self->dev[chn].stVencChnAttr.stGopAttr.stOneLTR.stPicConfig.f32QpFactor = 0.4624;
+            /* long-term reference and special frame configure */
+            self->dev[chn].stVencChnAttr.stGopAttr.stOneLTR.stPicSpecialConfig.s32Interval = virILen;
+            self->dev[chn].stVencChnAttr.stGopAttr.stOneLTR.stPicSpecialConfig.s32QpOffset = -2;
+            self->dev[chn].stVencChnAttr.stGopAttr.stOneLTR.stPicSpecialConfig.f32QpFactor = 0.4624;
+            break;
+        }
+        case AX_VENC_GOPMODE_SVC_T: {
+            /* SVC-T Configure */
+            static AX_U32 sSvcTGopSize = 4;
+            /*SVC-T GOP4*/
+            static AX_CHAR *stSvcTCfg[] = {
+                "Frame1:  P      1      0       0.4624        2        1           -1          1",
+                "Frame2:  P      2      0       0.4624        1        1           -2          1",
+                "Frame3:  P      3      0       0.4624        2        2           -1 -3       1 0",
+                "Frame4:  P      4      0       0.4624        0        1           -4          1",
+                NULL,
+            };
+            self->dev[chn].stVencChnAttr.stGopAttr.enGopMode = AX_VENC_GOPMODE_SVC_T;
+            self->dev[chn].stVencChnAttr.stGopAttr.stSvcT.u32GopSize = sSvcTGopSize;
+            self->dev[chn].stVencChnAttr.stGopAttr.stSvcT.s8SvcTCfg = stSvcTCfg;
+            break;
+        }
+
+        default:
+            // SAMPLE_LOG_ERR("chn-%d: Invalid gop type(%d).\n", VeChn, gopType);
+        break;
+    }
+}
+// H265
+static void venc_set_Chn_mode_par_2(struct ax_venc_hal_t *self, int chn)
+{
+    AX_S32 s32Ret = -1;
+    AX_S32 widthSrc = 1280;
+    AX_S32 heightSrc = 720;;
+    AX_S32 maxPicWidth = 1280;
+    AX_S32 maxPicHeight = 720;
+    AX_U32 virILen = 15;
+    AX_U32 strmBufSize = 0;
+    AX_F32 FrameRate = 30.0;
+    
+
+    AX_U32 gopLen = 120;
+    AX_U32 bitRate = 2048;  // kbps
+    AX_U16 qpMin = 10;
+    AX_U16 qpMax = 51;
+    AX_U16 qpMinI = 10;
+    AX_U16 qpMaxI = 51;
+    AX_U16 u32IQp = 25;
+    AX_U16 u32PQp = 30;
+    AX_U16 maxIprop = 40;
+    AX_U16 minIprop = 30;
+    AX_VENC_GOP_MODE_E gopType = AX_VENC_GOPMODE_NORMALP;
+    AX_S32 intraQpDelta = -2;
+
+    AX_S32 ctbRcMode;
+    AX_S32 qpMapType;
+    AX_S32 qpMapBlkType;
+    AX_S32 qpMapBlockUnit;
+    AX_BOOL bDeBreathEffect = 0;
+    AX_BOOL bRefRingbuf = 0;
+    AX_ROTATION_E rotation = AX_ROTATION_0;
+    // AX_VENC_CHN_ATTR_T stVencChnAttr;
+    AX_LINK_MODE_E enLinkMode = AX_LINK_MODE;
+    AX_MEMORY_SOURCE_E enMemSource = AX_MEMORY_SOURCE_CMM;
+    memset(&self->dev[chn].stVencChnAttr, 0, sizeof(AX_VENC_CHN_ATTR_T));
+
+    if ((self->dev[chn].rcMode == SAMPLE_RC_VBR) || (self->dev[chn].rcMode == SAMPLE_RC_AVBR)) {
+        /* if user not set qp use def config for vbr/avbr */
+        qpMin = 31;
+        qpMax = 46;
+        qpMinI = 31;
+        qpMaxI = 46;
+    }
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicWidth = maxPicWidth;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicHeight = maxPicHeight;
+    self->dev[chn].stVencChnAttr.stVencAttr.enLinkMode = enLinkMode;
+    self->dev[chn].stVencChnAttr.stVencAttr.enMemSource = enMemSource;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8InFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8OutFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.enRotation = rotation;
+    self->dev[chn].stVencChnAttr.stVencAttr.bDeBreathEffect = bDeBreathEffect;
+    self->dev[chn].stVencChnAttr.stVencAttr.bRefRingbuf = bRefRingbuf;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32BufSize = strmBufSize;
+
+    /* crop setting */
+    // if (pstArg->bCrop) {
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.bEnable = AX_TRUE;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32X = pstArg->cropX;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32Y = pstArg->cropY;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Width = pstArg->cropW;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Height = pstArg->cropH;
+    // }
+    self->dev[chn].stVencChnAttr.stVencAttr.enProfile = AX_VENC_HEVC_MAIN_PROFILE;
+    self->dev[chn].stVencChnAttr.stVencAttr.enLevel = AX_VENC_HEVC_LEVEL_5_1;
+    self->dev[chn].stVencChnAttr.stVencAttr.enTier = AX_VENC_HEVC_MAIN_TIER;
+
+    if (self->dev[chn].rcMode == SAMPLE_RC_CBR) {
+        AX_VENC_H265_CBR_T stH265Cbr;
+        memset(&stH265Cbr, 0, sizeof(AX_VENC_H265_CBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265CBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH265Cbr.u32Gop = gopLen;
+        stH265Cbr.u32BitRate = bitRate;
+        stH265Cbr.u32MinQp = qpMin;
+        stH265Cbr.u32MaxQp = qpMax;
+        stH265Cbr.u32MinIQp = qpMinI;
+        stH265Cbr.u32MaxIQp = qpMaxI;
+        stH265Cbr.s32IntraQpDelta = intraQpDelta;
+        stH265Cbr.u32IdrQpDeltaRange = 10;
+        stH265Cbr.s32DeBreathQpDelta = -2;
+        stH265Cbr.u32MaxIprop = 40;
+        stH265Cbr.u32MinIprop = 30;
+
+        stH265Cbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH265Cbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH265Cbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH265Cbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH265Cbr = stH265Cbr;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_VBR) {
+        AX_VENC_H265_VBR_T stH265Vbr;
+        memset(&stH265Vbr, 0, sizeof(AX_VENC_H265_VBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265VBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH265Vbr.u32Gop = gopLen;
+        stH265Vbr.u32MaxBitRate = bitRate;
+        stH265Vbr.u32MinQp = qpMin;
+        stH265Vbr.u32MaxQp = qpMax;
+        stH265Vbr.u32MinIQp = qpMinI;
+        stH265Vbr.u32MaxIQp = qpMaxI;
+        stH265Vbr.s32IntraQpDelta = intraQpDelta;
+        stH265Vbr.u32IdrQpDeltaRange = 10;
+        stH265Vbr.s32DeBreathQpDelta = -2;
+        stH265Vbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH265Vbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH265Vbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH265Vbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+        stH265Vbr.enVQ = AX_VENC_VBR_QUALITY_LEVEL_INV;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH265Vbr = stH265Vbr;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_AVBR) {
+        AX_VENC_H265_AVBR_T stH265AVbr;
+        memset(&stH265AVbr, 0, sizeof(AX_VENC_H265_AVBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265AVBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH265AVbr.u32Gop = gopLen;
+        stH265AVbr.u32MaxBitRate = bitRate;
+        stH265AVbr.u32MinQp = qpMin;
+        stH265AVbr.u32MaxQp = qpMax;
+        stH265AVbr.u32MinIQp = qpMinI;
+        stH265AVbr.u32MaxIQp = qpMaxI;
+        stH265AVbr.s32IntraQpDelta = intraQpDelta;
+        stH265AVbr.u32IdrQpDeltaRange = 10;
+        stH265AVbr.s32DeBreathQpDelta = -2;
+        stH265AVbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH265AVbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH265AVbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH265AVbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH265AVbr, &stH265AVbr, sizeof(AX_VENC_H265_AVBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_CVBR) {
+        AX_VENC_H265_CVBR_T stH265CVbr;
+        memset(&stH265CVbr, 0, sizeof(AX_VENC_H265_CVBR_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265CVBR;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        
+        stH265CVbr.u32Gop = gopLen;
+        stH265CVbr.u32MaxBitRate = bitRate;
+        stH265CVbr.u32MinQp = qpMin;
+        stH265CVbr.u32MaxQp = qpMax;
+        stH265CVbr.u32MinIQp = qpMinI;
+        stH265CVbr.u32MaxIQp = qpMaxI;
+        stH265CVbr.s32IntraQpDelta = intraQpDelta;
+
+        stH265CVbr.u32MaxIprop = maxIprop;
+        stH265CVbr.u32MinIprop = minIprop;
+
+        stH265CVbr.u32MinQpDelta = 0;
+        stH265CVbr.u32MaxQpDelta = 0;
+        stH265CVbr.u32IdrQpDeltaRange = 10;
+        stH265CVbr.s32DeBreathQpDelta = -2;
+        stH265CVbr.u32LongTermMinBitrate = 0;
+        stH265CVbr.u32LongTermMaxBitrate = 0;
+        stH265CVbr.u32LongTermStatTime = 0;
+        stH265CVbr.u32ShortTermStatTime = 0;
+
+        stH265CVbr.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH265CVbr.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH265CVbr.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH265CVbr.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH265CVbr, &stH265CVbr, sizeof(AX_VENC_H265_CVBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_FIXQP) {
+        AX_VENC_H265_FIXQP_T stH265FixQp;
+        memset(&stH265FixQp, 0, sizeof(AX_VENC_H265_FIXQP_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265FIXQP;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+        stH265FixQp.u32Gop = 120;
+        stH265FixQp.u32IQp = 25;
+        stH265FixQp.u32PQp = 30;
+        stH265FixQp.u32BQp = 32;
+        self->dev[chn].stVencChnAttr.stRcAttr.stH265FixQp = stH265FixQp;
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_QPMAP) {
+        AX_VENC_H265_QPMAP_T stH265QpMap;
+        memset(&stH265QpMap, 0, sizeof(AX_VENC_H265_QPMAP_T));
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_H265QPMAP;
+        self->dev[chn].stVencChnAttr.stRcAttr.s32FirstFrameStartQp = -1;
+
+        stH265QpMap.stQpmapInfo.enQpmapQpType = qpMapType;
+        stH265QpMap.stQpmapInfo.enQpmapBlockUnit = qpMapBlockUnit;
+        stH265QpMap.stQpmapInfo.enQpmapBlockType = qpMapBlkType;
+        stH265QpMap.stQpmapInfo.enCtbRcMode = ctbRcMode;
+
+        stH265QpMap.u32Gop = gopLen;
+        stH265QpMap.u32TargetBitRate = bitRate;
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stH265QpMap, &stH265QpMap, sizeof(AX_VENC_H265_QPMAP_T));
+    }
+}
+// jpeg
+static void venc_set_Chn_mode_par_3(struct ax_venc_hal_t *self, int chn)
+{
+
+}
+
+// mjpeg
+static void venc_set_Chn_mode_par_4(struct ax_venc_hal_t *self, int chn)
+{
+    AX_S32 s32Ret = -1;
+    AX_S32 widthSrc = 1280;
+    AX_S32 heightSrc = 720;;
+    AX_S32 maxPicWidth = 1280;
+    AX_S32 maxPicHeight = 720;
+    AX_U32 gopLen = 25;
+    AX_U32 virILen = 15;
+    AX_U32 strmBufSize = 0;
+    AX_F32 FrameRate = 30.0;
+    
+
+    AX_U32 bitRate = 2000;  // kbps
+    AX_U16 qpMin = 10;
+    AX_U16 qpMax = 51;
+    AX_U16 qpMinI = 10;
+    AX_U16 qpMaxI = 51;
+    AX_U16 u32IQp = 25;
+    AX_U16 u32PQp = 30;
+    AX_U16 maxIprop = 40;
+    AX_U16 minIprop = 10;
+    AX_VENC_GOP_MODE_E gopType = AX_VENC_GOPMODE_NORMALP;
+    AX_S32 intraQpDelta = 0;
+
+    AX_S32 ctbRcMode;
+    AX_S32 qpMapType;
+    AX_S32 qpMapBlkType;
+    AX_S32 qpMapBlockUnit;
+    AX_BOOL bDeBreathEffect = 0;
+    AX_BOOL bRefRingbuf = 0;
+    AX_ROTATION_E rotation = AX_ROTATION_0;
+    // AX_VENC_CHN_ATTR_T stVencChnAttr;
+    AX_LINK_MODE_E enLinkMode = AX_LINK_MODE;
+    AX_MEMORY_SOURCE_E enMemSource = AX_MEMORY_SOURCE_CMM;
+    memset(&self->dev[chn].stVencChnAttr, 0, sizeof(AX_VENC_CHN_ATTR_T));
+
+    if ((self->dev[chn].rcMode == SAMPLE_RC_VBR) || (self->dev[chn].rcMode == SAMPLE_RC_AVBR)) {
+        /* if user not set qp use def config for vbr/avbr */
+        qpMin = 31;
+        qpMax = 46;
+        qpMinI = 31;
+        qpMaxI = 46;
+    }
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicWidth = maxPicWidth;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32MaxPicHeight = maxPicHeight;
+    self->dev[chn].stVencChnAttr.stVencAttr.enLinkMode = enLinkMode;
+    self->dev[chn].stVencChnAttr.stVencAttr.enMemSource = enMemSource;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8InFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.u8OutFifoDepth = 4;
+    self->dev[chn].stVencChnAttr.stVencAttr.enRotation = rotation;
+    self->dev[chn].stVencChnAttr.stVencAttr.bDeBreathEffect = bDeBreathEffect;
+    self->dev[chn].stVencChnAttr.stVencAttr.bRefRingbuf = bRefRingbuf;
+    self->dev[chn].stVencChnAttr.stVencAttr.u32BufSize = strmBufSize;
+    /* crop setting */
+    // if (pstArg->bCrop) {
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.bEnable = AX_TRUE;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32X = pstArg->cropX;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.s32Y = pstArg->cropY;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Width = pstArg->cropW;
+    //     self->dev[chn].stVencChnAttr.stVencAttr.stCropCfg.stRect.u32Height = pstArg->cropH;
+    // }
+    if (self->dev[chn].rcMode == SAMPLE_RC_CBR) {
+        AX_VENC_MJPEG_CBR_T stMjpegCbr;
+        memset(&stMjpegCbr, 0, sizeof(stMjpegCbr));
+
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_MJPEGCBR;
+        stMjpegCbr.u32StatTime = 1;
+        stMjpegCbr.u32BitRate = bitRate;
+        stMjpegCbr.u32MinQp = qpMin;
+        stMjpegCbr.u32MaxQp = qpMax;
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stMjpegCbr, &stMjpegCbr, sizeof(AX_VENC_MJPEG_CBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_VBR) {
+        AX_VENC_MJPEG_VBR_T stMjpegVbr;
+        memset(&stMjpegVbr, 0, sizeof(stMjpegVbr));
+
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_MJPEGVBR;
+        stMjpegVbr.u32StatTime = 1;
+        stMjpegVbr.u32MaxBitRate = bitRate;
+        stMjpegVbr.u32MinQp = qpMin;
+        stMjpegVbr.u32MaxQp = qpMax;
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stMjpegVbr, &stMjpegVbr, sizeof(AX_VENC_MJPEG_VBR_T));
+    } else if (self->dev[chn].rcMode == SAMPLE_RC_FIXQP) {
+        AX_VENC_MJPEG_FIXQP_T stMjpegFixQp;
+
+        self->dev[chn].stVencChnAttr.stRcAttr.enRcMode = AX_VENC_RC_MODE_MJPEGFIXQP;
+        stMjpegFixQp.s32FixedQp = 26;
+        memcpy(&self->dev[chn].stVencChnAttr.stRcAttr.stMjpegFixQp, &stMjpegFixQp, sizeof(AX_VENC_MJPEG_FIXQP_T));
+    }
+}
+
+
+static int hal_InitChn(ax_venc_hal *self, int Chn, int enType, int rcMode, int widthSrc, int heightSrc, int frameRate, int mode)
+{
+    self->dev[Chn].stVencChnAttr.stVencAttr.enType = enType;
+    self->dev[Chn].rcMode = rcMode;
+    self->set_Chn_mode_par[mode](self, Chn);
+    self->dev[Chn].stVencChnAttr.stVencAttr.u32PicWidthSrc = widthSrc;   /*the input picture width*/
+    self->dev[Chn].stVencChnAttr.stVencAttr.u32PicHeightSrc = heightSrc; /*the input picture height*/
+    self->dev[Chn].stVencChnAttr.stRcAttr.stFrameRate.fSrcFrameRate = frameRate;
+    self->dev[Chn].stVencChnAttr.stRcAttr.stFrameRate.fDstFrameRate = frameRate;
+}
 static int hal_OpenChn(ax_venc_hal *self, int Chn, int mode)
 {
     AX_S32 ret;
     if (Chn > 9) return -1;
     ax_venc_dev_info *chn_self = &self->dev[Chn];
-    self->set_Chn_mode_par[mode](self, Chn);
+    // self->set_Chn_mode_par[mode](self, Chn);
     ret = AX_VENC_CreateChn(Chn, &chn_self->stVencChnAttr);
     if (AX_SUCCESS != ret) {
         // ALOGE("VencChn %d: AX_VENC_CreateChn failed, s32Ret:0x%x", VencChn, ret);
@@ -655,6 +1179,7 @@ int ax_create_venc(ax_venc_hal *venc_dev)
         return -1;
     }
     private_flage       = 2;
+    venc_dev->InitChn   = hal_InitChn;
     venc_dev->OpenChn   = hal_OpenChn;
     venc_dev->SetChnOut = hal_SetChnOut;
     venc_dev->on_farm   = hal_on_farm;

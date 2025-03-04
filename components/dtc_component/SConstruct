@@ -1,0 +1,41 @@
+# component/SConscript
+Import("env")
+import os
+
+with open(env["PROJECT_TOOL_S"]) as f:
+    exec(f.read())
+
+
+if "CONFIG_DTC_COMPONENT_ENABLED" in os.environ:
+    check_component("dtc")
+    SRCS = Glob("../../github_source/dtc/libfdt/*.c")
+    INCLUDE = [ADir("../../github_source/dtc/libfdt")]
+    PRIVATE_INCLUDE = []
+    REQUIREMENTS = ["m"]
+    STATIC_LIB = []
+    DYNAMIC_LIB = []
+    DEFINITIONS = []
+    DEFINITIONS_PRIVATE = []
+    LDFLAGS = []
+    LINK_SEARCH_PATH = []
+
+    if "CONFIG_DTS_AUTO_CONFIG_COMMON_ENABLED" in os.environ:
+        SRCS += AGlob("src/*.c*")
+        INCLUDE += [ADir("include")]
+
+    env["COMPONENTS"].append(
+        {
+            "target": os.path.basename(env["component_dir"]),
+            "SRCS": SRCS,
+            "INCLUDE": INCLUDE,
+            "PRIVATE_INCLUDE": PRIVATE_INCLUDE,
+            "REQUIREMENTS": REQUIREMENTS,
+            "STATIC_LIB": STATIC_LIB,
+            "DYNAMIC_LIB": DYNAMIC_LIB,
+            "DEFINITIONS": DEFINITIONS,
+            "DEFINITIONS_PRIVATE": DEFINITIONS_PRIVATE,
+            "LDFLAGS": LDFLAGS,
+            "LINK_SEARCH_PATH": LINK_SEARCH_PATH,
+            "REGISTER": "static",
+        }
+    )

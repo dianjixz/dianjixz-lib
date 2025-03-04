@@ -5,7 +5,12 @@ with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
 if 'CONFIG_AX_620E_MSP_ENABLED' in os.environ:
-    MSP_PATH = os.environ.get('EXT_MSP_PATH', check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_msp.tar.gz", 'm5stack_msp.tar.gz'))
+    MSP_PATH = ''
+    if 'CONFIG_MSP_V3_0_0_ENABLED' in os.environ:
+        MSP_PATH = os.environ.get('EXT_MSP_PATH', check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_msp.tar.gz", 'm5stack_msp.tar.gz'))
+    elif 'CONFIG_MSP_V2_0_0_ENABLED' in os.environ:
+        MSP_PATH = os.environ.get('EXT_MSP_PATH', check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_msp.tar.gz", 'm5stack_msp.tar.gz'))
+    
     SRCS=[]
     INCLUDE=[]
     PRIVATE_INCLUDE=[]
@@ -18,7 +23,8 @@ if 'CONFIG_AX_620E_MSP_ENABLED' in os.environ:
     LINK_SEARCH_PATH=[]
     
     env["MSP_PATH"] = MSP_PATH
-    INCLUDE += [os.path.join(MSP_PATH, 'out/arm64_glibc/include'), os.path.join(MSP_PATH, 'sample'), os.path.join(MSP_PATH, 'sample/common'), os.path.join(MSP_PATH, 'sample/rtsp')]
+    # , os.path.join(MSP_PATH, 'sample/common')
+    INCLUDE += [os.path.join(MSP_PATH, 'out/arm64_glibc/include'), os.path.join(MSP_PATH, 'sample'), os.path.join(MSP_PATH, 'sample/rtsp')]
     LINK_SEARCH_PATH += [os.path.join(MSP_PATH, 'out/arm64_glibc/lib')]
     REQUIREMENTS += ['dl', 'm', 'pthread']
     third_party = ['drm','faac','fdk-aac','ffmpeg','libsamplerate','mp4','opencv','opus','tinyalsa']
@@ -32,9 +38,15 @@ if 'CONFIG_AX_620E_MSP_ENABLED' in os.environ:
     LINK_SEARCH_PATH.append(os.path.join(MSP_PATH,'app/lib'))
 
     if 'CONFIG_SAMPLE_COMMON_ENABLED' in os.environ:
-        INCLUDE.append(os.path.join(MSP_PATH, 'sample/common'))
-        SRCS += Glob(os.path.join(MSP_PATH, 'sample/common/*.c*') )
+        if 'CONFIG_MSP_V3_0_0_ENABLED' in os.environ:
+            INCLUDE.append(ADir('common/V3.0.0'))
+            SRCS += AGlob('common/V3.0.0/*.c*')
+        elif 'CONFIG_MSP_V2_0_0_ENABLED' in os.environ:
+            INCLUDE.append(ADir('common/V2.0.0'))
+            SRCS += AGlob('common/V2.0.0/*.c*')
 
+    if 'CONFIG_AX_SAMPLE_ENABLED' in os.environ:
+        INCLUDE.append(ADir('ax_sample'))
 
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
                             'SRCS':SRCS,

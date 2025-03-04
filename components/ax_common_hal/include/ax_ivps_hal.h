@@ -25,6 +25,17 @@ typedef enum {
     AX_IVPS_GRP_OSD    = 0b000001
 } AX_IVPS_GRP_STATUS;
 
+enum {
+    AX_IVPS_PAR_0,
+    AX_IVPS_PAR_1,
+    AX_IVPS_PAR_2,
+    AX_IVPS_PAR_3,
+    AX_IVPS_PAR_4,
+    AX_IVPS_PAR_CUSTOM,
+    AX_IVPS_PAR_MAX
+};
+
+
 #define AUTO_GRP_ID -1
 
 struct ax_ivps_pthread_par {
@@ -58,7 +69,7 @@ typedef struct ax_ivps_hal_t {
     void (*start)(struct ax_ivps_hal_t *self, int GRP, int CHN);
     void (*stop)(struct ax_ivps_hal_t *self, int GRP, int CHN);
     int (*CloseGRP)(struct ax_ivps_hal_t *self, int GRP);
-    void (*set_GRP_mode_par[10])(struct ax_ivps_hal_t *self, int GRP);
+    void (*set_GRP_mode_par[AX_IVPS_PAR_MAX])(struct ax_ivps_hal_t *self, int GRP);
     void (*superior_link)(struct ax_ivps_hal_t *self, int GRP, void *Mod);
 } ax_ivps_hal;
 
