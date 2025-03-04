@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     ax_create_sensor(&sensor);
     ax_create_ivps(&ivps);
     ax_create_vo(&display);
-    display.set_Vo_mode_par[8] = set_Vo_mode_par_custum;
+    display.set_Vo_mode_par[HAL_AX_VO_PAR_CUSTOM] = set_Vo_mode_par_custum;
     // sensor.InitSensor(&sensor, SAMPLE_VIN_SINGLE_OS04A10, 1);
     sensor.InitSensor(&sensor, SAMPLE_VIN_SINGLE_SC850SL, 1);
     COMMON_SYS_Init(&sensor.tCommonArgs);
@@ -195,25 +195,31 @@ int main(int argc, char *argv[])
     AX_SYS_MemAlloc(&osd[2].u64PhyAddr[0], (AX_VOID **)&osd[2].u64VirAddr[0], size, 0x100, (AX_S8 *)"MY_OSD");
 
     SAMPLE_ENGINE_Load((AX_CHAR *)SAMPLE_ENGINE_MODEL_FILE);
-    ivps.superior_link(&ivps, 1, sensor.get_link_mod(&sensor, 0));
-    display.InitVo(&display, 0, 8);
-    display.OpenVo(&display, 0);
-    ivps.InitGRP(&ivps, 1, 0);
-    ivps.OpenGRP(&ivps, 1);
-    ivps.set_chn_farm_on(&ivps, 1, 1, ai_out_farm, NULL);
-    ivps.set_chn_farm_on(&ivps, 1, 2, vo_out_farm, NULL);
-    ivps.start(&ivps, 1, 1);
-    ivps.start(&ivps, 1, 2);
+    hal_AX_SYS_Link(sensor.get_chn_pipe_id(&sensor, HAL_AX_SENSOR_DEV_0, HAL_AX_SENSOR_CHN_0), 
+        ivps.get_chn_pipe_id(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_0));
+    display.InitVo(&display, HAL_AX_VO_DEV_0, HAL_AX_VO_PAR_CUSTOM);
+    display.OpenVo(&display, HAL_AX_VO_DEV_0);
+    ivps.InitGRP(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_PAR_0);
+    ivps.OpenGRP(&ivps, HAL_AX_IVPS_DEV_1);
+    ivps.set_chn_farm_on(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_1, ai_out_farm, NULL);
+    ivps.set_chn_farm_on(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_2, vo_out_farm, NULL);
+    ivps.start(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_1);
+    ivps.start(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_2);
     sensor.OpenSensor(&sensor);
-    while (!gLoopExit) {
-        sleep(1);
-    }
+    // while (!gLoopExit) {
+    //     sleep(1);
+    // }
+    pause();
+
+    hal_AX_SYS_UnLink(sensor.get_chn_pipe_id(&sensor, HAL_AX_SENSOR_DEV_0, HAL_AX_SENSOR_CHN_0), 
+        ivps.get_chn_pipe_id(&ivps, HAL_AX_IVPS_DEV_1, HAL_AX_IVPS_CHN_0));
+
     // printf("ivps.CloseGRP(&ivps, 1)\n");
-    ivps.CloseGRP(&ivps, 1);
+    ivps.CloseGRP(&ivps, HAL_AX_IVPS_DEV_1);
     // printf("sensor.CloseSensor(&sensor)\n");
     sensor.CloseSensor(&sensor);
     // printf("display.CloseVo(&display, 0)\n");
-    display.CloseVo(&display, 0);
+    display.CloseVo(&display, HAL_AX_VO_DEV_0);
     SAMPLE_ENGINE_Release();
     AX_ENGINE_Deinit();
     AX_SYS_MemFree(osd[0].u64PhyAddr[0], (AX_VOID *)osd[0].u64VirAddr[0]);

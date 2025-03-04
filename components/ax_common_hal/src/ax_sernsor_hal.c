@@ -1025,33 +1025,33 @@ static int ax_OpenSensor(struct ax_sensor_hal_t *self)
         COMM_ISP_PRT("COMMON_CAM_Init fail, ret:0x%x", axRet);
         return -2;
     }
-    self->status |= AX_SENSOR_CAM_ENABLE;
+    self->status |= HAL_AX_SENSOR_CAM_ENABLE;
     axRet = COMMON_CAM_PrivPoolInit(&self->tPrivArgs);
     if (axRet) {
         COMM_ISP_PRT("COMMON_CAM_PrivPoolInit fail, ret:0x%x", axRet);
         return -3;
     }
-    self->status |= AX_SENSOR_CAM_POOL_ENABLE;
+    self->status |= HAL_AX_SENSOR_CAM_POOL_ENABLE;
     /* Step5: Cam Open */
     axRet = COMMON_CAM_Open(&self->gCams[0], self->tCommonArgs.nCamCnt);
     if (axRet) {
         COMM_ISP_PRT("COMMON_CAM_Open fail, ret:0x%x", axRet);
         return -4;
     }
-    self->status |= AX_SENSOR_CAM_OPEN;
+    self->status |= HAL_AX_SENSOR_CAM_OPEN;
     return 0;
 }
 static int ax_CloseSensor(struct ax_sensor_hal_t *self)
 {
-    if (self->status & AX_SENSOR_CAM_OPEN) {
+    if (self->status & HAL_AX_SENSOR_CAM_OPEN) {
         COMMON_CAM_Close(&self->gCams[0], self->tCommonArgs.nCamCnt);
     }
-    self->status &= ~((int)AX_SENSOR_CAM_OPEN);
-    if (self->status & AX_SENSOR_CAM_ENABLE) {
+    self->status &= ~((int)HAL_AX_SENSOR_CAM_OPEN);
+    if (self->status & HAL_AX_SENSOR_CAM_ENABLE) {
         COMMON_CAM_Deinit();
     }
-    self->status &= ~((int)AX_SENSOR_CAM_ENABLE);
-    self->status = AX_SENSOR_NONT;
+    self->status &= ~((int)HAL_AX_SENSOR_CAM_ENABLE);
+    self->status = HAL_AX_SENSOR_NONT;
     return 0;
 }
 
@@ -1087,7 +1087,7 @@ static int ax_SetSensorOut(struct ax_sensor_hal_t *self, int Chn, void (*out_far
 
 static void ax_start(struct ax_sensor_hal_t *self, int Chn)
 {
-    if (self->status & AX_SENSOR_CAM_OPEN) {
+    if (self->status & HAL_AX_SENSOR_CAM_OPEN) {
         if (self->dev[Chn].out_farm != NULL) {
             self->dev[Chn].status = DEVICE_RUN;
             self->dev[Chn].Chn    = Chn;
@@ -1112,6 +1112,15 @@ static void *get_link_mod(struct ax_sensor_hal_t *self, int chn)
     return &self->dev[chn].selfMod;
 }
 
+static AX_MOD_INFO_T get_chn_pipe_id(struct ax_sensor_hal_t *self, int dev, int chn)
+{
+    AX_MOD_INFO_T mod_info;
+    mod_info.enModId  = AX_ID_VIN;
+    mod_info.s32GrpId = 0;
+    mod_info.s32ChnId = chn;
+    return mod_info;
+}
+
 static int private_flage = 0;
 int ax_create_sensor(ax_sensor_hal *sensor_dev)
 {
@@ -1127,9 +1136,10 @@ int ax_create_sensor(ax_sensor_hal *sensor_dev)
     sensor_dev->stop                   = ax_stop;
     sensor_dev->GetFrameRate           = ax_GetFrameRate;
     sensor_dev->get_link_mod           = get_link_mod;
+    sensor_dev->get_chn_pipe_id        = get_chn_pipe_id;
     sensor_dev->set_Sensor_mode_par[0] = set_Sensor_mode_par_0;
     sensor_dev->set_Sensor_mode_par[1] = set_Sensor_mode_par_1;
-    for (size_t i = 0; i < AX_MAX_SENSOR_CHN_; i++) {
+    for (size_t i = 0; i < HAL_AX_SENSOR_DEV_MAX; i++) {
         sensor_dev->dev[i].selfMod.enModId  = AX_ID_VIN;
         sensor_dev->dev[i].selfMod.s32GrpId = 0;
         sensor_dev->dev[i].selfMod.s32ChnId = i;
@@ -1144,7 +1154,7 @@ void ax_destroy_sensor(ax_sensor_hal *sensor_dev)
             sensor_dev->stop(sensor_dev, i);
         }
     }
-    if (sensor_dev->status != AX_SENSOR_NONT) {
+    if (sensor_dev->status != HAL_AX_SENSOR_NONT) {
         sensor_dev->CloseSensor(sensor_dev);
     }
     private_flage = 0;

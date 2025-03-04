@@ -947,7 +947,7 @@ static int hal_OpenChn(ax_venc_hal *self, int Chn, int mode)
         // ALOGE("VencChn %d: AX_VENC_CreateChn failed, s32Ret:0x%x", VencChn, ret);
         return -1;
     }
-    self->dev[Chn].status |= AX_VENC_CHN_CREATE;
+    self->dev[Chn].status |= HAL_AX_VENC_CHN_CREATE;
     return 0;
 }
 
@@ -979,10 +979,10 @@ static void *hal_venc_get_farm_pthread(void *p)
 {
     AX_S32 s32Ret;
     ax_venc_dev_info *self = (ax_venc_dev_info *)p;
-    if (self->status != AX_VENC_CHN_CREATE) return NULL;
+    if (self->status != HAL_AX_VENC_CHN_CREATE) return NULL;
     AX_VENC_STREAM_T stStream;
 
-    while (self->status & AX_VENC_CHN_START_RECV) {
+    while (self->status & HAL_AX_VENC_CHN_START_RECV) {
         memset(&stStream, 0, sizeof(AX_VENC_STREAM_T));
         s32Ret = AX_VENC_GetStream(self->chn, &stStream, 200);
         if (AX_SUCCESS == s32Ret) {
@@ -1008,7 +1008,7 @@ static int hal_on_farm(ax_venc_hal *self, int Chn, Venc_Frame *buffer)
     AX_S32 s32Ret;
     AX_VIDEO_FRAME_INFO_T stFrame;
     static int sendFrameNum = 0;
-    if (!(self->dev[Chn].status & AX_VENC_CHN_CREATE)) {
+    if (!(self->dev[Chn].status & HAL_AX_VENC_CHN_CREATE)) {
         ALOGW("VencChn %d not open", Chn);
         return -1;
     }
@@ -1054,7 +1054,7 @@ static int hal_start(struct ax_venc_hal_t *self, int Chn)
         return -1;
     }
     if (self->dev[Chn].out_farm) {
-        self->dev[Chn].status |= AX_VENC_CHN_START_RECV;
+        self->dev[Chn].status |= HAL_AX_VENC_CHN_START_RECV;
         self->dev[Chn].chn = Chn;
         pthread_create(&self->dev[Chn].farm_pthread_p, NULL, hal_venc_get_farm_pthread, &self->dev[Chn]);
     }
@@ -1063,8 +1063,8 @@ static int hal_start(struct ax_venc_hal_t *self, int Chn)
 
 static void hal_stop(ax_venc_hal *self, int Chn)
 {
-    if (self->dev[Chn].status & AX_VENC_CHN_START_RECV) {
-        self->dev[Chn].status &= ~((int)AX_VENC_CHN_START_RECV);
+    if (self->dev[Chn].status & HAL_AX_VENC_CHN_START_RECV) {
+        self->dev[Chn].status &= ~((int)HAL_AX_VENC_CHN_START_RECV);
         if (self->dev[Chn].out_farm) {
             pthread_join(self->dev[Chn].farm_pthread_p, NULL);
         }
@@ -1075,20 +1075,20 @@ static void hal_stop(ax_venc_hal *self, int Chn)
 static void hal_CloseChn(ax_venc_hal *self, int Chn)
 {
     AX_S32 s32Ret;
-    if (self->dev[Chn].status & AX_VENC_CHN_START_RECV) {
+    if (self->dev[Chn].status & HAL_AX_VENC_CHN_START_RECV) {
         self->stop(self, Chn);
     }
-    if (self->dev[Chn].status & AX_VENC_CHN_LINK) {
+    if (self->dev[Chn].status & HAL_AX_VENC_CHN_LINK) {
         AX_SYS_UnLink(&self->dev[Chn].srcMod, &self->dev[Chn].ditMod);
     }
-    self->dev[Chn].status &= ~((int)AX_VENC_CHN_LINK);
-    if (self->dev[Chn].status & AX_VENC_CHN_CREATE) {
+    self->dev[Chn].status &= ~((int)HAL_AX_VENC_CHN_LINK);
+    if (self->dev[Chn].status & HAL_AX_VENC_CHN_CREATE) {
         s32Ret = AX_VENC_DestroyChn(Chn);
         if (0 != s32Ret) {
             ALOGE("VencChn %d:AX_VENC_DestroyChn failed,s32Ret:0x%x.\n", Chn, s32Ret);
         }
     }
-    self->dev[Chn].status = AX_VENC_CHN_NONT;
+    self->dev[Chn].status = HAL_AX_VENC_CHN_NONT;
 }
 
 static int hal_getStatus(ax_venc_hal *self, int Chn)
@@ -1152,6 +1152,15 @@ static int hal_getStatus(ax_venc_hal *self, int Chn)
 //     return nRet;
 // }
 
+static AX_MOD_INFO_T get_chn_pipe_id(struct ax_venc_hal_t *self, int dev, int chn)
+{
+    AX_MOD_INFO_T mod_info;
+    mod_info.enModId  = AX_ID_VENC;
+    mod_info.s32GrpId = dev;
+    mod_info.s32ChnId = chn;
+    return mod_info;
+}
+
 static void hal_superior_link(struct ax_venc_hal_t *self, int CHN, void *Mod)
 {
     self->dev[CHN].srcMod          = *((AX_MOD_INFO_T *)Mod);
@@ -1188,6 +1197,7 @@ int ax_create_venc(ax_venc_hal *venc_dev)
     venc_dev->getStatus = hal_getStatus;
     // venc_dev->EncodeOneFrameToJpeg = hal_EncodeOneFrameToJpeg;
     venc_dev->superior_link       = hal_superior_link;
+    venc_dev->get_chn_pipe_id      = get_chn_pipe_id;
     venc_dev->CloseChn            = hal_CloseChn;
     venc_dev->set_Chn_mode_par[0] = venc_set_Chn_mode_par_0;
     return 0;

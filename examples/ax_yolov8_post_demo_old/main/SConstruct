@@ -7,7 +7,7 @@ with open(env['PROJECT_TOOL_S']) as f:
 SRCS = Glob('src/*.c*')
 INCLUDE = []
 PRIVATE_INCLUDE = []
-REQUIREMENTS = ['pthread', 'single_header_libs', 'ax_common_hal', 'ax_msp', 'utilities']
+REQUIREMENTS = ['pthread', 'ax_common_hal', 'ax_msp', 'utilities']
 STATIC_LIB = []
 DYNAMIC_LIB = []
 DEFINITIONS = []

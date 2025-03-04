@@ -1,6 +1,6 @@
 #ifndef __MY_HAL_H__
 #define __MY_HAL_H__
-
+#include "ax_sys_api.h"
 typedef struct
 {
     int pipeid;        // pipeline 的 id
@@ -20,6 +20,14 @@ typedef enum {
     DEVICE_RUN
 } hal_run_status_t;
 
+inline AX_S32 hal_AX_SYS_Link(AX_MOD_INFO_T pSrc, AX_MOD_INFO_T pDest)
+{
+    return AX_SYS_Link(&pSrc, &pDest);
+}
 
+inline AX_S32 hal_AX_SYS_UnLink(AX_MOD_INFO_T pSrc, AX_MOD_INFO_T pDest)
+{
+    return AX_SYS_UnLink(&pSrc, &pDest);
+}
 
 #endif

@@ -191,7 +191,7 @@ static int ax_Open(struct ax_vo_hal_t *self, int vo_dev)
     SAMPLE_VO_LAYER_CONFIG_S *pstVoLayerConf;
     AX_VO_VIDEO_LAYER_ATTR_T *pstVoLayerAttr;
     AX_U32 bytesPerPixel = 0, nPlanes = 0;
-    self->status = AX_VO_NONT;
+    self->status = HAL_AX_VO_NONT;
 
     for (i = 0; i < self->stVoConfig.u32LayerNr; i++) {
         pstVoDevConf   = &self->stVoConfig.stVoDev[i];
@@ -238,7 +238,7 @@ static int ax_Open(struct ax_vo_hal_t *self, int vo_dev)
             printf("creat ChnPool failed, s32Ret = 0x%x\n", s32Ret);
             return -2;
         }
-        self->status |= AX_VO_CHN_POOL;
+        self->status |= HAL_AX_VO_CHN_POOL;
 
         u64PixSize = (AX_U64)ALIGN_UP(u32LayerWidth, 8) * ALIGN_UP(u32LayerHeight, 2);
         s32Ret     = SAMPLE_VO_FMT2ImgStoreInfo(pstVoLayerConf->stVoLayerAttr.enPixFmt, &bytesPerPixel, &nPlanes);
@@ -257,7 +257,7 @@ static int ax_Open(struct ax_vo_hal_t *self, int vo_dev)
             printf("creat LayerPool failed, i:%d, s32Ret:0x%x\n", i, s32Ret);
             return -4;
         }
-        self->status |= AX_VO_LAYER_POOL;
+        self->status |= HAL_AX_VO_LAYER_POOL;
         pstVoLayerAttr->u32FifoDepth = pstVoLayerConf->u32FifoDepth;
         pstVoLayerAttr->u32PoolId    = pstVoLayerConf->u32LayerPoolId;
 
@@ -270,17 +270,17 @@ static int ax_Open(struct ax_vo_hal_t *self, int vo_dev)
         printf("SAMPLE_COMM_VO_StartVO failed, i:%d, s32Ret:0x%x\n", i, s32Ret);
         return -5;
     }
-    self->status |= AX_VO_OPEN;
+    self->status |= HAL_AX_VO_OPEN;
     return 0;
 }
 static int ax_Close(struct ax_vo_hal_t *self, int vo_dev)
 {
     SAMPLE_VO_LAYER_CONFIG_S *pstVoLayerConf;
-    if (self->status & AX_VO_OPEN) {
+    if (self->status & HAL_AX_VO_OPEN) {
         SAMPLE_COMM_VO_StopVO(&self->stVoConfig);
     }
     printf("VO test Finished success!\n");
-    if (self->status & AX_VO_LAYER_POOL) {
+    if (self->status & HAL_AX_VO_LAYER_POOL) {
         for (int i = 0; i < self->stVoConfig.u32LayerNr; i++) {
             pstVoLayerConf = &self->stVoConfig.stVoLayer[i];
             SAMPLE_VO_POOL_DESTROY(pstVoLayerConf->u32ChnPoolId);
@@ -288,7 +288,7 @@ static int ax_Close(struct ax_vo_hal_t *self, int vo_dev)
         }
     }
 
-    self->status = AX_VO_NONT;
+    self->status = HAL_AX_VO_NONT;
     return 0;
 }
 
@@ -382,6 +382,15 @@ static void ax_stop(struct ax_vo_hal_t *self, int Chn)
     // pthread_join(self->dev[Chn].farm_pthread_p, NULL);
 }
 
+static AX_MOD_INFO_T get_chn_pipe_id(struct ax_vo_hal_t *self, int dev, int chn)
+{
+    AX_MOD_INFO_T mod_info;
+    mod_info.enModId  = AX_ID_VO;
+    mod_info.s32GrpId = dev;
+    mod_info.s32ChnId = chn;
+    return mod_info;
+}
+
 static int private_flage = 0;
 int ax_create_vo(ax_vo_hal *vo_dev)
 {
@@ -398,8 +407,9 @@ int ax_create_vo(ax_vo_hal *vo_dev)
     vo_dev->get_frame_mem      = get_frame_mem;
     vo_dev->put_frame          = put_frame_mem;
     vo_dev->get_frame          = get_frame;
-    vo_dev->set_Vo_mode_par[AX_VO_PAR_0] = set_Vo_mode_par_0;
-    vo_dev->set_Vo_mode_par[AX_VO_PAR_1] = set_Vo_mode_par_1;
+    vo_dev->get_chn_pipe_id        = get_chn_pipe_id;
+    vo_dev->set_Vo_mode_par[HAL_AX_VO_PAR_0] = set_Vo_mode_par_0;
+    vo_dev->set_Vo_mode_par[HAL_AX_VO_PAR_1] = set_Vo_mode_par_1;
 
     return 0;
 }
@@ -411,7 +421,7 @@ void ax_destroy_vo(ax_vo_hal *vo_dev)
     //         vo_dev->stop(vo_dev, i);
     //     }
     // }
-    if (vo_dev->status != AX_VO_NONT) {
+    if (vo_dev->status != HAL_AX_VO_NONT) {
         vo_dev->CloseVo(vo_dev, 0);
     }
     private_flage = 0;

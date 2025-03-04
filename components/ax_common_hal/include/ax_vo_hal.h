@@ -20,22 +20,29 @@ extern "C" {
 #include "common_vo_pattern.h"
 
 typedef enum {
-    AX_VO_NONT       = 0b00000,
-    AX_VO_FMT0       = 0b00001,
-    AX_VO_CHN_POOL   = 0b00010,
-    AX_VO_FMT1       = 0b00100,
-    AX_VO_LAYER_POOL = 0b01000,
-    AX_VO_OPEN       = 0b10000,
+    HAL_AX_VO_NONT       = 0b00000,
+    HAL_AX_VO_FMT0       = 0b00001,
+    HAL_AX_VO_CHN_POOL   = 0b00010,
+    HAL_AX_VO_FMT1       = 0b00100,
+    HAL_AX_VO_LAYER_POOL = 0b01000,
+    HAL_AX_VO_OPEN       = 0b10000,
 } AX_VO_STATUS;
 
 enum {
-    AX_VO_PAR_0,
-    AX_VO_PAR_1,
-    AX_VO_PAR_2,
-    AX_VO_PAR_3,
-    AX_VO_PAR_4,
-    AX_VO_PAR_CUSTOM,
-    AX_VO_PAR_MAX
+    HAL_AX_VO_PAR_0,
+    HAL_AX_VO_PAR_1,
+    HAL_AX_VO_PAR_2,
+    HAL_AX_VO_PAR_3,
+    HAL_AX_VO_PAR_4,
+    HAL_AX_VO_PAR_CUSTOM,
+    HAL_AX_VO_PAR_MAX
+};
+
+enum {
+    HAL_AX_VO_DEV_0,
+    HAL_AX_VO_DEV_1,
+    HAL_AX_VO_DEV_2,
+    HAL_AX_VO_DEV_MAX
 };
 
 typedef struct {
@@ -46,10 +53,9 @@ typedef struct {
     AX_MOD_INFO_T selfMod;
 } ax_vo_dev_info;
 
-#define AX_MAX_VO_CHN_        3
 typedef struct ax_vo_hal_t {
     SAMPLE_VO_CONFIG_S stVoConfig;
-    ax_vo_dev_info dev[AX_MAX_VO_CHN_];
+    ax_vo_dev_info dev[HAL_AX_VO_DEV_MAX];
     int status;
     int (*InitVo)(struct ax_vo_hal_t *, int, int);
     int (*OpenVo)(struct ax_vo_hal_t *, int);
@@ -62,7 +68,8 @@ typedef struct ax_vo_hal_t {
     void (*put_frame)(struct ax_vo_hal_t *, AX_U32, AX_U32);
 
     int (*getStatus)(struct ax_vo_hal_t *, int);
-    void (*set_Vo_mode_par[AX_VO_PAR_MAX])(struct ax_vo_hal_t *);
+    void (*set_Vo_mode_par[HAL_AX_VO_PAR_MAX])(struct ax_vo_hal_t *);
+    AX_MOD_INFO_T (*get_chn_pipe_id)(struct ax_vo_hal_t *self, int dev, int chn);
 } ax_vo_hal;
 
 int ax_create_vo(ax_vo_hal *vo_dev);

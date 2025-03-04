@@ -11,20 +11,20 @@ typedef hal_buffer_t Venc_Frame;
 typedef hal_buffer_t venc_buffer_t;
 
 typedef enum {
-    AX_VENC_CHN_NONT         = 0,
-    AX_VENC_CHN_CREATE       = 0b1,
-    AX_VENC_CHN_START_RECV   = 0b01,
-    AX_VENC_CHN_LINK         = 0b001
+    HAL_AX_VENC_CHN_NONT         = 0,
+    HAL_AX_VENC_CHN_CREATE       = 0b1,
+    HAL_AX_VENC_CHN_START_RECV   = 0b01,
+    HAL_AX_VENC_CHN_LINK         = 0b001
 } AX_VENC_CHN_STATUS;
 
 enum {
-    AX_VENC_PAR_0,
-    AX_VENC_PAR_1,
-    AX_VENC_PAR_2,
-    AX_VENC_PAR_3,
-    AX_VENC_PAR_4,
-    AX_VENC_PAR_CUSTOM,
-    AX_VENC_PAR_MAX
+    HAL_AX_VENC_PAR_0,
+    HAL_AX_VENC_PAR_1,
+    HAL_AX_VENC_PAR_2,
+    HAL_AX_VENC_PAR_3,
+    HAL_AX_VENC_PAR_4,
+    HAL_AX_VENC_PAR_CUSTOM,
+    HAL_AX_VENC_PAR_MAX
 };
 
 typedef struct {
@@ -56,10 +56,11 @@ typedef struct ax_venc_hal_t {
     void (*CloseChn)(struct ax_venc_hal_t *, int);
     int (*getStatus)(struct ax_venc_hal_t *, int);
     int (*EncodeOneFrameToJpeg)(struct ax_venc_hal_t *, void *, int *, AX_U32, AX_U32, AX_U32, AX_U64, void *, AX_U32);
-    void (*set_Chn_mode_par[AX_VENC_PAR_MAX])(struct ax_venc_hal_t *, int);
-    void (*set_Chn_mode_par_after[AX_VENC_PAR_MAX])(struct ax_venc_hal_t *);
+    void (*set_Chn_mode_par[HAL_AX_VENC_PAR_MAX])(struct ax_venc_hal_t *, int);
+    void (*set_Chn_mode_par_after[HAL_AX_VENC_PAR_MAX])(struct ax_venc_hal_t *);
 
     void (*superior_link)(struct ax_venc_hal_t *self, int CHN, void *Mod);
+    AX_MOD_INFO_T (*get_chn_pipe_id)(struct ax_venc_hal_t *self, int dev, int chn);
 } ax_venc_hal;
 
 #ifdef __cplusplus

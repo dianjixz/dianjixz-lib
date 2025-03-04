@@ -105,26 +105,26 @@ static int hal_OpenGRP(struct ax_ivps_hal_t *self, int GRP)
         printf("AX_IVPS_CreateGrp failed,nGrp %d,s32Ret:0x%x\n", GRP, s32Ret);
         return -2;
     }
-    self->dev[GRP].status |= AX_IVPS_GRP_CREATE;
+    self->dev[GRP].status |= HAL_AX_IVPS_GRP_CREATE;
     // 设置组过滤器
     s32Ret = AX_IVPS_SetPipelineAttr(GRP, &self->dev[GRP].stPipelineAttr);
     if (0 != s32Ret) {
         printf("AX_IVPS_SetPipelineAttr failed,nGrp %d,s32Ret:0x%x\n", GRP, s32Ret);
         return -3;
     }
-    self->dev[GRP].status |= AX_IVPS_GRP_SET;
+    self->dev[GRP].status |= HAL_AX_IVPS_GRP_SET;
     for (size_t i = 0; i < 5; i++) {
         if (self->dev[GRP].stPipelineAttr.tFilter[i][0].bEngage) {
             AX_IVPS_EnableChn(GRP, i);
         }
     }
-    self->dev[GRP].status |= AX_IVPS_GRP_ENABLE;
+    self->dev[GRP].status |= HAL_AX_IVPS_GRP_ENABLE;
     s32Ret = AX_IVPS_StartGrp(GRP);
     if (0 != s32Ret) {
         printf("AX_IVPS_StartGrp failed,nGrp %d,s32Ret:0x%x\n", GRP, s32Ret);
         return -4;
     }
-    self->dev[GRP].status |= AX_IVPS_GRP_START;
+    self->dev[GRP].status |= HAL_AX_IVPS_GRP_START;
     return self->dev[GRP].status;
 }
 
@@ -206,9 +206,9 @@ static int hal_CloseGRP(struct ax_ivps_hal_t *self, int GRP)
             self->stop(self, GRP, i);
         }
     }
-    if (self->dev[GRP].status & AX_IVPS_GRP_LINK) {
+    if (self->dev[GRP].status & HAL_AX_IVPS_GRP_LINK) {
         AX_SYS_UnLink(&self->dev[GRP].srcMod, &self->dev[GRP].ditMod);
-        self->dev[GRP].status &= ~((int)AX_IVPS_GRP_LINK);
+        self->dev[GRP].status &= ~((int)HAL_AX_IVPS_GRP_LINK);
     }
 
     for (int i = 0; i < 12; i++) {
@@ -217,29 +217,39 @@ static int hal_CloseGRP(struct ax_ivps_hal_t *self, int GRP)
         }
     }
 
-    if (self->dev[GRP].status & AX_IVPS_GRP_OSD) {
-        self->dev[GRP].status &= ~((int)AX_IVPS_GRP_OSD);
+    if (self->dev[GRP].status & HAL_AX_IVPS_GRP_OSD) {
+        self->dev[GRP].status &= ~((int)HAL_AX_IVPS_GRP_OSD);
     }
 
-    if (self->dev[GRP].status & AX_IVPS_GRP_START) {
+    if (self->dev[GRP].status & HAL_AX_IVPS_GRP_START) {
         AX_IVPS_StopGrp(GRP);
-        self->dev[GRP].status &= ~((int)AX_IVPS_GRP_START);
+        self->dev[GRP].status &= ~((int)HAL_AX_IVPS_GRP_START);
     }
 
-    if (self->dev[GRP].status & AX_IVPS_GRP_ENABLE) {
+    if (self->dev[GRP].status & HAL_AX_IVPS_GRP_ENABLE) {
         for (size_t i = 0; i < 5; i++) {
             if (self->dev[GRP].stPipelineAttr.tFilter[i][0].bEngage) {
                 AX_IVPS_DisableChn(GRP, i);
             }
         }
-        self->dev[GRP].status &= ~((int)AX_IVPS_GRP_ENABLE);
+        self->dev[GRP].status &= ~((int)HAL_AX_IVPS_GRP_ENABLE);
     }
 
-    if (self->dev[GRP].status & AX_IVPS_GRP_CREATE) {
+    if (self->dev[GRP].status & HAL_AX_IVPS_GRP_CREATE) {
         AX_IVPS_DestoryGrp(GRP);
     }
-    self->dev[GRP].status = AX_IVPS_GRP_NONT;
+    self->dev[GRP].status = HAL_AX_IVPS_GRP_NONT;
 }
+
+static AX_MOD_INFO_T get_chn_pipe_id(struct ax_ivps_hal_t *self, int dev, int chn)
+{
+    AX_MOD_INFO_T mod_info;
+    mod_info.enModId  = AX_ID_IVPS;
+    mod_info.s32GrpId = dev;
+    mod_info.s32ChnId = chn;
+    return mod_info;
+}
+
 static void hal_superior_link(struct ax_ivps_hal_t *self, int GRP, void *Mod)
 {
     self->dev[GRP].srcMod          = *((AX_MOD_INFO_T *)Mod);
@@ -247,7 +257,7 @@ static void hal_superior_link(struct ax_ivps_hal_t *self, int GRP, void *Mod)
     self->dev[GRP].ditMod.enModId  = AX_ID_IVPS;
     self->dev[GRP].ditMod.s32ChnId = 0;
     AX_SYS_Link(&self->dev[GRP].srcMod, &self->dev[GRP].ditMod);
-    self->dev[GRP].status &= AX_IVPS_GRP_LINK;
+    self->dev[GRP].status &= HAL_AX_IVPS_GRP_LINK;
 }
 
 static int private_flage = 0;
@@ -272,6 +282,7 @@ int ax_create_ivps(ax_ivps_hal *ivps_dev)
     ivps_dev->CloseGRP            = hal_CloseGRP;
     ivps_dev->set_GRP_mode_par[0] = hal_set_GRP_mode_par_1;
     ivps_dev->superior_link       = hal_superior_link;
+    ivps_dev->get_chn_pipe_id     = get_chn_pipe_id;
     return 0;
 }
 void ax_destroy_ivps(ax_ivps_hal *ivps_dev)

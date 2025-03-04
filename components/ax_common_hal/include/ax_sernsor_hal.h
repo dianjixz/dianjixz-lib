@@ -54,22 +54,34 @@ typedef struct {
 } SAMPLE_VIN_PARAM_T;
 
 typedef enum {
-    AX_SENSOR_NONT             = 0b00000,
-    AX_SENSOR_NPU_ENABLE       = 0b00001,
-    AX_SENSOR_CAM_ENABLE       = 0b00010,
-    AX_SENSOR_CAM_POOL_ENABLE  = 0b00100,
-    AX_SENSOR_CAM_OPEN         = 0b01000,
-    AX_SENSOR_GET_FRAME_THREAD = 0b10000,
+    HAL_AX_SENSOR_NONT             = 0b00000,
+    HAL_AX_SENSOR_NPU_ENABLE       = 0b00001,
+    HAL_AX_SENSOR_CAM_ENABLE       = 0b00010,
+    HAL_AX_SENSOR_CAM_POOL_ENABLE  = 0b00100,
+    HAL_AX_SENSOR_CAM_OPEN         = 0b01000,
+    HAL_AX_SENSOR_GET_FRAME_THREAD = 0b10000,
 } AX_SENSOR_STATUS;
 
 enum {
-    AX_SENSOR_PAR_0,
-    AX_SENSOR_PAR_1,
-    AX_SENSOR_PAR_2,
-    AX_SENSOR_PAR_3,
-    AX_SENSOR_PAR_4,
-    AX_SENSOR_PAR_CUSTOM,
-    AX_SENSOR_PAR_MAX
+    HAL_AX_SENSOR_PAR_0,
+    HAL_AX_SENSOR_PAR_1,
+    HAL_AX_SENSOR_PAR_2,
+    HAL_AX_SENSOR_PAR_3,
+    HAL_AX_SENSOR_PAR_4,
+    HAL_AX_SENSOR_PAR_CUSTOM,
+    HAL_AX_SENSOR_PAR_MAX
+};
+
+enum {
+    HAL_AX_SENSOR_DEV_0,
+    HAL_AX_SENSOR_DEV_1,
+    HAL_AX_SENSOR_DEV_2,
+    HAL_AX_SENSOR_DEV_MAX
+};
+
+enum {
+    HAL_AX_SENSOR_CHN_0,
+    HAL_AX_SENSOR_CHN_MAX
 };
 
 typedef hal_buffer_t Sensor_Frame;
@@ -88,7 +100,6 @@ typedef struct {
     AX_MOD_INFO_T selfMod;
 } ax_sensor_dev_info;
 
-#define AX_MAX_SENSOR_CHN_        3
 typedef struct ax_sensor_hal_t {
     int ChnSize;
     SAMPLE_VIN_PARAM_T VinParam;
@@ -96,7 +107,7 @@ typedef struct ax_sensor_hal_t {
     COMMON_SYS_ARGS_T tCommonArgs;
     COMMON_SYS_ARGS_T tPrivArgs;
 
-    ax_sensor_dev_info dev[AX_MAX_SENSOR_CHN_];
+    ax_sensor_dev_info dev[HAL_AX_SENSOR_DEV_MAX];
 
     int status;
 
@@ -109,10 +120,11 @@ typedef struct ax_sensor_hal_t {
     int (*GetFrameRate)(struct ax_sensor_hal_t *, int);
     int (*getStatus)(struct ax_sensor_hal_t *, int);
 
-    void (*set_Sensor_mode_par[AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
-    void (*set_Sensor_mode_par_after[AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
+    void (*set_Sensor_mode_par[HAL_AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
+    void (*set_Sensor_mode_par_after[HAL_AX_SENSOR_PAR_MAX])(struct ax_sensor_hal_t *);
 
     void *(*get_link_mod)(struct ax_sensor_hal_t *, int);
+    AX_MOD_INFO_T (*get_chn_pipe_id)(struct ax_sensor_hal_t *self, int dev, int chn);
 } ax_sensor_hal;
 
 int ax_create_sensor(ax_sensor_hal *sensor_dev);

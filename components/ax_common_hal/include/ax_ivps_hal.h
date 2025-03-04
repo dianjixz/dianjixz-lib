@@ -16,25 +16,63 @@ typedef hal_buffer_t Venc_Frame;
 typedef hal_buffer_t ivps_buffer_t;
 
 typedef enum {
-    AX_IVPS_GRP_NONT   = 0,
-    AX_IVPS_GRP_CREATE = 0b1,
-    AX_IVPS_GRP_SET    = 0b01,
-    AX_IVPS_GRP_ENABLE = 0b001,
-    AX_IVPS_GRP_START  = 0b0001,
-    AX_IVPS_GRP_LINK   = 0b00001,
-    AX_IVPS_GRP_OSD    = 0b000001
+    HAL_AX_IVPS_GRP_NONT   = 0,
+    HAL_AX_IVPS_GRP_CREATE = 0b1,
+    HAL_AX_IVPS_GRP_SET    = 0b01,
+    HAL_AX_IVPS_GRP_ENABLE = 0b001,
+    HAL_AX_IVPS_GRP_START  = 0b0001,
+    HAL_AX_IVPS_GRP_LINK   = 0b00001,
+    HAL_AX_IVPS_GRP_OSD    = 0b000001
 } AX_IVPS_GRP_STATUS;
 
 enum {
-    AX_IVPS_PAR_0,
-    AX_IVPS_PAR_1,
-    AX_IVPS_PAR_2,
-    AX_IVPS_PAR_3,
-    AX_IVPS_PAR_4,
-    AX_IVPS_PAR_CUSTOM,
-    AX_IVPS_PAR_MAX
+    HAL_AX_IVPS_PAR_0,
+    HAL_AX_IVPS_PAR_1,
+    HAL_AX_IVPS_PAR_2,
+    HAL_AX_IVPS_PAR_3,
+    HAL_AX_IVPS_PAR_4,
+    HAL_AX_IVPS_PAR_CUSTOM,
+    HAL_AX_IVPS_PAR_MAX
 };
 
+enum {
+    HAL_AX_IVPS_DEV_0,
+    HAL_AX_IVPS_DEV_1,
+    HAL_AX_IVPS_DEV_2,
+    HAL_AX_IVPS_DEV_3,
+    HAL_AX_IVPS_DEV_4,
+    HAL_AX_IVPS_DEV_5,
+    HAL_AX_IVPS_DEV_6,
+    HAL_AX_IVPS_DEV_7,
+    HAL_AX_IVPS_DEV_8,
+    HAL_AX_IVPS_DEV_9,
+    HAL_AX_IVPS_DEV_10,
+    HAL_AX_IVPS_DEV_11,
+    HAL_AX_IVPS_DEV_12,
+    HAL_AX_IVPS_DEV_13,
+    HAL_AX_IVPS_DEV_14,
+    HAL_AX_IVPS_DEV_15,
+    HAL_AX_IVPS_DEV_16,
+    HAL_AX_IVPS_DEV_17,
+    HAL_AX_IVPS_DEV_18,
+    HAL_AX_IVPS_DEV_19,
+    HAL_AX_IVPS_DEV_MAX
+};
+enum {
+    HAL_AX_IVPS_CHN_0,
+    HAL_AX_IVPS_CHN_1,
+    HAL_AX_IVPS_CHN_2,
+    HAL_AX_IVPS_CHN_3,
+    HAL_AX_IVPS_CHN_4,
+    HAL_AX_IVPS_CHN_5,
+    HAL_AX_IVPS_CHN_6,
+    HAL_AX_IVPS_CHN_7,
+    HAL_AX_IVPS_CHN_8,
+    HAL_AX_IVPS_CHN_9,
+    HAL_AX_IVPS_CHN_10,
+    HAL_AX_IVPS_CHN_11,
+    HAL_AX_IVPS_CHN_MAX
+};
 
 #define AUTO_GRP_ID -1
 
@@ -53,14 +91,14 @@ typedef struct {
     AX_IVPS_GRP_ATTR_T stGrpAttr;
     AX_IVPS_PIPELINE_ATTR_T stPipelineAttr;
     struct ax_ivps_pthread_par chn_par[5];
-    int n_osd_rgn_chn[12];
-    int n_osd_rgn_chn_hand[12];
+    int n_osd_rgn_chn[HAL_AX_IVPS_CHN_MAX];
+    int n_osd_rgn_chn_hand[HAL_AX_IVPS_CHN_MAX];
     AX_MOD_INFO_T srcMod;
     AX_MOD_INFO_T ditMod;
 } ax_ivps_dev_info;
 
 typedef struct ax_ivps_hal_t {
-    ax_ivps_dev_info dev[20];
+    ax_ivps_dev_info dev[HAL_AX_IVPS_DEV_MAX];
     int (*InitGRP)(struct ax_ivps_hal_t *self, int GRP, int mode);
     int (*OpenGRP)(struct ax_ivps_hal_t *self, int GRP);
     int (*on_farm)(struct ax_ivps_hal_t *self, int GRP, void *farm);
@@ -69,8 +107,9 @@ typedef struct ax_ivps_hal_t {
     void (*start)(struct ax_ivps_hal_t *self, int GRP, int CHN);
     void (*stop)(struct ax_ivps_hal_t *self, int GRP, int CHN);
     int (*CloseGRP)(struct ax_ivps_hal_t *self, int GRP);
-    void (*set_GRP_mode_par[AX_IVPS_PAR_MAX])(struct ax_ivps_hal_t *self, int GRP);
+    void (*set_GRP_mode_par[HAL_AX_IVPS_PAR_MAX])(struct ax_ivps_hal_t *self, int GRP);
     void (*superior_link)(struct ax_ivps_hal_t *self, int GRP, void *Mod);
+    AX_MOD_INFO_T (*get_chn_pipe_id)(struct ax_ivps_hal_t *self, int dev, int chn);
 } ax_ivps_hal;
 
 // AX_IVPS_Init
