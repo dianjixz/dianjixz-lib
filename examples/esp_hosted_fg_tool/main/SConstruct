@@ -1,0 +1,38 @@
+# project_root/src/SConscript
+import os
+# Import the environment from the SConstruct file
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+
+SRCS = Glob('src/*.c*')
+INCLUDE = [ADir('include'), ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = []
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = []
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+SRCS += Glob('protobuf-c/*.c')
+INCLUDE += [ADir('protobuf-c')]
+# DEFINITIONS += ['-DSERIAL_FLASHER_BOOT_HOLD_TIME_MS=50', '-DSERIAL_FLASHER_DEBUG_TRACE=false', '-DSERIAL_FLASHER_INTERFACE_UART', '-DSERIAL_FLASHER_RESET_HOLD_TIME_MS=100']
+# DEFINITIONS += ['rt']
+# '-DSERIAL_FLASHER_DEBUG_TRACE'
+DEFINITIONS += ['-O0']
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'REGISTER':'project'
+                          })
