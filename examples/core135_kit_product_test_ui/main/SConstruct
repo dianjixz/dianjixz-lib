@@ -1,0 +1,78 @@
+
+# project_root/src/SConscript
+import os
+from shutil import copy2
+# Import the environment from the SConstruct file
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+# compare_and_copy('include/lv_drv_conf.h', '../../../github_source/lvgl/lv_drv_conf.h')
+# compare_and_copy('include/lv_conf.h', '../../../github_source/lvgl/lv_conf.h')
+
+
+
+SRCS = []
+INCLUDE = [ADir('.'), ADir('../include')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['m', 'hv', 'DeviceDriver', 'pthread', 'utilities']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = []
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+
+# REQUIREMENTS += ['cjson']
+
+SRCS += [AFile('./main.c')]+AGlob('src/*.c')+AGlob('src/*.cpp')
+SRCS += append_srcs_dir(ADir('lvgl/src'))
+SRCS += [AFile('lv_drivers/display/fbdev.c'), AFile('lv_drivers/indev/evdev.c')]
+# INCLUDE += [ADir('lv_drivers/display')]
+
+# AGlob
+event_file = str(AFile('ui/ui_events.c'))
+if os.path.exists(event_file):
+    os.remove(event_file)
+
+os.system('''sed -i '/^const lv_img_dsc_t/d' ui/ui.c''')
+
+os.system('''
+FILE="ui/ui.c"
+
+if [ ! -f "$FILE" ]; then
+  exit 1
+fi
+
+if ! grep -q "pravite_my_init" "$FILE"; then
+  sed -i '1i void pravite_my_init();' "$FILE"
+  sed -i '/lv_disp_load_scr(ui_Screen1);/a pravite_my_init();' "$FILE"
+  sed -i 's/LV_EVENT_SCREEN_LOADED/LV_EVENT_DRAW_PART_END/g' "$FILE"
+fi
+''')
+
+
+
+
+
+#ui code
+SRCS += append_srcs_dir(ADir('ui'))
+INCLUDE += [ADir('ui')]
+
+
+
+
+
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'REGISTER':'project'
+                          })

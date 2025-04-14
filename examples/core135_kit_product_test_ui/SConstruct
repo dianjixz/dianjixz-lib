@@ -1,0 +1,6 @@
+from pathlib import Path
+import os
+os.environ['SDK_PATH'] = '/home/nihao/w2T/axera/StackFlow/SDK'
+
+with open('/home/nihao/w2T/axera/StackFlow/SDK/tools/scons/project.py') as f:
+    exec(f.read())
