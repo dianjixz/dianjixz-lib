@@ -65,8 +65,9 @@ code struct video_timing video_720x576_50Hz = {12, 64, 68, 720, 864, 5, 5, 39, 5
 code struct video_timing video_1280x720_60Hz = {110, 40, 220, 1280, 1650, 5, 5, 20, 720, 750, 1, 1, 4, AR_16_9, 74250};
 // code struct video_timing video_1280x720_50Hz = {440, 40, 220, 1280, 1980, 5, 5, 20, 720, 750, 1, 1, 19, AR_16_9,
 // 74250};
-code struct video_timing video_1280x720_50Hz = {440, 40, 220, 1280, 1980, 5, 5, 20, 720, 750, 1, 1, 19, AR_16_9, 74250};
-code struct video_timing video_1280x720_30Hz = {1760, 40, 220, 1280, 3300, 5, 5, 20, 720, 750, 1, 1, 0, AR_16_9, 74250};
+code struct video_timing video_1280x720_50Hz = {110, 40, 220, 1280, 1650, 5, 5, 20, 720, 750, 1, 1, 4, AR_16_9, 61875};
+code struct video_timing video_1280x720_30Hz = {110, 40, 220, 1280, 1650, 5, 5, 20, 720, 750, 1, 1, 4, AR_16_9, 32768};
+code struct video_timing video_1280x720_24Hz = {110, 40, 220, 1280, 1650, 5, 5, 20, 720, 750, 1, 1, 4, AR_16_9, 29700};
 
 code struct video_timing video_1920x1080_60Hz = {88,   44,   148, 1920, 2200, 4,       5,     36,
                                                  1080, 1125, 1,   1,    16,   AR_16_9, 148500};
@@ -498,6 +499,10 @@ void LT9611_Video_Check(void)  // dsren
             printf(" video_1280x720_30Hz ");
             PCR_Format = PCR_Standard;
             video      = &video_1280x720_30Hz;
+        } else {
+            printf(" video_1280x720_24Hz ");
+            PCR_Format = PCR_Standard;
+            video      = &video_1280x720_24Hz;
         }
     }
 

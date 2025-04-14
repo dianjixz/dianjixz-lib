@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 {
 	HDMI_I2C_INIT();
 	// LT9611_Reset();
-	LT9611_Init();
-	// LT9611_pattern();
+	// LT9611_Init();
+	LT9611_pattern();
 	HDMI_I2C_DEINIT();
 	return 0;
 }

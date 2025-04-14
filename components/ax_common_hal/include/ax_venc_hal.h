@@ -27,7 +27,35 @@ enum {
     HAL_AX_VENC_PAR_MAX
 };
 
+typedef struct _stRCInfo
+{
+    SAMPLE_VENC_RC_E eRCType;
+    AX_U32 nMinQp;
+    AX_U32 nMaxQp;
+    AX_U32 nMinIQp;
+    AX_U32 nMaxIQp;
+    AX_S32 nIntraQpDelta;
+} RC_INFO_T;
+
+typedef struct _stVideoConfig
+{
+    AX_PAYLOAD_TYPE_E ePayloadType;
+    AX_U32 nGOP;
+    AX_U32 nSrcFrameRate;
+    AX_U32 nDstFrameRate;
+    AX_U32 nStride;
+    AX_S32 nInWidth;
+    AX_S32 nInHeight;
+    AX_S32 nOutWidth;
+    AX_S32 nOutHeight;
+    AX_IMG_FORMAT_E eImgFormat;
+    RC_INFO_T stRCInfo;
+    AX_S32 nBitrate;
+    AX_LINK_MODE_E enLinkMode;
+} VIDEO_CONFIG_T;
+
 typedef struct {
+    VIDEO_CONFIG_T stVideoConfig;
     SAMPLE_VENC_RC_E rcMode;
     int status;
     int chn;
