@@ -1,0 +1,91 @@
+import os
+
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+SRCS = Glob('src/*.c*')
+INCLUDE = [ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['pthread', 'ax_common_hal','ax_msp', 'DeviceDriver']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = ['-O2']
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+STATIC_FILES = []
+
+
+
+SRCS += append_srcs_dir(ADir('lvgl/src'))
+SRCS += [AFile('lv_drivers/indev/evdev.c')]
+
+
+# cp /home/nihao/SquareLine/kit_test/kitlcd/* ./main/ui/
+#ui code
+SRCS += append_srcs_dir(ADir('ui'))
+INCLUDE += [ADir('ui')]
+
+SRCS = filter(lambda x: not str(x).endswith('ui_events.c'), SRCS)
+
+os.system('''sed -i '/^const lv_img_dsc_t/d' ui/ui.c''')
+
+os.system('''
+FILE="ui/ui.c"
+
+if [ ! -f "$FILE" ]; then
+  exit 1
+fi
+
+if ! grep -q "pravite_my_init" "$FILE"; then
+  sed -i '1i void pravite_my_init();' "$FILE"
+  sed -i '/lv_disp_load_scr(ui_Screen1);/a pravite_my_init();' "$FILE"
+fi
+''')
+
+
+
+
+
+
+
+
+
+LDFLAGS+=['-Wl,-rpath=/opt/m5stack/lib', '-Wl,-rpath=/usr/local/m5stack/lib', '-Wl,-rpath=/usr/local/m5stack/lib/gcc-10.3', '-Wl,-rpath=/opt/lib', '-Wl,-rpath=/opt/usr/lib', '-Wl,-rpath=./']
+LDFLAGS+=['-Wl,-rpath=/opt/bin/FRTDemo/lib']
+
+REQUIREMENTS += ['ax_engine', 'ax_interpreter', 'ax_sys', 'ax_vo']
+REQUIREMENTS += ['ax_opal', 'ax_ae', 'ax_skel', 'ax_opal', 'ax_venc', 'ax_mipi', 'ax_ives', 'ax_ivps', 'ax_proton', 'ax_audio', 'mpr', 'tinyalsa']
+REQUIREMENTS += ['ax_audio_3a','samplerate', 'ax_fdk', 'fdk-aac', 'ax_awb', 'ax_af', 'ax_nt_stream', 'ax_nt_ctrl']
+
+ 
+INCLUDE += [os.path.join(env["MSP_PATH"], 'third-party/opencv/include/opencv4')]
+static_lib = []
+static_lib += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/lib*.a'))
+static_lib += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/opencv4/3rdparty/lib*.a'))
+
+# INCLUDE += ['/home/nihao/w2T/axera/StackFlow/projects/test_kit_demo2/include/opencv4']
+# static_file = []
+# static_file += Glob('/home/nihao/w2T/axera/StackFlow/projects/test_kit_demo2/static_lib/libopencv-4.6-aarch64-none/lib/*.a')
+# # static_file += Glob(os.path.join(env["MSP_PATH"], 'third-party/opencv/lib/arm64/glibc/opencv4/3rdparty/lib*.a'))
+
+# mode_path = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/axera-share-npu-yolov8s-pose.axmodel", 'axera-share-npu-yolov8s-pose.axmodel')
+
+STATIC_LIB += static_lib * 4
+# STATIC_FILES += [mode_path]
+
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'STATIC_FILES':STATIC_FILES,
+                          'REGISTER':'project'
+                          })
