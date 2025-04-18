@@ -16,7 +16,6 @@ void kit_sd_test_call(lv_event_t * e);
 void kit_otg_test_call(lv_event_t * e);
 void kit_i2c_test_call(lv_event_t * e);
 void kit_io_test_call(lv_event_t * e);
-void kit_charge_test_call(lv_event_t * e);
 void kit_touch_test_call(lv_event_t * e);
 void kit_csi_dsi_test_call(lv_event_t * e);
 void kit_cmm_test_call(lv_event_t * e);

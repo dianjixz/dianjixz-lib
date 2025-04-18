@@ -62,11 +62,6 @@ void ui_event_Button13(lv_event_t * e);
 lv_obj_t * ui_Button13;
 lv_obj_t * ui_Label37;
 lv_obj_t * ui_TextArea9;
-lv_obj_t * ui_TabPage13;
-void ui_event_Button16(lv_event_t * e);
-lv_obj_t * ui_Button16;
-lv_obj_t * ui_Label40;
-lv_obj_t * ui_TextArea12;
 lv_obj_t * ui_TabPage11;
 void ui_event_Button14(lv_event_t * e);
 lv_obj_t * ui_Button14;
@@ -202,15 +197,6 @@ void ui_event_Button13(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         kit_io_test_call(e);
-    }
-}
-
-void ui_event_Button16(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-
-    if(event_code == LV_EVENT_CLICKED) {
-        kit_charge_test_call(e);
     }
 }
 

@@ -377,34 +377,6 @@ void ui_Screen1_screen_init(void)
 
 
 
-    ui_TabPage13 = lv_tabview_add_tab(ui_TabView1, "IO");
-
-    ui_Button16 = lv_btn_create(ui_TabPage13);
-    lv_obj_set_width(ui_Button16, 100);
-    lv_obj_set_height(ui_Button16, 33);
-    lv_obj_set_x(ui_Button16, 0);
-    lv_obj_set_y(ui_Button16, -62);
-    lv_obj_set_align(ui_Button16, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button16, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_Button16, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-
-    ui_Label40 = lv_label_create(ui_Button16);
-    lv_obj_set_width(ui_Label40, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label40, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label40, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label40, "charge");
-
-    ui_TextArea12 = lv_textarea_create(ui_TabPage13);
-    lv_obj_set_width(ui_TextArea12, 291);
-    lv_obj_set_height(ui_TextArea12, 122);
-    lv_obj_set_x(ui_TextArea12, 0);
-    lv_obj_set_y(ui_TextArea12, 28);
-    lv_obj_set_align(ui_TextArea12, LV_ALIGN_CENTER);
-    lv_textarea_set_placeholder_text(ui_TextArea12, "Placeholder...");
-    lv_obj_set_style_text_font(ui_TextArea12, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-
-
     ui_TabPage11 = lv_tabview_add_tab(ui_TabView1, "TOUCH");
 
     ui_Button14 = lv_btn_create(ui_TabPage11);
@@ -799,6 +771,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_Panel13, 81);
     lv_obj_set_y(ui_Panel13, 109);
     lv_obj_set_align(ui_Panel13, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Panel13, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_clear_flag(ui_Panel13, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Panel13, lv_color_hex(0x7DA4DC), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Panel13, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -878,7 +851,6 @@ void ui_Screen1_screen_init(void)
     lv_obj_add_event_cb(ui_Button4, ui_event_Button4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button5, ui_event_Button5, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button13, ui_event_Button13, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Button16, ui_event_Button16, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button14, ui_event_Button14, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button15, ui_event_Button15, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button6, ui_event_Button6, LV_EVENT_ALL, NULL);

@@ -1846,7 +1846,7 @@ void ax_csi_dsi_test_task() {
     int ret;
     std::string lines;
     {
-        uart_exec.bashexec(". /etc/profile ; cd /mnt/mmcblk1p6/dist ; ./test_kit_demo3 > /dev/null 2>&1 &",
+        uart_exec.bashexec(". /etc/profile ; start-stop-daemon --start --quiet --background --chdir /mnt/mmcblk1p2/dist --pidfile /tmp.ax_yolov8_post_demo_old.pid --make-pidfile --exec /mnt/mmcblk1p2/dist/ax_yolov8_post_demo_old",
                            [&](const std::string &json_body) {
                                 int true_s = json_body.find("true");
                                 if (true_s != std::string::npos) {
@@ -1860,28 +1860,52 @@ void ax_csi_dsi_test_task() {
                            });
     }
 
-    lv_textarea_add_text(* ui_TextArea, "ax_llm start test_kit_demo3:\n");
+    lv_textarea_add_text(* ui_TextArea, "ax_llm start ax_yolov8_post_demo_old:\n");
     {
         std::thread t(cap_time);
         t.detach();
     }
-
+    int false_daemon = 1;
     while (cap_flage) {
-        usleep(10 * 1000);
+        usleep(500 * 1000);
+        uart_exec.bashexec("if start-stop-daemon --status --pidfile /tmp/ax_yolov8_post_demo_old.pid; then echo demo_run; else echo demo_stop; fi", [&](const std::string &json_body) {
+            uart_exec.clear_request_id(std::stoi(sample_json_str_get(json_body, "request_id")));
+            if (json_body.find("demo_stop") != std::string::npos)
+            {
+                cap_flage = 0;
+                false_daemon = 0;
+
+            }
+            else
+            {
+                ui_lock();
+                lv_textarea_add_text(* ui_TextArea, ".");
+                ui_unlock();
+            }
+        });
     }
     {
-        uart_exec.bashexec("kill -SIGINT $(pgrep -f \\\"test_kit_demo3\\\")", [&](const std::string &json_body) {
+        uart_exec.bashexec("start-stop-daemon --stop --signal INT --pidfile /tmp.ax_yolov8_post_demo_old.pid", [&](const std::string &json_body) {
             uart_exec.clear_request_id(std::stoi(sample_json_str_get(json_body, "request_id")));
         });
     }
     sleep(1);
 
     ui_lock();
-    lv_textarea_add_text(* ui_TextArea, "ax_llm test_kit_demo3 over!\n");
-    lv_obj_add_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
-    lv_obj_clear_state(* ui_Button, LV_STATE_DISABLED);
-    lv_obj_add_flag(* ui_TextArea, LV_OBJ_FLAG_CLICKABLE);
-    lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    if(false_daemon)
+    {
+        lv_textarea_add_text(* ui_TextArea, "ax_llm ax_yolov8_post_demo_old over!\n");
+        lv_obj_add_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
+        lv_obj_clear_state(* ui_Button, LV_STATE_DISABLED);
+        lv_obj_add_flag(* ui_TextArea, LV_OBJ_FLAG_CLICKABLE);
+        lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0x2095F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    }
+    else
+    {
+        lv_textarea_add_text(* ui_TextArea, "Unexpected termination of ax_yolov8_post_demo_old!\n");
+        lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    }
+
     ui_unlock();
 }
 
@@ -1918,6 +1942,127 @@ load_task_e:
     lv_obj_add_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
     ui_unlock();
 }
+
+
+
+// # Charging Enable
+// i2cset -y -f -m 0x08 1 0x49 0x01 0x00
+
+// # Charging Disable
+// i2cset -y -f -m 0x08 1 0x49 0x01 0x08
+static int charge_flage = 0;
+void ax_charge_test_task(){
+    lv_obj_t ** ui_Button = &ui_Button16;
+    lv_obj_t ** ui_TabPage = &ui_TabPage13;
+    lv_obj_t ** ui_TextArea = &ui_TextArea12;
+    int ret;
+    std::string lines;
+    int request_id_num = -1;
+    {
+        uart_exec.bashexec("i2cset -y -f -m 0x80 1 0x49 0x02 0x80;"
+"i2cset -y -f -m 0x07 1 0x49 0x01 0x04;"
+"i2cset -y -f -m 0xC0 1 0x49 0x01 0x40;"
+"i2cset -y -f -m 0xF0 1 0x49 0x03 0x90;"
+"i2cset -y -f -m 0x0F 1 0x49 0x00 0x0F;"
+"i2cset -y -f -m 0xF0 1 0x49 0x00 0x60;"
+"i2cset -y -f -m 0x0F 1 0x49 0x07 0x08;"
+"i2cset -y -f -m 0xFC 1 0x49 0x04 0xA0;"
+"i2cset -y -f -m 0x02 1 0x49 0x04 0x02;"
+"i2cset -y -f -m 0x01 1 0x49 0x04 0x01;"
+"i2cset -y -f -m 0x80 1 0x49 0x0B 0x00;"
+"i2cset -y -f -m 0x3F 1 0x49 0x02 0x38;"
+"i2cset -y -f -m 0x0F 1 0x49 0x03 0x0F;"
+"i2cset -y -f -m 0x30 1 0x49 0x07 0x30;"
+"i2cset -y -f -m 0x60 1 0x49 0x05 0x00;"
+"i2cset -y -f -m 0x80 1 0x49 0x06 0x00;"
+"i2cset -y -f -m 0x80 1 0x49 0x07 0x80;"
+"i2cset -y -f -m 0x08 1 0x49 0x01 0x00;",
+            [](const std::string &json_body) {
+                uart_exec.clear_request_id(std::stoi(sample_json_str_get(json_body, "request_id")));
+            });
+    }
+    ui_lock();
+    lv_textarea_add_text(* ui_TextArea, "charging ...\n");
+    ui_unlock();
+    int charge_test_success = 1;
+    int WaitTime = 0;
+    std::mutex get_info_mtx;
+    while (charge_flage) {
+        WaitTime = ax_llm_connect_flage ? 0 : WaitTime + 1;
+        if (WaitTime > 5) {
+            break;
+        }
+        request_id_num = uart_exec.bashexec(
+            "echo StatusRegister:$(i2cget -y -f 1 0x49 0x08);"
+            "echo FaultRegister:$(i2cget -y -f 1 0x49 0x09);",
+            [&lines, ui_TextArea, &get_info_mtx, &charge_test_success](const std::string &json_body) {
+                std::lock_guard<std::mutex> lock(get_info_mtx);
+                int true_s = json_body.find("true");
+                if (true_s != std::string::npos) {
+                    uart_exec.clear_request_id(std::stoi(sample_json_str_get(json_body, "request_id")));
+                    int StatusRegister = std::stoi(lines.substr(lines.find("StatusRegister:") + 15, 4), nullptr, 16);
+                    int FaultRegister  = std::stoi(lines.substr(lines.find("FaultRegister:") + 14, 4), nullptr, 16);
+
+                    std::string errormsg;
+                    if ((StatusRegister & 0b10) != 0b10) errormsg += "Power false! ";
+                    if (FaultRegister & 0b1) errormsg += "NTC cold! ";
+                    if (FaultRegister & 0b10) errormsg += "NTC hot! ";
+                    if (FaultRegister & 0b100) errormsg += "safety timer expiration! ";
+                    if (FaultRegister & 0b1000) errormsg += "battery OVP! ";
+                    if (FaultRegister & 0b10000) errormsg += "thermal shutdown! ";
+                    if (FaultRegister & 0b100000) errormsg += "input fault (OVP or bad source)! ";
+                    if (!errormsg.empty()) {
+                        charge_test_success = 0;
+                    }
+                    if ((StatusRegister & 0b11000) == 0b11000)
+                        errormsg += "Charge done! ";
+                    else if ((StatusRegister & 0b11000) == 0b10000)
+                        errormsg += "Charging! ";
+                    else if ((StatusRegister & 0b11000) == 0b01000)
+                        errormsg += "Pre Charge! ";
+                    else if ((StatusRegister & 0b11000) == 0b00000)
+                        errormsg += "NO Charge! ";
+                    errormsg += "\n";
+                    ui_lock();
+                    lv_textarea_add_text(*ui_TextArea, errormsg.c_str());
+                    ui_unlock();
+                    lines.clear();
+                    return;
+                } else
+                    lines += sample_unescapeString(sample_json_str_get(json_body, "delta"));
+            });
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    get_info_mtx.lock();
+    uart_exec.clear_request_id(request_id_num);
+    get_info_mtx.unlock();
+    if (ax_llm_connect_flage)
+        uart_exec.bashexec(
+            "i2cset -y -f -m 0x08 1 0x49 0x01 0x08;",
+            [](const std::string &json_body) {
+                uart_exec.clear_request_id(std::stoi(sample_json_str_get(json_body, "request_id")));
+            });
+load_task_e:
+
+if (!charge_test_success) {
+    ui_lock();
+    lv_textarea_add_text(* ui_TextArea, "\n discharge\n");
+    lv_obj_add_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
+    lv_textarea_add_text(* ui_TextArea, "charge test false!\n");
+    lv_obj_set_style_bg_color(*ui_Button, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_unlock();
+} else {
+    ui_lock();
+    lv_textarea_add_text(* ui_TextArea, "\n discharge\n");
+    lv_obj_add_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
+    lv_textarea_add_text(* ui_TextArea, "charge test success!\n");
+    lv_obj_set_style_bg_color(*ui_Button, lv_color_hex(0xFF00), LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_unlock();
+}
+
+}
+
+
 
 void ping_loop() {
     while (1) {
@@ -2379,7 +2524,36 @@ void kit_power_test_call(lv_event_t *e)
         power_on = true;
     }
 }
+void kit_charge_test_call(lv_event_t *e)
+{
+    lv_obj_t ** ui_Button = &ui_Button16;
+    lv_obj_t ** ui_TabPage = &ui_TabPage13;
+    lv_obj_t ** ui_TextArea = &ui_TextArea12;
+    if (charge_flage) {
+        lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0x79B4F2), LV_PART_MAIN | LV_STATE_DEFAULT);
+        charge_flage = 0;
+    } else {
+        charge_flage = 1;
+        lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0xF8BE4E), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_textarea_set_text(* ui_TextArea, "");
+        // if (lv_obj_has_flag(ui_TextArea5, LV_OBJ_FLAG_HIDDEN)) lv_obj_clear_flag(ui_TextArea5, LV_OBJ_FLAG_HIDDEN);
+        // if (!lv_obj_has_flag(ui_Chart7, LV_OBJ_FLAG_HIDDEN)) lv_obj_add_flag(ui_Chart7, LV_OBJ_FLAG_HIDDEN);
 
+        if (ax_llm_connect_flage == 0) {
+            // lv_textarea_add_text(ui_TextArea5, "ax_llm not't connect!\n");
+            lv_obj_set_style_bg_color(* ui_Button, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+            return;
+        }
+        // page_lock = 1;
+        lv_obj_clear_flag(* ui_TabPage, LV_OBJ_FLAG_SCROLL_CHAIN);
+        // lv_obj_add_state(ui_Button4, LV_STATE_DISABLED);
+        // lv_obj_add_state(ui_Button6, LV_STATE_DISABLED);
+        // lv_obj_add_state(ui_Button9, LV_STATE_DISABLED);
+        // lv_obj_clear_flag(ui_TextArea5, LV_OBJ_FLAG_CLICKABLE);
+        std::thread t(ax_charge_test_task);
+        t.detach();
+    }
+}
 
 // void ax_otg_test(lv_event_t *e) {
 //     lv_obj_set_style_bg_color(ui_Button7, lv_color_hex(0x79B4F2), LV_PART_MAIN | LV_STATE_DEFAULT);
