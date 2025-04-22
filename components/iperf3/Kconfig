@@ -1,0 +1,6 @@
+
+menuconfig IPERF3_ENABLED
+    bool "Enable iperf3"
+    default n
+
+
