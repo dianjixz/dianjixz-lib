@@ -1,0 +1,14 @@
+
+menuconfig LEV_ENABLED
+    bool "Enable lev"
+    default n
+
+	config LEV_WITH_OPENSSL
+		bool "with openssl library"
+		default n
+		depends on LEV_ENABLED
+
+    config LEV_DYNAMIC
+        bool "compile component as dynamic(shared) lib"
+        default n
+        depends on LEV_ENABLED

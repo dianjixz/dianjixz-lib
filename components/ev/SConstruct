@@ -1,0 +1,38 @@
+# component2/SConscript
+Import('env')
+import os
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+if 'CONFIG_LEV_ENABLED' in os.environ:
+    file_path = check_wget_down('https://dist.schmorp.de/libev/libev-4.33.tar.gz', 'libev-4.33.tar.gz')
+    SRCS=[]
+    INCLUDE=[]
+    PRIVATE_INCLUDE=[ADir('.')]
+    REQUIREMENTS=[]
+    STATIC_LIB=[]
+    DYNAMIC_LIB=[]
+    DEFINITIONS=[]
+    DEFINITIONS_PRIVATE=['-w', '-O2']
+    LDFLAGS=[]
+    LINK_SEARCH_PATH=[]
+
+    INCLUDE.append(os.path.join(file_path, 'libev-4.33'))
+
+    SRCS += [os.path.join(file_path, 'libev-4.33', 'ev.c')]
+    SRCS += [os.path.join(file_path, 'libev-4.33', 'event.c')]
+
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'shared' if 'CONFIG_LHV_DYNAMIC' in os.environ else 'static'
+                            })
