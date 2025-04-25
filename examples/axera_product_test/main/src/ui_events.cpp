@@ -2166,6 +2166,9 @@ link_start:
     }
 // }
 reace_msg_start:
+    ui_lock();
+    lv_obj_set_style_bg_color(ui_Panel7, lv_color_hex(0xFF00), LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_unlock();
     lines.clear();
     printf("start reace!\n");
     while (charge_flage) {
@@ -2208,6 +2211,9 @@ reace_msg_start:
         }
     }
 llm_error:
+    ui_lock();
+    lv_obj_set_style_bg_color(ui_Panel7, lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_unlock();
     printf("reset StackFlow\n");
     system("systemctl restart llm-melotts llm-llm llm-asr llm-kws llm-sys ");
     printf("reset StackFlow success\n");

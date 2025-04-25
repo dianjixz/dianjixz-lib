@@ -151,6 +151,7 @@ lv_obj_t * ui_Button27;
 lv_obj_t * ui_Label55;
 lv_obj_t * ui_TextArea12;
 lv_obj_t * ui_Label48;
+lv_obj_t * ui_Panel7;
 // CUSTOM VARIABLES
 
 // EVENTS

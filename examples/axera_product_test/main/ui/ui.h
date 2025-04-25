@@ -158,6 +158,7 @@ extern lv_obj_t * ui_Button27;
 extern lv_obj_t * ui_Label55;
 extern lv_obj_t * ui_TextArea12;
 extern lv_obj_t * ui_Label48;
+extern lv_obj_t * ui_Panel7;
 // CUSTOM VARIABLES
 
 // EVENTS

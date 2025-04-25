@@ -949,6 +949,16 @@ void ui_Screen1_screen_init(void)
     lv_label_set_text(ui_Label48,
                       "Connect to the local device via TCP to activate the LLM function. \nThe wake word is \"nihaonihao\".\n Once activated successfully,\n voice interaction can be initiated.");
 
+    ui_Panel7 = lv_obj_create(ui_LLMTEST);
+    lv_obj_set_width(ui_Panel7, 50);
+    lv_obj_set_height(ui_Panel7, 50);
+    lv_obj_set_x(ui_Panel7, 429);
+    lv_obj_set_y(ui_Panel7, -249);
+    lv_obj_set_align(ui_Panel7, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel7, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel7, lv_color_hex(0xF00C0C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel7, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button3, ui_event_Button3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button4, ui_event_Button4, LV_EVENT_ALL, NULL);
