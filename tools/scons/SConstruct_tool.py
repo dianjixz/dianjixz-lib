@@ -201,3 +201,54 @@ def CC_cmd_execute(cmd):
     os.remove('gcc_out.txt')
     return out
 
+
+def DefineProject(target, SRCS=[], INCLUDE=[], PRIVATE_INCLUDE=[], REQUIREMENTS=[], STATIC_LIB=[], DYNAMIC_LIB=[], DEFINITIONS=[], DEFINITIONS_PRIVATE=[], LDFLAGS=[], LINK_SEARCH_PATH=[], STATIC_FILES = []):
+    component_info = {'SRCS': SRCS,
+                      'INCLUDE': INCLUDE,
+                      'PRIVATE_INCLUDE': PRIVATE_INCLUDE,
+                      'REQUIREMENTS': REQUIREMENTS,
+                      'STATIC_LIB': STATIC_LIB,
+                      'DYNAMIC_LIB': DYNAMIC_LIB,
+                      'DEFINITIONS': DEFINITIONS,
+                      'DEFINITIONS_PRIVATE': DEFINITIONS_PRIVATE,
+                      'LDFLAGS': LDFLAGS,
+                      'LINK_SEARCH_PATH': LINK_SEARCH_PATH,
+                      'STATIC_FILES': STATIC_FILES,
+                      'target': target,
+                      'project': 'project'
+                      }
+    env['COMPONENTS'].append(component_info)
+
+def DefineStatic(target, SRCS=[], INCLUDE=[], PRIVATE_INCLUDE=[], REQUIREMENTS=[], STATIC_LIB=[], DYNAMIC_LIB=[], DEFINITIONS=[], DEFINITIONS_PRIVATE=[], LDFLAGS=[], LINK_SEARCH_PATH=[], STATIC_FILES = []):
+    component_info = {'SRCS': SRCS,
+                      'INCLUDE': INCLUDE,
+                      'PRIVATE_INCLUDE': PRIVATE_INCLUDE,
+                      'REQUIREMENTS': REQUIREMENTS,
+                      'STATIC_LIB': STATIC_LIB,
+                      'DYNAMIC_LIB': DYNAMIC_LIB,
+                      'DEFINITIONS': DEFINITIONS,
+                      'DEFINITIONS_PRIVATE': DEFINITIONS_PRIVATE,
+                      'LDFLAGS': LDFLAGS,
+                      'LINK_SEARCH_PATH': LINK_SEARCH_PATH,
+                      'STATIC_FILES': STATIC_FILES,
+                      'target': target,
+                      'project': 'static'
+                      }
+    env['COMPONENTS'].append(component_info)
+
+def DefineShared(target, SRCS=[], INCLUDE=[], PRIVATE_INCLUDE=[], REQUIREMENTS=[], STATIC_LIB=[], DYNAMIC_LIB=[], DEFINITIONS=[], DEFINITIONS_PRIVATE=[], LDFLAGS=[], LINK_SEARCH_PATH=[], STATIC_FILES = []):
+    component_info = {'SRCS': SRCS,
+                      'INCLUDE': INCLUDE,
+                      'PRIVATE_INCLUDE': PRIVATE_INCLUDE,
+                      'REQUIREMENTS': REQUIREMENTS,
+                      'STATIC_LIB': STATIC_LIB,
+                      'DYNAMIC_LIB': DYNAMIC_LIB,
+                      'DEFINITIONS': DEFINITIONS,
+                      'DEFINITIONS_PRIVATE': DEFINITIONS_PRIVATE,
+                      'LDFLAGS': LDFLAGS,
+                      'LINK_SEARCH_PATH': LINK_SEARCH_PATH,
+                      'STATIC_FILES': STATIC_FILES,
+                      'target': target,
+                      'project': 'shared'
+                      }
+    env['COMPONENTS'].append(component_info)
