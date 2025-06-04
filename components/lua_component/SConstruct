@@ -1,0 +1,68 @@
+# component2/SConscript
+Import('env')
+import os
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+if 'CONFIG_LUA_COMPONENT_ENABLED' in os.environ:
+    LUA_PATH = check_wget_down("https://www.lua.org/ftp/lua-5.4.8.tar.gz", 'lua-5.4.8.tar.gz')
+    LUA_ffi_PATH = wget_github_commit("https://github.com/zhaojh329/lua-ffi.git", '443336a542e2585ed99d6d999bf42e6661fe62ad')
+    env["LUA_PATH"] = LUA_PATH
+    SRCS=[]
+    INCLUDE=[]
+    PRIVATE_INCLUDE=[]
+    REQUIREMENTS=[]
+    STATIC_LIB=[]
+    DYNAMIC_LIB=[]
+    DEFINITIONS=[]
+    DEFINITIONS_PRIVATE=[]
+    LDFLAGS=[]
+    LINK_SEARCH_PATH=[]
+
+    filter_src = ['lua.c', 'luac.c']
+    SRCS += Glob(os.path.join(LUA_PATH, 'lua-5.4.8/src/*.c*'))
+    SRCS = list(filter(lambda x: x.name not in filter_src, SRCS))
+    INCLUDE += [os.path.join(LUA_PATH, 'lua-5.4.8/src')]
+    DEFINITIONS_PRIVATE += ['-DLUA_COMPAT_5_3', '-DLUA_USE_LINUX', '-O2']
+    REQUIREMENTS += ['m', 'dl']
+
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'shared' if 'CONFIG_LUA_COMPONENT_DYNAMIC' in os.environ else 'static'
+                            })
+    if 'CONFIG_LUA_COMPONENT_ELF' in os.environ:
+        env['COMPONENTS'].append({'target':'lua',
+                                'SRCS':[os.path.join(LUA_PATH, 'lua-5.4.8/src/lua.c')],
+                                'INCLUDE':[],
+                                'PRIVATE_INCLUDE':[],
+                                'REQUIREMENTS':['lua_component'],
+                                'STATIC_LIB':[],
+                                'DYNAMIC_LIB':[],
+                                'DEFINITIONS':[],
+                                'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                                'LDFLAGS':[],
+                                'LINK_SEARCH_PATH':[],
+                                'REGISTER':'project'
+                                })
+        env['COMPONENTS'].append({'target':'luac',
+                                'SRCS':[os.path.join(LUA_PATH, 'lua-5.4.8/src/luac.c')],
+                                'INCLUDE':[],
+                                'PRIVATE_INCLUDE':[],
+                                'REQUIREMENTS':['lua_component'],
+                                'STATIC_LIB':[],
+                                'DYNAMIC_LIB':[],
+                                'DEFINITIONS':[],
+                                'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                                'LDFLAGS':[],
+                                'LINK_SEARCH_PATH':[],
+                                'REGISTER':'project'
+                                })

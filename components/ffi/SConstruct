@@ -1,0 +1,73 @@
+# component2/SConscript
+Import('env')
+import os
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+if 'CONFIG_LFFI_ENABLED' in os.environ:
+    check_component('libffi')
+    SRCS=[]
+    INCLUDE=[]
+    PRIVATE_INCLUDE=[]
+    REQUIREMENTS=[]
+    STATIC_LIB=[]
+    DYNAMIC_LIB=[]
+    DEFINITIONS=[]
+    DEFINITIONS_PRIVATE=['-w']
+    LDFLAGS=[]
+    LINK_SEARCH_PATH=[]
+    # head_dirs = ['.', 'base', 'util', 'event', 'ssl', 'event/kcp', 'protocol', 'evpp', 'cpputil', 'http', 'http/client', 'http/server', 'mqtt', 'misc']
+    # include_dir = str(ADir('../../github_source/libhv/include/hv'))
+    # if not os.path.exists(include_dir):
+    #     import shutil
+    #     os.makedirs(include_dir)
+    #     for _dir in head_dirs:
+    #         for head_file in AGlob(os.path.join('../../github_source/libhv', _dir, '*.h')):
+    #             shutil.copy2(str(head_file), include_dir)
+    #         for head_file in AGlob(os.path.join('../../github_source/libhv', _dir, '*.hpp')):
+    #             shutil.copy2(str(head_file), include_dir)
+
+    # PRIVATE_INCLUDE.append(ADir('../../github_source/libhv/include/hv'))
+    # INCLUDE.append(ADir('../../github_source/libhv/include'))
+
+    # SRCS += AGlob('../../github_source/libhv/base/*.c*')
+    # SRCS += AGlob('../../github_source/libhv/util/*.c*')
+    # SRCS += AGlob('../../github_source/libhv/event/*.c*')
+    # SRCS += AGlob('../../github_source/libhv/ssl/*.c*')
+
+    # if 'CONFIG_LHV_WITH_KCP' in os.environ:
+    #     SRCS += AGlob('../../github_source/libhv/event/kcp/*.c*')
+    #     DEFINITIONS_PRIVATE += ['-DWITH_KCP']
+    # if 'CONFIG_LHV_WITH_PROTOCOL' in os.environ:
+    #     SRCS += AGlob('../../github_source/libhv/protocol/*.c*')
+    # if 'CONFIG_LHV_WITH_EVPP' in os.environ:
+    #     SRCS += AGlob('../../github_source/libhv/cpputil/*.c*')
+    #     if 'CONFIG_LHV_WITH_HTTP' in os.environ:
+    #         SRCS += AGlob('../../github_source/libhv/http/*.c*')
+    #         if 'CONFIG_LHV_WITH_WITH_HTTP_CLIENT' in os.environ:
+    #             SRCS += AGlob('../../github_source/libhv/http/client/*.c*')
+    #         if 'CONFIG_LHV_WITH_HTTP_SERVER' in os.environ:
+    #             SRCS += AGlob('../../github_source/libhv/http/server/*.c*')
+
+    # if 'CONFIG_LHV_WITH_MQTT' in os.environ:
+    #     SRCS += AGlob('../../github_source/libhv/mqtt/*.c')
+
+    # if 'CONFIG_LHV_WITH_MQTT' in os.environ:
+    #     pass
+    # else:
+    #     DEFINITIONS_PRIVATE += ['-DHV_WITHOUT_SSL']
+
+    # env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+    #                         'SRCS':SRCS,
+    #                         'INCLUDE':INCLUDE,
+    #                         'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+    #                         'REQUIREMENTS':REQUIREMENTS,
+    #                         'STATIC_LIB':STATIC_LIB,
+    #                         'DYNAMIC_LIB':DYNAMIC_LIB,
+    #                         'DEFINITIONS':DEFINITIONS,
+    #                         'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+    #                         'LDFLAGS':LDFLAGS,
+    #                         'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+    #                         'REGISTER':'shared' if 'CONFIG_LHV_DYNAMIC' in os.environ else 'static'
+    #                         })
