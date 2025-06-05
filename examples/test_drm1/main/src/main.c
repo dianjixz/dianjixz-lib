@@ -177,7 +177,7 @@
                                                          .enMode       = AX_VO_WBC_MODE_NORMAL,
                                                          .u32FifoDepth = 0,
                                                          .f32FrameRate = 0},
-                                       .enIntfSync    = AX_VO_OUTPUT_USER,  // AX_VO_OUTPUT_720x1280_60 AX_VO_OUTPUT_USER
+                                       .enIntfSync    = AX_VO_OUTPUT_720P60,  // AX_VO_OUTPUT_720x1280_60 AX_VO_OUTPUT_USER
                                        .u32SyncIndex  = SAMPLE_VO_SYNC_USER_CUSTUM,
                                        .stSyncInfos =
                                         //    {

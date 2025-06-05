@@ -232,6 +232,9 @@ static int ax_Open(struct ax_vo_hal_t *self, int vo_dev)
             u64BlkSize = u64PixSize * 4 / nPlanes;
         else
             u64BlkSize = u64PixSize * 3 / nPlanes;
+        
+        u64BlkSize = AX_VIN_GetImgBufferSize(u32LayerHeight, u32LayerWidth, pstVoLayerAttr->enPixFmt,
+            &pstVoLayerAttr->stCompressInfo, 0);
 
         s32Ret = SAMPLE_VO_CREATE_POOL(s32Chns * 2, u64BlkSize, 512, &pstVoLayerConf->u32ChnPoolId);
         if (s32Ret) {
@@ -362,7 +365,7 @@ static void put_frame_mem(struct ax_vo_hal_t *self, AX_U32 u32ChnID, AX_U32 u32L
     /* Query Channel Status */
     s32Ret = AX_VO_QueryChnStatus(self->stVoConfig.stVoLayer[u32LayerID].u32VoLayer, u32ChnID, &dev_info->stStatus);
     if (s32Ret) printf("layer%d-chn%d AX_VO_QueryChnStatus failed, s32Ret = 0x%x\n", u32LayerID, u32ChnID, s32Ret);
-    usleep(5000);
+    // usleep(5000);
     AX_POOL_ReleaseBlock(dev_info->stFrame[u32LayerID].u32BlkId[0]);
 }
 

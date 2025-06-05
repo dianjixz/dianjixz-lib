@@ -40,17 +40,17 @@
 
 void gpioSetMode(int io, int mode)
 {
-    system("mem w 0x09040004 0x40004088");
+    // system("mem w 0x09040004 0x40004088");
 }
 void gpioWrite(int io, int out)
 {
     switch (io) {
         case 21:
             if (out) {
-                system("mem s 0x09040000 1 30 31");
+                system("mem s 0x09050000 1 7 8");
                 printf("21 --- 1\n");
             } else {
-                system("mem s 0x09040000 0 30 31");
+                system("mem s 0x09050000 0 7 8");
                 printf("21 --- 0\n");
             }
 
