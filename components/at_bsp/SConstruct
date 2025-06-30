@@ -1,0 +1,48 @@
+# component2/SConscript
+Import('env')
+import os
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+if 'CONFIG_AT32_BSP_ENABLED' in os.environ:
+    MSP_PATH = ''
+    
+    SRCS=[]
+    INCLUDE=[]
+    PRIVATE_INCLUDE=[]
+    REQUIREMENTS=[]
+    STATIC_LIB=[]
+    DYNAMIC_LIB=[]
+    DEFINITIONS=[]
+    DEFINITIONS_PRIVATE=['']
+    LDFLAGS=[]
+    LINK_SEARCH_PATH=[]
+    
+    if 'CONFIG_AT32F415_BSP_ENABLED' in os.environ:
+        SRCS += AGlob('at32f415_bsp/drivers/src/*.c*')
+        SRCS += [AFile('at32f415_bsp/cmsis/cm4/device_support/system_at32f415.c'), 
+                 AFile('at32f415_bsp/cmsis/cm4/device_support/startup/gcc/startup_at32f415.s')]
+        DEFINITIONS += ['-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=soft', '-O2','-ffunction-sections', '-DAT_START_F415_V1', '-DAT32F415RCT7', '-DTRACE', '-DOS_USE_TRACE_SEMIHOSTING_DEBUG'
+                        '-DUSE_STDPERIPH_DRIVER', '-std=c99', '-MMD', '-MP']
+        INCLUDE += [ADir('at32f415_bsp/drivers/inc'), 
+                    ADir('at32f415_bsp/cmsis/cm4/core_support'),
+                    ADir('at32f415_bsp/cmsis/cm4/device_support/startup/gcc'),
+                    ADir('at32f415_bsp/cmsis/cm4/device_support'),
+                    ADir('at32f415_bsp')]
+        env['at32f415_ld_stript'] = AFile('at32f415_bsp/AT32F415xC_FLASH.ld').abspath
+
+
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'static'
+                            })
+

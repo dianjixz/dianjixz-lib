@@ -1,0 +1,42 @@
+# project_root/src/SConscript
+import os
+# Import the environment from the SConstruct file
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+SRCS = Glob('src/*.c*')
+INCLUDE = [ADir('include'), ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['at_bsp']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = []
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+
+ld_stript = env['at32f415_ld_stript']
+
+LDFLAGS += ['-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=soft', '-ffunction-sections', '-T', ld_stript, '--specs=nano.specs', '--specs=nosys.specs']
+
+# arm-none-eabi-objcopy -O ihex at32f415_example  at32f415_example.hex
+# arm-none-eabi-objcopy -O binary at32f415_example at32f415_example.bin
+# arm-none-eabi-size --format=berkeley at32f415_example
+# 烧录：pyocd flash --pack=./ArteryTek.AT32F415_DFP.2.1.6.pack  ./at32f415_example.hex --target _at32f415rct7
+
+
+
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'REGISTER':'project'
+                          })

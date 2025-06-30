@@ -1,0 +1,15 @@
+menuconfig AT32_BSP_ENABLED
+    bool "Enable at32_bsp support"
+    default n
+    help
+        enable at32 bsp support
+
+    choice
+        prompt "choice board"
+        default AT32F415_BSP_ENABLED
+        depends on AT32_BSP_ENABLED
+    config AT32F415_BSP_ENABLED
+        bool "enable at32f415 bsp"
+        help
+            build by AT32!
+    endchoice
