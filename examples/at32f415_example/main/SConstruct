@@ -6,7 +6,7 @@ with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
 SRCS = Glob('src/*.c*')
-INCLUDE = [ADir('include'), ADir('.')]
+INCLUDE = [ADir('.')]
 PRIVATE_INCLUDE = []
 REQUIREMENTS = ['at_bsp']
 STATIC_LIB = []
@@ -25,6 +25,13 @@ LDFLAGS += ['-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=soft', '-ffunction-sectio
 # arm-none-eabi-size --format=berkeley at32f415_example
 # 烧录：pyocd flash --pack=./ArteryTek.AT32F415_DFP.2.1.6.pack  ./at32f415_example.hex --target _at32f415rct7
 # 烧录：pyocd flash --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  dist/at32f415_example.hex --target _at32f415rct7
+
+
+for com in env['COMPONENTS']:
+    if com['target'] == 'at_bsp':
+        com['INCLUDE'] += [ADir('include')]
+        break
+
 
 mode_path = check_wget_down("https://www.arterytek.com/file/download/1691", 'Keil5_AT32MCU_AddOn_V2.4.4.zip')
 STATIC_FILES = [os.path.join(mode_path, 'ArteryTek.AT32F415_DFP.2.1.6.pack')]

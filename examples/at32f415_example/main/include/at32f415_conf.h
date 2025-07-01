@@ -45,7 +45,7 @@ extern "C" {
   *      can define the hext value in your toolchain compiler preprocessor.
   */
 #if !defined  HEXT_VALUE
-#define HEXT_VALUE               ((uint32_t)8000000) /*!< value of the high speed external crystal in hz */
+#define HEXT_VALUE               ((uint32_t)12000000) /*!< value of the high speed external crystal in hz */
 #endif
 
 /**
@@ -53,7 +53,7 @@ extern "C" {
   * timeout value
   */
 #define HEXT_STARTUP_TIMEOUT             ((uint16_t)0x3000)  /*!< time out for hext start up */
-#define HICK_VALUE                       ((uint32_t)8000000) /*!< value of the high speed internal clock in hz */
+#define HICK_VALUE                       ((uint32_t)48000000) /*!< value of the high speed internal clock in hz */
 #define LEXT_VALUE                       ((uint32_t)32768)   /*!< value of the low speed external clock in hz */
 
 /* module define -------------------------------------------------------------*/
