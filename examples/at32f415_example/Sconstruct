@@ -1,4 +1,27 @@
-from pathlib import Path
 import os
-with open(str(Path(os.getcwd())/'..'/'..'/'tools'/'scons'/'project.py')) as f:
-    exec(f.read())
+import sys
+
+if "flash" in sys.argv:
+    os.system(
+        "pyocd flash --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  dist/at32f415_example.hex --target _at32f415rct7"
+    )
+    exit()
+
+env = SConscript(
+    os.path.join(os.getcwd(), "../../tools/scons/project.py"),
+    variant_dir=os.getcwd(),
+    duplicate=0,
+)
+
+main_project = env["task_list"]["at32f415_example"]
+main_project["_target_build_env"].Command(
+    target="build/at32f415_example/at32f415_example.hex",  # 目标文件
+    source="build/at32f415_example/at32f415_example",  # 源文件
+    action="${OBJCOPY} -O ihex $SOURCE $TARGET",  # 执行命令
+)
+
+main_project["_target_build_env"].Command(
+    target="dist/at32f415_example.hex",  # 目标文件
+    source="build/at32f415_example/at32f415_example.hex",  # 源文件
+    action="cp $SOURCE $TARGET",  # 执行命令
+)

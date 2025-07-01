@@ -361,7 +361,9 @@ def setup_environment():
     env['CXX'] = '${_concat(GCCPREFIX, "g++", GCCSUFFIX, __env__)}'     
     env['AR'] = '${_concat(GCCPREFIX, "ar", GCCSUFFIX, __env__)}'      
     env['AS'] = '${_concat(GCCPREFIX, "as", GCCSUFFIX, __env__)}'        
-    env['STRIP'] = '${_concat(GCCPREFIX, "strip", GCCSUFFIX, __env__)}'     
+    env['STRIP'] = '${_concat(GCCPREFIX, "strip", GCCSUFFIX, __env__)}'  
+    env['OBJCOPY'] = '${_concat(GCCPREFIX, "objcopy", GCCSUFFIX, __env__)}'     
+    env['SIZE'] = '${_concat(GCCPREFIX, "size", GCCSUFFIX, __env__)}'  
 
     # Get GCC version and target information
     try:
@@ -725,3 +727,5 @@ def build_task_init():
 build_task_init()
 create_compile_program()
 add_compile_program_requirements()
+env['task_list'] = task_lists
+Return('env')

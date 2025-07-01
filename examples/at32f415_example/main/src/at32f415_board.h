@@ -80,8 +80,8 @@ typedef enum
 #endif
 
 /**************** define print uart ******************/
-#define PRINT_UART                       USART3
-#define PRINT_UART_CRM_CLK               CRM_USART3_PERIPH_CLOCK
+#define PRINT_UART                       UART4
+#define PRINT_UART_CRM_CLK               CRM_UART4_PERIPH_CLOCK
 #define PRINT_UART_TX_PIN                GPIO_PINS_10
 #define PRINT_UART_TX_GPIO               GPIOC
 #define PRINT_UART_TX_GPIO_CRM_CLK       CRM_GPIOC_PERIPH_CLOCK
