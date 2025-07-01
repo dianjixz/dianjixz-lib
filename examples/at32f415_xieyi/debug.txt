@@ -1,0 +1,32 @@
+## 调试步骤
+### 1. 启动pyOCD的GDB服务器
+```bash
+pyocd gdbserver --pack /path/to/STM32_DFP.pack --target STM32F4xx
+```
+
+> 注意：`STM32F4xx`替换为你的具体型号，如`STM32F407VG`。DFP包路径可选，pyOCD会自动下载。
+### 2. 在另一个终端启动GDB
+
+```bash
+gdb-multiarch your_elf_file.elf
+```
+
+### 3. 在GDB中连接并调试
+```gdb
+(gdb) target extended-remote :3333
+(gdb) monitor reset halt
+(gdb) load
+(gdb) b main
+(gdb) continue
+```
+
+## 常用命令
+- **硬件控制**：  ```gdb
+  monitor reset        # 复位芯片  monitor halt         # 暂停CPU
+  monitor step         # 单步执行  ```
+
+- **断点管理**：  ```gdb
+  b function_name      # 在函数处设置断点  b *0x08000000        # 在地址处设置断点  info break           # 查看断点  ```
+
+- **内存操作**：  ```gdb
+  x/10x 0x20000000     # 查看内存  set {int}0x20000000 = 0x1234  # 写内存  ```

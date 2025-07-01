@@ -1,0 +1,71 @@
+# project_root/src/SConscript
+import os
+# Import the environment from the SConstruct file
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+SRCS = Glob('src/*.c*')
+INCLUDE = [ADir('src')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['at_bsp']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = []
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+
+
+ld_stript = env['at32f415_ld_stript']
+LDFLAGS += ['-mcpu=cortex-m4', '-mthumb', '-mfloat-abi=soft', '-ffunction-sections', '-T', ld_stript, '--specs=nano.specs', '--specs=nosys.specs']
+
+# arm-none-eabi-objcopy -O ihex at32f415_example  at32f415_example.hex
+# arm-none-eabi-objcopy -O binary at32f415_example at32f415_example.bin
+# arm-none-eabi-size --format=berkeley at32f415_example
+# 烧录：pyocd flash --pack=./ArteryTek.AT32F415_DFP.2.1.6.pack  ./at32f415_example.hex --target _at32f415rct7
+# 烧录：pyocd flash --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  dist/at32f415_example.hex --target _at32f415rct7
+
+
+for com in env['COMPONENTS']:
+    if com['target'] == 'at_bsp':
+        com['INCLUDE'] += [ADir('include')]
+        break
+
+
+
+
+Caven_MCU_Lib = check_wget_down("https://github.com/dianjixz/Caven-MCU_Lib/archive/refs/heads/main.zip", 'Caven-MCU_Lib.zip')
+
+DEFINITIONS += ['-DCAVEN','-DDEFAULT']
+
+SRCS += Glob(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'API/*.c'))
+SRCS += Glob(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Mode/*.c'))
+SRCS += Glob(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415/*.c'))
+# SRCS += Glob(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415/composite_HID/*.c'))
+# SRCS += Glob(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415/usb_drivers/src/*.c'))
+
+INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'API'))
+INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415'))
+INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415/composite_HID'))
+INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Base_AT32F415/usb_drivers/inc'))
+INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'Mode'))
+# INCLUDE.append(os.path.join(Caven_MCU_Lib, 'Caven-MCU_Lib-main', 'GUI'))
+
+
+mode_path = check_wget_down("https://www.arterytek.com/file/download/1691", 'Keil5_AT32MCU_AddOn_V2.4.4.zip')
+STATIC_FILES = [os.path.join(mode_path, 'ArteryTek.AT32F415_DFP.2.1.6.pack')]
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'STATIC_FILES':STATIC_FILES,
+                          'REGISTER':'project'
+                          })

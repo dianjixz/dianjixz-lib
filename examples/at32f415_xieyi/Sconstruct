@@ -1,0 +1,30 @@
+import os
+import sys
+
+
+
+env = SConscript(
+    os.path.join(os.getcwd(), "../../tools/scons/project.py"),
+    variant_dir=os.getcwd(),
+    duplicate=0,
+)
+
+if "flash" in sys.argv:
+    os.system(
+        f"pyocd flash --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  dist/{env['PROJECT_NAME']}.hex --target _at32f415rct7"
+    )
+    exit()
+
+
+main_project = env["task_list"][env['PROJECT_NAME']]
+main_project["_target_build_env"].Command(
+    target=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.hex",  # 目标文件
+    source=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}",  # 源文件
+    action="${OBJCOPY} -O ihex $SOURCE $TARGET",  # 执行命令
+)
+
+main_project["_target_build_env"].Command(
+    target=f"dist/{env['PROJECT_NAME']}.hex",  # 目标文件
+    source=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.hex",  # 源文件
+    action="cp $SOURCE $TARGET",  # 执行命令
+)
