@@ -176,7 +176,7 @@
                                                          .enMode       = AX_VO_WBC_MODE_NORMAL,
                                                          .u32FifoDepth = 0,
                                                          .f32FrameRate = 0},
-                                       .enIntfSync    = AX_VO_OUTPUT_USER,  // AX_VO_OUTPUT_720x1280_60 AX_VO_OUTPUT_USER
+                                       .enIntfSync    = AX_VO_OUTPUT_720P60,  // AX_VO_OUTPUT_720x1280_60 AX_VO_OUTPUT_USER
                                        .u32SyncIndex  = SAMPLE_VO_SYNC_USER_CUSTUM,
                                        .stSyncInfos =
                                            {
@@ -220,7 +220,7 @@
                                        .u32VoLayer       = 0,
                                        .u32LayerPoolId   = 0,
                                        .bindVoDev        = {[0] = 2, [1] = 2},
-                                       .stVoLayerAttr    = {.stImageSize    = {.u32Width = 720, .u32Height = 1280},
+                                       .stVoLayerAttr    = {.stImageSize    = {.u32Width = 1280, .u32Height = 720},
                                                             .stCompressInfo = {.enCompressMode   = AX_COMPRESS_MODE_NONE,
                                                                                .u32CompressLevel = 0},
                                                             .enPixFmt =
@@ -312,7 +312,7 @@
  
 
 
-         SAMPLE_VO_SigStop(0);
+        //  SAMPLE_VO_SigStop(0);
          SAMPLE_VO_LAYER_DISPLAY(&g_stVoConf);
      }
 

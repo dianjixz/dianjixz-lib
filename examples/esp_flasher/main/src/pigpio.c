@@ -47,22 +47,26 @@ void gpioWrite(int io, int out)
     switch (io) {
         case 21:
             if (out) {
-                system("mem s 0x09050000 1 7 8");
-                printf("21 --- 1\n");
+                // system("mem s 0x09050000 1 7 8");
+                printf("ESPEN --- 1\n");
+                system("/opt/bin/sample_gpio o 39 1");
             } else {
-                system("mem s 0x09050000 0 7 8");
-                printf("21 --- 0\n");
+                // system("mem s 0x09050000 0 7 8");
+                printf("ESPEN --- 0\n");
+                system("/opt/bin/sample_gpio o 39 0");
             }
 
             break;
         case 22:
             if (out) {
-                system("mem s 0x09040000 1 3 4");
-                printf("22 --- 1\n");
+                // system("mem s 0x09040000 1 3 4");
+                printf("ESP_BOOT --- 1\n");
+                system("/opt/bin/sample_gpio o 3 1");
             }
             else {
-                system("mem s 0x09040000 0 3 4");
-                printf("22 --- 0\n");
+                // system("mem s 0x09040000 0 3 4");
+                printf("ESP_BOOT --- 0\n");
+                system("/opt/bin/sample_gpio o 3 0");
             }
 
             break;

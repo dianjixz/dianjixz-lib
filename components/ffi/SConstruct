@@ -14,9 +14,53 @@ if 'CONFIG_LFFI_ENABLED' in os.environ:
     STATIC_LIB=[]
     DYNAMIC_LIB=[]
     DEFINITIONS=[]
-    DEFINITIONS_PRIVATE=['-w']
+    DEFINITIONS_PRIVATE=[]
     LDFLAGS=[]
     LINK_SEARCH_PATH=[]
+
+    INCLUDE.append(ADir('include'))
+
+    gcc_dumpmachine = env["GCC_DUMPMACHINE"]
+    gcc_arch = gcc_dumpmachine.split('-')[0]
+    if gcc_arch == 'x86_64':
+        SRCS += AGlob('../../github_source/libffi/src/*.c*')
+        SRCS += [AFile('../../github_source/libffi/src/x86/ffi64.c'),
+                 AFile('../../github_source/libffi/src/x86/ffiw64.c'),
+                 AFile('../../github_source/libffi/src/x86/unix64.S'),
+                 AFile('../../github_source/libffi/src/x86/win64.S')]
+        PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/src/x86'))
+        # PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/include'))
+        INCLUDE.append(ADir('x86_64'))
+        DEFINITIONS_PRIVATE += ['-DHAVE_CONFIG_H']
+    elif gcc_arch == 'aarch64':
+        SRCS += AGlob('../../github_source/libffi/src/*.c*')
+        SRCS += [AFile('../../github_source/libffi/src/aarch64/ffi.c'),
+                 AFile('../../github_source/libffi/src/aarch64/sysv.S')]
+        PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/src/aarch64'))
+        # PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/include'))
+        INCLUDE.append(ADir('aarch64'))
+        DEFINITIONS_PRIVATE += ['-DHAVE_CONFIG_H']
+    elif gcc_arch == 'arm':
+        SRCS += AGlob('../../github_source/libffi/src/*.c*')
+        SRCS += [AFile('../../github_source/libffi/src/arm/ffi.c'),
+                 AFile('../../github_source/libffi/src/arm/sysv.S'),]
+        PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/src/arm'))
+        # PRIVATE_INCLUDE.append(ADir('../../github_source/libffi/include'))
+        INCLUDE.append(ADir('arm'))
+        DEFINITIONS_PRIVATE += ['-DHAVE_CONFIG_H']
+    else:
+        print('unsupported arch: %s' % gcc_arch)
+        exit(1)
+
+
+
+
+
+
+
+
+
+
     # head_dirs = ['.', 'base', 'util', 'event', 'ssl', 'event/kcp', 'protocol', 'evpp', 'cpputil', 'http', 'http/client', 'http/server', 'mqtt', 'misc']
     # include_dir = str(ADir('../../github_source/libhv/include/hv'))
     # if not os.path.exists(include_dir):
@@ -58,16 +102,16 @@ if 'CONFIG_LFFI_ENABLED' in os.environ:
     # else:
     #     DEFINITIONS_PRIVATE += ['-DHV_WITHOUT_SSL']
 
-    # env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
-    #                         'SRCS':SRCS,
-    #                         'INCLUDE':INCLUDE,
-    #                         'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
-    #                         'REQUIREMENTS':REQUIREMENTS,
-    #                         'STATIC_LIB':STATIC_LIB,
-    #                         'DYNAMIC_LIB':DYNAMIC_LIB,
-    #                         'DEFINITIONS':DEFINITIONS,
-    #                         'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
-    #                         'LDFLAGS':LDFLAGS,
-    #                         'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
-    #                         'REGISTER':'shared' if 'CONFIG_LHV_DYNAMIC' in os.environ else 'static'
-    #                         })
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'shared' if 'CONFIG_LFFI_DYNAMIC' in os.environ else 'static'
+                            })

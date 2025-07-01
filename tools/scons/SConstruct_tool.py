@@ -118,7 +118,9 @@ def wget_github_commit(url, commit):
     import parse
     import shutil
     repo = parse.parse("{}://{}/{}/{}.git", url)
-    github_url = url.rstrip('.git')
+    github_url = url
+    if github_url.endswith('.git'):
+        github_url = github_url[:-4]
     down_url = github_url + "/archive/{}.zip".format(commit)
     zip_file_name = '{}-{}.zip'.format(repo[3], commit)
     file_path = wget_zip(down_url, zip_file_name)

@@ -746,7 +746,14 @@ int test_station_mode_connect(void)
 {
 	/* implemented Asynchronous */
 	ctrl_cmd_t req = CTRL_CMD_DEFAULT_REQ();
-
+    const char *WIFI_SSID = getenv("TIMECAMCONFIG_WIFI_SSID");
+    if (WIFI_SSID == NULL) {
+        WIFI_SSID = STATION_MODE_SSID;
+    }
+	const char *WIFI_PASSWORD = getenv("TIMECAMCONFIG_WIFI_PASSWORD");
+    if (WIFI_PASSWORD == NULL) {
+        WIFI_PASSWORD = STATION_MODE_PWD;
+    }
 	printf("Connect to AP[%s]", STATION_MODE_SSID);
 	strcpy((char *)&req.u.wifi_ap_config.ssid, STATION_MODE_SSID);
 	strcpy((char *)&req.u.wifi_ap_config.pwd, STATION_MODE_PWD);

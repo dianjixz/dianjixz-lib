@@ -3,6 +3,11 @@ menuconfig LUA_COMPONENT_ENABLED
     bool "Enable lua"
     default n
 
+    config LUA_FFI
+        bool "compile with ffi"
+        default n
+        depends on LUA_COMPONENT_ENABLED && LFFI_DYNAMIC
+
     config LUA_COMPONENT_ELF
         bool "compile lua and luac"
         default n
