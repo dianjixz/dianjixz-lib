@@ -313,6 +313,7 @@ def setup_environment():
 
     # Set up command string display (for less verbose output)
     if 'CONFIG_COMMPILE_DEBUG' not in os.environ:
+        env['ASCOMSTR'] = "AS $SOURCES"
         env['CCCOMSTR'] = "CC $SOURCES"
         env['CXXCOMSTR'] = "CXX $SOURCES"
         env['SHCCCOMSTR'] = "CC -fPIC $SOURCES"
