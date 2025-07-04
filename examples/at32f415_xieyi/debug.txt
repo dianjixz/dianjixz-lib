@@ -2,6 +2,7 @@
 ### 1. 启动pyOCD的GDB服务器
 ```bash
 pyocd gdbserver --pack /path/to/STM32_DFP.pack --target STM32F4xx
+pyocd gdbserver --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  --target _at32f415rct7
 ```
 
 > 注意：`STM32F4xx`替换为你的具体型号，如`STM32F407VG`。DFP包路径可选，pyOCD会自动下载。

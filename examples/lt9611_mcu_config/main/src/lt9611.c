@@ -42,18 +42,18 @@ struct Lontium_IC_Mode lt9611 = {
 };
 
 // typedef struct video_timing {
-//     u16 hfp;
-//     u16 hs;
-//     u16 hbp;
-//     u16 hact;
-//     u16 htotal;
-//     u16 vfp;
-//     u16 vs;
-//     u16 vbp;
-//     u16 vact;
-//     u16 vtotal;
-//     bool h_polarity;
-//     bool v_polarity;
+//     u16 hfp;110
+//     u16 hs;40
+//     u16 hbp;220
+//     u16 hact;1280
+//     u16 htotal;1650
+//     u16 vfp;5
+//     u16 vs;5
+//     u16 vbp;20
+//     u16 vact;720
+//     u16 vtotal;750
+//     bool h_polarity;1
+//     bool v_polarity;1
 //     u16 vic;
 //     u8 aspact_ratio;  // 0=no data, 1=4:3, 2=16:9, 3=no data.
 //     u32 pclk_khz;

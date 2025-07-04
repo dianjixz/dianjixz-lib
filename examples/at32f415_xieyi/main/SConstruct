@@ -8,7 +8,7 @@ with open(env['PROJECT_TOOL_S']) as f:
 SRCS = Glob('src/*.c*')
 INCLUDE = [ADir('src')]
 PRIVATE_INCLUDE = []
-REQUIREMENTS = ['at_bsp']
+REQUIREMENTS = ['at_bsp', 'stb']
 STATIC_LIB = []
 DYNAMIC_LIB = []
 DEFINITIONS = []

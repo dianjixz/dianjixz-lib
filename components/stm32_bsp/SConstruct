@@ -1,0 +1,66 @@
+# component2/SConscript
+Import("env")
+import os
+
+with open(env["PROJECT_TOOL_S"]) as f:
+    exec(f.read())
+
+if "CONFIG_STM32_BSP_ENABLED" in os.environ:
+    MSP_PATH = ""
+
+    SRCS = []
+    INCLUDE = []
+    PRIVATE_INCLUDE = []
+    REQUIREMENTS = []
+    STATIC_LIB = []
+    DYNAMIC_LIB = []
+    DEFINITIONS = []
+    DEFINITIONS_PRIVATE = [""]
+    LDFLAGS = []
+    LINK_SEARCH_PATH = []
+
+    if "CONFIG_STM32G431_BSP_ENABLED" in os.environ:
+        SRCS += AGlob("stm32_bsp/STM32G4xx_HAL_Driver/Src/*.c*")
+        SRCS += AGlob("stm32_bsp/RTT/*.c*")
+        SRCS += AGlob("stm32_bsp/Startup/*.c*")
+        SRCS += AGlob("stm32_bsp/Startup/*.s")
+        DEFINITIONS += [
+            "-mcpu=cortex-m4",
+            "-std=gnu11",
+            "-DUSE_HAL_DRIVER",
+            "-DSTM32G431xx",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-Wall",
+            "-fstack-usage",
+            "--specs=nano.specs",
+            "-mfpu=fpv4-sp-d16",
+            "-mfloat-abi=hard",
+            "-mthumb",
+        ]
+        INCLUDE += [
+            ADir("stm32_bsp/RTT"),
+            ADir("stm32_bsp/STM32G4xx_HAL_Driver/Inc"),
+            ADir("stm32_bsp/STM32G4xx_HAL_Driver/Inc/Legacy"),
+            ADir("at32f415_bsp/cmsis/cm4/device_support"),
+            ADir("stm32_bsp/cmsis/Device/ST/STM32G4xx/Include"),
+            ADir("stm32_bsp/cmsis/Include"),
+        ]
+        env["stm32g431_ld_stript"] = AFile("stm32_bsp/Startup/STM32G431CBUX_FLASH.ld").abspath
+
+    env["COMPONENTS"].append(
+        {
+            "target": os.path.basename(env["component_dir"]),
+            "SRCS": SRCS,
+            "INCLUDE": INCLUDE,
+            "PRIVATE_INCLUDE": PRIVATE_INCLUDE,
+            "REQUIREMENTS": REQUIREMENTS,
+            "STATIC_LIB": STATIC_LIB,
+            "DYNAMIC_LIB": DYNAMIC_LIB,
+            "DEFINITIONS": DEFINITIONS,
+            "DEFINITIONS_PRIVATE": DEFINITIONS_PRIVATE,
+            "LDFLAGS": LDFLAGS,
+            "LINK_SEARCH_PATH": LINK_SEARCH_PATH,
+            "REGISTER": "static",
+        }
+    )

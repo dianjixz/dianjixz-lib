@@ -1,0 +1,15 @@
+menuconfig STM32_BSP_ENABLED
+    bool "Enable stm32 bsp support"
+    default n
+    help
+        enable stm32 bsp support
+
+    choice
+        prompt "choice board"
+        default STM32G431_BSP_ENABLED
+        depends on STM32_BSP_ENABLED
+    config STM32G431_BSP_ENABLED
+        bool "enable stm32g431 bsp"
+        help
+            build by STM32!
+    endchoice
