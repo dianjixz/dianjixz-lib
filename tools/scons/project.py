@@ -454,6 +454,8 @@ def get_object_path(src_file, component_build_dir):
 def create_empty_source_file(component_build_dir):
     """Create an empty source file for components with no sources"""
     empty_src_file = str(Path(component_build_dir)/'empty_src_file.cpp')
+    if 'CONFIG_EMPTY_SRC_FILE_C' in os.environ:
+        empty_src_file = str(Path(component_build_dir)/'empty_src_file.c')
     with open(empty_src_file, 'w'):
         pass  # Create empty file
     return empty_src_file
@@ -580,9 +582,17 @@ def build_project(component, build_env, source_files, object_files, custom_sourc
     # Build static library from objects
     build_env.Library(target=target_path, source=compiled_objects)
     
+    itemized_srcs = []
+    if 'ITEMIZED_SRCS' in component:
+        itemized_srcs += component['ITEMIZED_SRCS']
+
     # Create empty source file for linking
-    empty_src_file = create_empty_source_file(component_build_dir)
+    # if len(itemized_srcs) == 0:
+    itemized_srcs.append(create_empty_source_file(component_build_dir))
     
+    itemized_object_files = [get_object_path(src, component_build_dir) for src in itemized_srcs]
+    itemized_objects = list(map(lambda file: build_env.Object(target=file[0], source=file[1]), list(zip(itemized_object_files, itemized_srcs))))
+
     # Add rpath for dynamic libraries if needed
     if component['DYNAMIC_LIB']:
         build_env.Append(LINKFLAGS=['-Wl,-rpath=./'])
@@ -590,7 +600,7 @@ def build_project(component, build_env, source_files, object_files, custom_sourc
     # Build program
     component['_target'] = build_env.Program(
         target=target_path, 
-        source=[empty_src_file, '{}/lib{}.a'.format(component_build_dir, component['target'])] + required_libraries
+        source=[itemized_objects, '{}/lib{}.a'.format(component_build_dir, component['target'])] + required_libraries
     )
     component['_target_build_env'] = build_env
     

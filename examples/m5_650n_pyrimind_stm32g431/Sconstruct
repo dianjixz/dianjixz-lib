@@ -15,6 +15,15 @@ if "flash" in sys.argv:
     )
     exit()
 
+# pyocd gdbserver -t STM32G431CBUX
+# (gdb) target extended-remote :3333
+# (gdb) monitor reset halt
+# (gdb) load
+# (gdb) b main
+# (gdb) continue
+
+
+
 main_project = env["task_list"][env['PROJECT_NAME']]
 main_project["_target_build_env"].Command(
     target=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.hex",  # 目标文件

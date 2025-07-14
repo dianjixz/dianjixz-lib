@@ -13,3 +13,8 @@ menuconfig STM32_BSP_ENABLED
         help
             build by STM32!
     endchoice
+
+    config STM32_BSP_HAVE_RTT
+        bool "compile rtt"
+        default n
+        depends on STM32_BSP_ENABLED

@@ -6,6 +6,7 @@ with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
 SRCS = Glob('src/*.c*')
+ITEMIZED_SRCS = Glob('itemized_src/*.c*')
 INCLUDE = [ADir('.')]
 PRIVATE_INCLUDE = []
 REQUIREMENTS = ['stm32_bsp']
@@ -16,16 +17,12 @@ DEFINITIONS_PRIVATE = []
 LDFLAGS = []
 LINK_SEARCH_PATH = []
 
-ld_stript = env['stm32g431_ld_stript']
+LDFLAGS += ['-mcpu=cortex-m4', '--specs=nosys.specs', '-Wl,--gc-sections', '--specs=nano.specs', '-T', env['stm32g431_ld_stript'], '-mfpu=fpv4-sp-d16', '-mfloat-abi=hard', '-mthumb', '-Wl,--start-group', '-lc', '-lm', '-Wl,--end-group']
 
-LDFLAGS += ['-mcpu=cortex-m4', '--specs=nosys.specs', '-Wl,--gc-sections', '--specs=nano.specs', '-T', ld_stript, '-mfpu=fpv4-sp-d16', '-mfloat-abi=hard', '-mthumb', '-Wl,--start-group', '-lc', '-lm', '-Wl,--end-group']
-
-# arm-none-eabi-objcopy -O ihex at32f415_example  at32f415_example.hex
-# arm-none-eabi-objcopy -O binary at32f415_example at32f415_example.bin
-# arm-none-eabi-size --format=berkeley at32f415_example
-# 烧录：pyocd flash --pack=./ArteryTek.AT32F415_DFP.2.1.6.pack  ./at32f415_example.hex --target _at32f415rct7
-# 烧录：pyocd flash --pack=dist/ArteryTek.AT32F415_DFP.2.1.6.pack  dist/at32f415_example.hex --target _at32f415rct7
-
+# 查看程序大小: arm-none-eabi-size --format=berkeley at32f415_example
+# 编译：scons 
+# 烧录：scons flash
+# 调试: pyocd gdbserver -t STM32G431CBUX ; gdb-multiarch dist/stm32g431_example
 
 for com in env['COMPONENTS']:
     if com['target'] == 'stm32_bsp':
@@ -37,6 +34,7 @@ for com in env['COMPONENTS']:
 STATIC_FILES = []
 env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
                           'SRCS':SRCS,
+                          'ITEMIZED_SRCS':ITEMIZED_SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
                           'REQUIREMENTS':REQUIREMENTS,

@@ -57,8 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define NEOPIXEL_DRV_Pin GPIO_PIN_13
-#define NEOPIXEL_DRV_GPIO_Port GPIOC
 #define PWR_GRV1_EN_Pin GPIO_PIN_14
 #define PWR_GRV1_EN_GPIO_Port GPIOC
 #define PWR_GRV2_EN_Pin GPIO_PIN_15
