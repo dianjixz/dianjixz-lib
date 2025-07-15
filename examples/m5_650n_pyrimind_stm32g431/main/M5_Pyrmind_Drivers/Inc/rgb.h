@@ -17,7 +17,7 @@ extern "C" {
 #define RGB_NUM_MIN             (1)
 #define RGB_DEFAULT_NUM         (37)
 
-#define RGB_UPDATE_INTERVAL_MS 100  // 刷新周期: 100ms
+#define RGB_UPDATE_INTERVAL_MS 50  // 刷新周期: 100ms
 
 #define RGB_GRADIENT_COLOR_COUNT (6)
 #define RGB_GRADIENT_STEP_MAX    (360)

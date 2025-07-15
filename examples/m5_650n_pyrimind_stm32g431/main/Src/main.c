@@ -35,8 +35,9 @@
 #include "power.h"
 #include "rgb.h"
 #include "flash.h"
-/* USER CODE END Includes */
 #include "driver_ssd1306_basic.h"
+/* USER CODE END Includes */
+
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
@@ -99,11 +100,9 @@ int main(void)
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
-    MX_I2C2_Init();
+    // MX_IWDG_Init();
     MX_USART1_UART_Init();
-    if((ssd1306_basic_init(SSD1306_INTERFACE_IIC, SSD1306_ADDR_SA0_0) == 0) && (ssd1306_basic_clear() == 0) && (ssd1306_basic_string(0, 0, "M5STACK", 7, 1, SSD1306_FONT_24)) == 0 );
-
-    MX_IWDG_Init();
+    MX_I2C2_Init();
     MX_SPI1_Init();
     MX_TIM1_Init();
     MX_TIM2_Init();
@@ -119,10 +118,17 @@ int main(void)
     rgb_power_complete_indicate();
     ina3221_init(&ina1, &hi2c2, (INA3221_ADDR_A1A0_00 << 1));  // INA3221_1初始化
     ina3221_init(&ina2, &hi2c2, (INA3221_ADDR_A1A0_01 << 1));  // INA3221_2初始化
-    HAL_IWDG_Refresh(&hiwdg);
+        if (ssd1306_basic_init(SSD1306_INTERFACE_IIC, SSD1306_ADDR_SA0_0) == 0)
+    {
+      if (ssd1306_basic_clear() == 0)
+      {
+        ssd1306_basic_string(25, 25, "M5STACK", 7, 1, SSD1306_FONT_24);
+      }
+    }
     eMBErrorCode eStatus;
     eStatus = eMBInit(MB_RTU, 0x01, 1, USART_DEFAULT_BAUDRATE, MB_PAR_NONE);
     eStatus = eMBEnable();
+
 
     /* USER CODE END 2 */
 
@@ -130,7 +136,19 @@ int main(void)
     /* USER CODE BEGIN WHILE */
 
     while (1) {
-        (void)eMBPoll();
+//        (void)eMBPoll();
+        eMBErrorCode status = eMBPoll();
+        if (status != MB_ENOERR) {
+            __disable_irq();
+            eMBClose();
+            eMBDisable();
+            HAL_UART_MspInit(&huart1);
+            HAL_UART_MspInit(&huart1);
+            MX_UART_Init(115200);
+            eMBInit(MB_RTU, 0x01, 1,115200, MB_PAR_NONE);
+            eMBEnable();
+            __enable_irq();
+        }
         rgb_update();
         baudrate_update();
         update_vdd_cup();

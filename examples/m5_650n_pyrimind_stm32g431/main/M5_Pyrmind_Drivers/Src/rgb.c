@@ -61,7 +61,7 @@
     } while (0)
 
 static bool rgb_arm_flag                   = false;
-static rgb_mode_t rgb_mode                 = RGB_MODE_ARM_MAP;
+static rgb_mode_t rgb_mode                 = RGB_MODE_GRADIENT;
 static uint8_t rgb_buffer[RGB_NUM_MAX * 3] = {0};
 
 extern __IO uint16_t g_mb_holding_regs[MB_HOLDING_REG_COUNT + 1];
@@ -345,19 +345,19 @@ void rgb_update(void)
                  rgb_show();
              }
              break;
-//         case RGB_MODE_GRADIENT:
-//            rgb_gradient_step();
-//             break;
-//
-//         case RGB_MODE_BLINK:
-//             rgb_blink_step();
-//             break;
-//
-//         case RGB_MODE_RAINFLOW:
-//             rgb_rainflow_step();
-//             break;
-//         default:
-//             break;
+         case RGB_MODE_GRADIENT:
+            rgb_gradient_step();
+             break;
+
+         case RGB_MODE_BLINK:
+             rgb_blink_step();
+             break;
+
+         case RGB_MODE_RAINFLOW:
+             rgb_rainflow_step();
+             break;
+         default:
+             break;
      }
 }
 
