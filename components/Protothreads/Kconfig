@@ -1,0 +1,6 @@
+
+menuconfig PT_ENABLED
+    bool "Enable Protothreads"
+    default n
+
+
