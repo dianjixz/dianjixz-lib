@@ -43,6 +43,7 @@ git_clone_and_checkout_commit https://github.com/Mbed-TLS/mbedtls.git 107ea89daa
 git_clone_and_checkout_commit https://github.com/esnet/iperf.git c159c741243441be84f91d3130cbeef1e1d579e8
 git_clone_and_checkout_commit https://github.com/nodejs/http-parser.git ec8b5ee63f0e51191ea43bb0c6eac7bfbff3141d
 git_clone_and_checkout_commit https://github.com/libffi/libffi.git c6f1610509d3d146017d6cc30020ce334bde8425
+git_clone_and_checkout_commit https://github.com/dianjixz/nng.git 72dc573e732049353c64b1a58d5df24f3f661b9c
 
 # opencv-mobile-2.4.13.7-armlinux https://github.com/nihui/opencv-mobile/releases/download/v26/opencv-mobile-2.4.13.7-armlinux.zip
 

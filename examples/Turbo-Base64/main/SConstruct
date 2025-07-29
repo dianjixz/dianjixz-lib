@@ -18,7 +18,9 @@ DEFINITIONS_PRIVATE = []
 LDFLAGS = []
 LINK_SEARCH_PATH = []
 
-
+# DEFINITIONS += ['-mssse3']
+# DEFINITIONS += ['-mavx']
+# DEFINITIONS += ['-mavx2']
 
 
 env['COMPONENTS'].append({'target':env['PROJECT_NAME'],

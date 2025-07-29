@@ -6,6 +6,7 @@ with open(env['PROJECT_TOOL_S']) as f:
 
 if 'CONFIG_LNNG_ENABLED' in os.environ:
     check_component('nng')
+    COMPONENT_PATH = os.path.join(os.environ['GIT_REPO_PATH'], 'nng')
     SRCS=[]
     INCLUDE=[]
     PRIVATE_INCLUDE=[]
@@ -17,91 +18,104 @@ if 'CONFIG_LNNG_ENABLED' in os.environ:
     LDFLAGS=[]
     LINK_SEARCH_PATH=[]
 
-    COMPONENT_PATH = os.path.join(os.environ['GIT_REPO_PATH'], 'nng')
-    INCLUDE.append(os.path.join(COMPONENT_PATH, 'include'))
-    PRIVATE_INCLUDE.append(os.path.join(COMPONENT_PATH, 'src'))
-    DEFINITIONS_PRIVATE += ['-DNNG_LITTLE_ENDIAN=1', '-DNNG_HIDDEN_VISIBILITY']
-    DEFINITIONS_PRIVATE += ['-D_GNU_SOURCE', '-D_POSIX_PTHREAD_SEMANTICS', '-DNNG_USE_EVENTFD', '-D_THREAD_SAFE']
-    DEFINITIONS_PRIVATE += ['-DNNG_STATIC_LIB', '-DNNG_ENABLE_STATS']
-    DEFINITIONS_PRIVATE += ['-DNNG_HAVE_ABSTRACT_SOCKETS', '-DNNG_HAVE_BACKTRACE=1']
-    DEFINITIONS_PRIVATE += ['-DNNG_HAVE_CLOCK_GETTIME', '-DNNG_HAVE_EPOLL=1', '-DNNG_HAVE_EPOLL_CREATE1=1',
-                            '-DNNG_HAVE_FLOCK', '-DNNG_HAVE_GETENTROPY=1', '-DNNG_HAVE_GETRANDOM=1',
-                            '-DNNG_HAVE_LANGINFO=1', '-DNNG_HAVE_LIBATOMIC=1',
-                            '-DNNG_HAVE_LIBNSL=1', '-DNNG_HAVE_LOCALTIME_R=1', '-DNNG_HAVE_LOCKF=1',
-                            '-DNNG_HAVE_MSG_CONTROL=1', '-DNNG_RESOLV_CONCURRENCY=4']
-
+    definitions = '-DNNG_ENABLE_IPV6 -DNNG_ENABLE_STATS -DNNG_HAVE_ABSTRACT_SOCKETS -DNNG_HAVE_BACKTRACE=1 -DNNG_HAVE_BUS0 -DNNG_HAVE_CLOCK_GETTIME -DNNG_HAVE_CLOCK_GETTIME_LIBC=1 -DNNG_HAVE_EPOLL=1 -DNNG_HAVE_EPOLL_CREATE1=1 -DNNG_HAVE_EVENTFD=1 -DNNG_HAVE_FLOCK=1 -DNNG_HAVE_GETENTROPY=1 -DNNG_HAVE_GETRANDOM=1 -DNNG_HAVE_INET6=1 -DNNG_HAVE_LANGINFO=1 -DNNG_HAVE_LIBATOMIC=1 -DNNG_HAVE_LIBNSL=1 -DNNG_HAVE_LOCALTIME_R=1 -DNNG_HAVE_LOCKF=1 -DNNG_HAVE_MSG_CONTROL=1 -DNNG_HAVE_PAIR0 -DNNG_HAVE_PAIR1 -DNNG_HAVE_POLL=1 -DNNG_HAVE_PTHREAD_ATFORK_PTHREAD=1 -DNNG_HAVE_PTHREAD_SETNAME_NP=1 -DNNG_HAVE_PUB0 -DNNG_HAVE_PULL0 -DNNG_HAVE_PUSH0 -DNNG_HAVE_RECVMSG=1 -DNNG_HAVE_REP0 -DNNG_HAVE_REQ0 -DNNG_HAVE_RESPONDENT0 -DNNG_HAVE_SELECT=1 -DNNG_HAVE_SEMAPHORE_PTHREAD=1 -DNNG_HAVE_SENDMSG=1 -DNNG_HAVE_SOCKETPAIR=1 -DNNG_HAVE_SOPEERCRED=1 -DNNG_HAVE_STDATOMIC=1 -DNNG_HAVE_STRCASECMP=1 -DNNG_HAVE_STRNCASECMP=1 -DNNG_HAVE_STRNLEN=1 -DNNG_HAVE_SUB0 -DNNG_HAVE_SURVEYOR0 -DNNG_HAVE_SYSLOG=1 -DNNG_HAVE_SYS_RANDOM=1 -DNNG_HAVE_UNIX_SOCKETS=1 -DNNG_HIDDEN_VISIBILITY -DNNG_LITTLE_ENDIAN=1 -DNNG_MAX_EXPIRE_THREADS=8 -DNNG_MAX_POLLER_THREADS=8 -DNNG_MAX_TASKQ_THREADS=16 -DNNG_PLATFORM_LINUX -DNNG_PLATFORM_POSIX -DNNG_POLLQ_EPOLL -DNNG_PRIVATE -DNNG_RESOLV_CONCURRENCY=4 -DNNG_STATIC_LIB -DNNG_SUPP_HTTP -DNNG_TEST_LIB -DNNG_TRANSPORT_FDC -DNNG_TRANSPORT_INPROC -DNNG_TRANSPORT_IPC -DNNG_TRANSPORT_TCP -DNNG_TRANSPORT_UDP -DNNG_TRANSPORT_WS -DNNG_USE_EVENTFD -D_GNU_SOURCE -D_POSIX_PTHREAD_SEMANTICS -D_REENTRANT -D_THREAD_SAFE'
     _SRCS = []
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/core/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/*.c'))
+    filter_file = []
+    DEFINITIONS_PRIVATE += [ define for define in definitions.split(' ') ]
 
-    DEFINITIONS_PRIVATE.append('-DNNG_MAX_EXPIRE_THREADS={}'.format(os.environ['CONFIG_NNG_MAX_EXPIRE_THREADS']))
-    DEFINITIONS_PRIVATE.append('-DNNG_MAX_POLLER_THREADS={}'.format(os.environ['CONFIG_NNG_MAX_POLLER_THREADS']))
-    DEFINITIONS_PRIVATE.append('-DNNG_MAX_TASKQ_THREADS={}'.format(os.environ['CONFIG_NNG_MAX_TASKQ_THREADS']))
+
+    
+    INCLUDE.append(os.path.join(COMPONENT_PATH, 'include'))
+    INCLUDE.append(os.path.join(COMPONENT_PATH, 'src/testing'))
+    PRIVATE_INCLUDE.append(os.path.join(COMPONENT_PATH, 'src'))
+    
+    _SRCS = append_srcs_dir(ADir("../../github_source/nng/src"))
+
+    win_srcs = '''win_clock.c
+    win_debug.c
+    win_file.c
+    win_io.c
+    win_ipcconn.c
+    win_ipcdial.c
+    win_ipclisten.c
+    win_ipc_sec_test.c
+    win_pipe.c
+    win_rand.c
+    win_resolv.c
+    win_sockaddr.c
+    win_socketpair.c
+    win_tcp.c
+    win_tcpconn.c
+    win_tcpdial.c
+    win_tcplisten.c
+    win_thread.c
+    win_udp.c'''
+    posix_srcs = '''posix_alloc.c
+    posix_atomic.c
+    posix_clock.c
+    posix_debug.c
+    posix_file.c
+    posix_ipcconn.c
+    posix_ipcdial.c
+    posix_ipclisten.c
+    posix_ipcwinsec_test.c
+    posix_peerid.c
+    posix_pipe.c
+    posix_pollq_epoll.c
+    posix_pollq_kqueue.c
+    posix_pollq_poll.c
+    posix_pollq_port.c
+    posix_pollq_select.c
+    posix_rand_arc4random.c
+    posix_rand_getentropy.c
+    posix_rand_getrandom.c
+    posix_rand_urandom.c
+    posix_resolv_gai.c
+    posix_sockaddr.c
+    posix_socketpair.c
+    posix_sockfd.c
+    posix_tcpconn.c
+    posix_tcpdial.c
+    posix_tcplisten.c
+    posix_thread.c
+    posix_udp.c'''
 
     if 'CONFIG_TOOLCHAIN_SYSTEM_UNIX' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_PLATFORM_LINUX', '-DNNG_PLATFORM_POSIX', '-DNNG_USE_EVENTFD', '-DNNG_HAVE_ABSTRACT_SOCKETS']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/platform/posix/*.c'))
+        filter_file += [os.path.join(COMPONENT_PATH, 'src/platform/windows', f.strip()) for f in win_srcs.split('\n')]
     elif 'CONFIG_TOOLCHAIN_SYSTEM_WIN' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_PLATFORM_WINDOWS', '-D_CRT_SECURE_NO_WARNINGS', '-D_CRT_RAND_S', '-D_WIN32_WINNT=0x0600']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/platform/windows/*.c'))
+        # DEFINITIONS_PRIVATE += ['-DNNG_PLATFORM_WINDOWS', '-D_CRT_SECURE_NO_WARNINGS', '-D_CRT_RAND_S', '-D_WIN32_WINNT=0x0600']
+        filter_file += [os.path.join(COMPONENT_PATH, 'src/platform/posix', f.strip()) for f in win_srcs.split('\n')]
 
-    if 'CONFIG_NNG_HAVE_BUS0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/bus0/*.c'))
-    if 'CONFIG_NNG_HAVE_PAIR0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/pair0/*.c'))
-    if 'CONFIG_NNG_HAVE_PAIR1' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/pair1/*.c'))
-    if 'CONFIG_NNG_HAVE_SURVEYOR0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/survey0/*.c'))
-    if 'CONFIG_NNG_HAVE_PUBSUB0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/pubsub0/*.c'))
-    if 'CONFIG_NNG_HAVE_PULLPUSH0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/pipeline0/*.c'))
-    if 'CONFIG_NNG_HAVE_REPREQ0' in os.environ:
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/protocol/reqrep0/*.c'))
-    if 'CONFIG_NNG_TRANSPORT_FDC' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_FDC']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/socket/*.c'))
-        DEFINITIONS_PRIVATE += ['-DNNG_HAVE_SOCKETPAIR=1']
-    if 'CONFIG_NNG_TRANSPORT_INPROC' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_INPROC']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/inproc/*.c'))
-    if 'CONFIG_NNG_TRANSPORT_IPC' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_IPC']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/ipc/*.c'))
-    if 'CONFIG_NNG_TRANSPORT_TCP' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_TCP']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/tcp/*.c'))
-    if 'CONFIG_NNG_TRANSPORT_TLS' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_TLS']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/tls/*.c'))
-        if 'CONFIG_TLS_MBEDTLS_ENABLED' in os.environ:
-            _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/tls/mbedtls/*.c'))
-        if 'CONFIG_TLS_WOLFSSL_ENABLED' in os.environ:
-            _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/tls/wolfssl/*.c'))
+    # filter_file.append(os.path.join(COMPONENT_PATH, 'src/platform/posix/posix_pollq_port.c'))
+    # filter_file.append(os.path.join(COMPONENT_PATH, 'src/platform/posix/posix_pollq_kqueue.c'))
+    # filter_file.append(os.path.join(COMPONENT_PATH, 'src/platform/posix/posix_pollq_epoll.c'))
+    filter_file.append(os.path.join(COMPONENT_PATH, 'src/platform/posix/posix_pollq_poll.c'))
+    filter_file.append(os.path.join(COMPONENT_PATH, 'src/platform/posix/posix_pollq_select.c'))
 
-    if 'CONFIG_NNG_TRANSPORT_UDP' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_UDP']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/udp/*.c'))
-    if 'CONFIG_NNG_TRANSPORT_WS' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_TRANSPORT_WS']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/sp/transport/ws/*.c'))
-    if 'CONFIG_NNG_SUPP_HTTP' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_SUPP_HTTP']
-        _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/http/*.c'))
+    tools_srcs = '''nngcat/nngcat.c
+    perf/perf.c
+    perf/pubdrop.c'''
+    filter_file += [os.path.join(COMPONENT_PATH, 'src/tools', f.strip()) for f in tools_srcs.split('\n')]
 
-    if 'CONFIG_NNG_ENABLE_IPV6' in os.environ:
-        DEFINITIONS_PRIVATE += ['-DNNG_ENABLE_IPV6', '-DNNG_HAVE_INET6=1']
+    ttl_srcs = '''mbedtls/mbedtls.c
+    tls_common.c
+    tls_dialer.c
+    tls_listener.c
+    tls_stream.c
+    wolfssl/wolfssl.c'''
+    filter_file += [os.path.join(COMPONENT_PATH, 'src/supplemental/tls', f.strip()) for f in ttl_srcs.split('\n')]
 
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/websocket/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/tls/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/base64/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/sha1/*.c'))
-    _SRCS += AGlob(os.path.join(COMPONENT_PATH,'src/supplemental/util/*.c'))
 
     for src in _SRCS:
-        if not str(src).endswith('test.c'):
+        src_file = str(src)
+        if src_file.endswith('_test.c'):
+            continue
+        filter_flage = True
+        for f in filter_file:
+            if os.path.samefile(src_file, f):
+                filter_flage = False
+                break
+        if filter_flage:
             SRCS.append(src)
 
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),

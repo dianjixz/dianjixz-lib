@@ -14,7 +14,7 @@ def append_srcs_dir(directories):
     import os
     from collections.abc import Iterable
 
-    supported_extensions = ['.c', '.cc', '.cpp', '.S']
+    supported_extensions = ['.c', '.cc', '.cpp', '.S', '.s']
     # if isinstance(sfile, list):
     def _find_file(path):
         directory = str(path)

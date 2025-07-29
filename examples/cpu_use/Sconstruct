@@ -1,4 +1,6 @@
-from pathlib import Path
 import os
-with open(str(Path(os.getcwd())/'..'/'..'/'tools'/'scons'/'project.py')) as f:
-    exec(f.read())
+env = SConscript(
+    os.path.join(os.getcwd(), "../../tools/scons/project.py"),
+    variant_dir=os.getcwd(),
+    duplicate=0,
+)

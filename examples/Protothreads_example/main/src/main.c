@@ -12,11 +12,13 @@ static int protothread_led(struct pt *pt) {
     PT_BEGIN(pt);
     while (1) {
         printf("LED ON\n");
-        PT_YIELD(pt);
-        PT_WAIT_UNTIL(pt, (count % 500 == 0)); // 模拟500ms延时
+        // PT_YIELD(pt);
+        // PT_WAIT_UNTIL(pt, (count % 500 == 0)); // 模拟500ms延时
+        PT_YIELD_UNTIL(pt, (count % 500 == 0)); // 挂起、等待下一次调度
         printf("LED OFF\n");
-        PT_YIELD(pt); // 挂起、等待下一次调度
-        PT_WAIT_UNTIL(pt, (count % 500 == 0)); // 模拟500ms延时
+        // PT_YIELD(pt); // 挂起、等待下一次调度
+        // PT_WAIT_UNTIL(pt, (count % 500 == 0)); // 模拟500ms延时
+        PT_YIELD_UNTIL(pt, (count % 500 == 0)); // 挂起、等待下一次调度
     }
     PT_END(pt);
 }
@@ -27,9 +29,9 @@ static int protothread_count(struct pt *pt) {
     PT_BEGIN(pt);
     while (1) {
         printf("nihao\n");
-        PT_YIELD(pt);
-        PT_WAIT_UNTIL(pt, (count % 5000 == 0)); // 模拟计数变化
-        // PT_YIELD(pt); // 挂起、等待下一次调度
+        // PT_YIELD(pt);
+        // PT_WAIT_UNTIL(pt, (count % 5000 == 0)); // 模拟计数变化
+        PT_YIELD_UNTIL(pt, (count % 500 == 0));
     }
     PT_END(pt);
 }
