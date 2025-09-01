@@ -26,6 +26,10 @@ menuconfig AXCL_MSP_ENABLED
         bool "enable v3.6.2 bsp"
         help
             build by m5stack!
+    config MSP_V3_6_4_ENABLED
+        bool "enable v3.6.4 bsp"
+        help
+            build by m5stack!
     config MSP_V3_0_2_ENABLED
         bool "enable v3.0.2 bsp"
         help

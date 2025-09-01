@@ -20,10 +20,12 @@ if 'CONFIG_AXCL_MSP_ENABLED' in os.environ:
     MSP_PATH = ''
     if 'CONFIG_MSP_V3_6_2_ENABLED' in os.environ:
         DEFINITIONS += ['-DAXCL_BUILD_VERSION=\\\\\\\"V3.6.2_20250603154858\\\\\\\"']
-        if 'EXT_MSP_PATH' in os.environ:
-            MSP_PATH = os.environ.get('EXT_MSP_PATH')
-        else:
-            MSP_PATH = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_axcl_msp_v3_6_2.tar.gz", 'm5stack_axcl_msp_v3_6_2.tar.gz')
+        MSP_PATH = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_axcl_msp_v3_6_2.tar.gz", 'm5stack_axcl_msp_v3_6_2.tar.gz')
+    elif 'CONFIG_MSP_V3_6_4_ENABLED' in os.environ:
+        DEFINITIONS += ['-DAXCL_BUILD_VERSION=\\\\\\\"V3.6.4_20250822020158\\\\\\\"']
+        MSP_PATH = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_axcl_msp_v3_6_4.tar.gz", 'm5stack_axcl_msp_v3_6_4.tar.gz')
+    if 'EXT_MSP_PATH' in os.environ:
+        MSP_PATH = os.environ.get('EXT_MSP_PATH')
     # print(env['GCC_DUMPMACHINE'])
     if 'aarch64' in env['GCC_DUMPMACHINE']:
         MSP_PATH = os.path.join(MSP_PATH, 'axcl_linux_arm64')
