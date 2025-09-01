@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    i2c.h
+  * @file    iwdg.h
   * @brief   This file contains all the function prototypes for
-  *          the i2c.c file
+  *          the iwdg.c file
   ******************************************************************************
   * @attention
   *
@@ -18,8 +18,8 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __I2C_H__
-#define __I2C_H__
+#ifndef __IWDG_H__
+#define __IWDG_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,15 +36,15 @@ extern "C" {
 
 /* USER CODE END Private defines */
 
-void MX_I2C1_Init(void);
+void MX_IWDG_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-extern void user_i2c_init(void);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __I2C_H__ */
+#endif /* __IWDG_H__ */
 

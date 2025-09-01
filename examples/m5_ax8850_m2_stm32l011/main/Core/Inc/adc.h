@@ -32,6 +32,8 @@ extern "C" {
 
 /* USER CODE END Includes */
 
+extern ADC_HandleTypeDef hadc;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
@@ -39,7 +41,7 @@ extern "C" {
 void MX_ADC_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void adc_calibrate_and_start(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -6,9 +6,9 @@ Import("env")
 with open(env["PROJECT_TOOL_S"]) as f:
     exec(f.read())
 
-
 try:
-    shutil.move('Src/stm32g4xx_it.c', 'itemized_src/stm32g4xx_it.c')
+    it_src = str(AGlob("Core/Src/*_it.c")[0])
+    shutil.move(it_src, '.')
 except:
     pass
 
@@ -16,7 +16,7 @@ SRCS = []
 ITEMIZED_SRCS = []
 INCLUDE = []
 PRIVATE_INCLUDE = []
-REQUIREMENTS = ['Protothreads']
+REQUIREMENTS = []
 STATIC_LIB = []
 DYNAMIC_LIB = []
 DEFINITIONS = []
@@ -24,8 +24,8 @@ DEFINITIONS_PRIVATE = []
 LDFLAGS = []
 LINK_SEARCH_PATH = []
 
-ld_stript = AFile('STM32L011E4YX_FLASH.ld')
 
+ld_stript = AGlob("*.ld")[0]
 
 
 DEFINITIONS += [
@@ -76,7 +76,7 @@ INCLUDE.append(ADir("Drivers/CMSIS/Device/ST/STM32L0xx/Include"))
 SRCS += append_srcs_dir(ADir("Core"))
 SRCS += append_srcs_dir(ADir("Drivers/STM32L0xx_HAL_Driver"))
 
-ITEMIZED_SRCS.append(AFile("Core/Src/stm32l0xx_it.c"))
+ITEMIZED_SRCS.append(AFile("stm32l0xx_it.c"))
 
 
 STATIC_FILES = []

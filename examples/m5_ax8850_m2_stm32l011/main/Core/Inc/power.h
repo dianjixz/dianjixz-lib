@@ -17,8 +17,9 @@ extern "C" {
 #include "tim.h"
 
 /******************************* PMIC 寄存器定义 *******************************/
-#define PMIC_REG_RESET   0x00
-#define PMIC_REG_EN_CTRL 0x06
+#define PMIC_REG_RESET           (0x00)
+#define PMIC_REG_EN_CTRL         (0x06)
+#define PMIC_POK_STATUS_REGISTER (0x22)
 
 /******************************* 相位使能位定义 *******************************/
 #define EN_M1 (1 << 0)
@@ -39,6 +40,14 @@ extern "C" {
 
 // 系统上电
 void system_power_boot(void);
+
+// 系统下电
+void system_power_shutdown(void);
+
+void pmic1_m1_fine_tuning(uint8_t value);
+void pmic1_m3_fine_tuning(uint8_t value);
+void pmic2_m1_fine_tuning(uint8_t value);
+void pmic2_m3_fine_tuning(uint8_t value);
 
 #ifdef __cplusplus
 }

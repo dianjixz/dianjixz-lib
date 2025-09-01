@@ -32,8 +32,20 @@ main_project["_target_build_env"].Command(
 )
 
 main_project["_target_build_env"].Command(
+    target=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.bin",  # 目标文件
+    source=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}",  # 源文件
+    action="${OBJCOPY} -O binary $SOURCE $TARGET",  # 执行命令
+)
+
+main_project["_target_build_env"].Command(
     target=f"dist/{env['PROJECT_NAME']}.hex",  # 目标文件
     source=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.hex",  # 源文件
+    action="cp $SOURCE $TARGET",  # 执行命令
+)
+
+main_project["_target_build_env"].Command(
+    target=f"dist/{env['PROJECT_NAME']}.bin",  # 目标文件
+    source=f"build/{env['PROJECT_NAME']}/{env['PROJECT_NAME']}.bin",  # 源文件
     action="cp $SOURCE $TARGET",  # 执行命令
 )
 
