@@ -32,6 +32,7 @@ static void signal_handler(int s) {
     printf("\n====================== caught signal: %d ======================\n", s);
     g_exit = 1;
 }
+std::string output_to_file;
 
 static void on_receive_demux_stream_data(const struct stream_data *data, uint64_t userdata);
 static SAMPLE_VDEC_ATTR sample_get_vdec_attr_from_stream_info(const struct stream_info *info);
@@ -54,6 +55,7 @@ int main(int argc, char *argv[]) {
     a.add<int32_t>("height", 'h', "frame height", false, 1080, cmdline::range(AX_VDEC_MIN_HEIGHT, AX_VDEC_MAX_HEIGHT));
     a.add<int32_t>("VdChn", '\0', "channel id", false, 0);
     a.add<int32_t>("yuv", '\0', "transfer nv12 from device", false, 0);
+    a.add<std::string>("output", 'o', "output to file", false, "");
     a.parse_check(argc, argv);
     const uint32_t device_index = a.get<uint32_t>("device");
     const std::string url = a.get<std::string>("url");
@@ -63,7 +65,7 @@ int main(int argc, char *argv[]) {
     int32_t h = a.get<int32_t>("height");
     int32_t chn_id = a.get<int32_t>("VdChn");
     const int32_t dump = a.get<int32_t>("yuv");
-
+    output_to_file = a.get<std::string>("output");
     /* step01: axcl initialize */
     SAMPLE_LOG_I("json: %s", json.c_str());
     if (axclError ret = axclInit(json.c_str()); AXCL_SUCC != ret) {
@@ -306,6 +308,37 @@ static AX_S32 sample_vdec_set_attr(SAMPLE_VDEC_ATTR *vdec_attr, int32_t chn_id, 
     return 0;
 }
 
+void NV12toI420_stride(
+    const uint8_t* nv12_ptr,   // NV12原始数据指针
+    uint8_t* i420_ptr,         // I420输出数据指针
+    int width,                 // 图像有效宽度
+    int height,                // 图像有效高度
+    int picStride              // 每行实际存储字节数（对齐）
+) {
+    int y_size = width * height;
+    int uv_size = (width / 2) * (height / 2);
+
+    const uint8_t* src_y = nv12_ptr;
+    const uint8_t* src_uv = nv12_ptr + picStride * height;
+    uint8_t* dst_y = i420_ptr;
+    uint8_t* dst_u = i420_ptr + y_size;
+    uint8_t* dst_v = i420_ptr + y_size + uv_size;
+
+    // 1. 拷贝Y分量
+    for (int y = 0; y < height; y++) {
+        memcpy(dst_y + y * width, src_y + y * picStride, width);
+    }
+
+    // 2. 拆分UV分量为U、V分量
+    for (int j = 0; j < height / 2; j++) {
+        const uint8_t* uv_line = src_uv + j * picStride;
+        for (int i = 0; i < width / 2; i++) {
+            dst_u[j * (width / 2) + i] = uv_line[2 * i];     // U
+            dst_v[j * (width / 2) + i] = uv_line[2 * i + 1]; // V
+        }
+    }
+}
+
 static void sample_get_decoded_image_thread(AX_VDEC_GRP grp, int32_t device_id, axcl::event *eof_event, SAMPLE_VDEC_CHN_INFO chn_info,
                                             int32_t dump) {
     SAMPLE_LOG_I("[decoder %2d] decode thread +++", grp);
@@ -339,7 +372,12 @@ static void sample_get_decoded_image_thread(AX_VDEC_GRP grp, int32_t device_id, 
     }
 
     const struct dma_mem &mem = allocator.get();
-
+    FILE *output_file = NULL;
+    if(!output_to_file.empty())
+    {
+        output_file = fopen(output_to_file.c_str(), "wb");
+    }
+    
     AX_U64 count = 0;
     AX_VIDEO_FRAME_INFO_T frame;
     memset(&frame, 0, sizeof(frame));
@@ -373,22 +411,54 @@ static void sample_get_decoded_image_thread(AX_VDEC_GRP grp, int32_t device_id, 
 
             if (dump) {
                 if (axclError Ret =
-                        axclrtMemcpy(reinterpret_cast<void *>(mem.blks[0].phy), reinterpret_cast<void *>(frame.stVFrame.u64PhyAddr[0]),
+                        axclrtMemcpy(reinterpret_cast<void *>(mem.blks[0].phy), (void*)frame.stVFrame.u64PhyAddr[0],
                                      size, AXCL_MEMCPY_DEVICE_TO_HOST_PHY);
                     AXCL_SUCC != Ret) {
                     SAMPLE_LOG_E("axclrt memcpy device phy to host phy error grp:%d, chn:%d", grp, chn);
                 }
             }
-
+            // int data_size = chn_info.u32PicWidth * chn_info.u32PicHeight * 3 / 2;
             SAMPLE_LOG_I("[decoder %d] got frame %lld, %dx%d stride %d size %u, pts %lld, phy %llx", grp, frame.stVFrame.u64SeqNum,
                          frame.stVFrame.u32Width, frame.stVFrame.u32Height, frame.stVFrame.u32PicStride[0], frame.stVFrame.u32FrameSize,
                          frame.stVFrame.u64PTS, frame.stVFrame.u64PhyAddr[0]);
+            if(output_file)
+            {
+                std::vector<uint8_t> yuv_buf(frame.stVFrame.u32FrameSize);
+                if (axclError Ret =
+                    axclrtMemcpy((void*)yuv_buf.data(), reinterpret_cast<void *>(frame.stVFrame.u64PhyAddr[0]),frame.stVFrame.u32FrameSize, AXCL_MEMCPY_DEVICE_TO_HOST);
+                AXCL_SUCC != Ret) {
+                    SAMPLE_LOG_E("axclrt memcpy device phy to host phy error grp:%d, chn:%d", grp, chn);
+                }
+                std::vector<uint8_t> i420_buf((frame.stVFrame.u32Height * 3 / 2)*frame.stVFrame.u32Width);
+                NV12toI420_stride(yuv_buf.data(), i420_buf.data(), frame.stVFrame.u32Width, frame.stVFrame.u32Height, frame.stVFrame.u32PicStride[0]);
+
+
+                // for(int y = 0; y < frame.stVFrame.u32Height * 3 / 2; y++)
+                // {
+                //     fwrite(yuv_buf.data() + y * frame.stVFrame.u32PicStride[0], 1, frame.stVFrame.u32Width, output_file);
+                // }
+
+
+                // for(int y = 0; y < frame.stVFrame.u32Height; y++)
+                // {
+                //     fwrite(yuv_buf.data() + y * frame.stVFrame.u32PicStride[0], 1, frame.stVFrame.u32Width, output_file);
+                // }
+
+                // for(int y = frame.stVFrame.u32Height; y < frame.stVFrame.u32Height * 3 / 2; y++)
+                // {
+                //     fwrite(yuv_buf.data() + y * frame.stVFrame.u32PicStride[0], 1, frame.stVFrame.u32Width, output_file);
+                // }
+                fwrite(i420_buf.data(), 1, i420_buf.size(), output_file);
+            }
 
             /* step03: release decoded image */
             sample_vdec_release_frame(grp, chn, &frame);
         }
     }
-
+    if(output_file)
+    {
+        fclose(output_file);
+    }
     SAMPLE_LOG_I("[decoder %2d] total decode %lld frames", grp, count);
 
     /* step04: destory thread context */

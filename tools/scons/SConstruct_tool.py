@@ -72,10 +72,19 @@ def compare_and_copy(file1, file2):
 def sample_wget(down_url, file_path):
     if not os.path.exists(file_path):
         import requests
-        response = requests.get(down_url)
+        from tqdm import tqdm
+        
+        response = requests.get(down_url, stream=True)
         if response.status_code == 200:
+            # 获取文件总大小
+            total_size = int(response.headers.get('content-length', 0))
+            
             with open(file_path, 'wb') as file:
-                file.write(response.content)
+                with tqdm(total=total_size, unit='B', unit_scale=True, desc=os.path.basename(file_path)) as pbar:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            file.write(chunk)
+                            pbar.update(len(chunk))
         else:
             env.Fatal("{} down failed".format(down_url))
     return file_path

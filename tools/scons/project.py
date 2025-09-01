@@ -445,9 +445,9 @@ def get_object_path(src_file, component_build_dir):
     
     ofile = file
     if os.path.isabs(ofile):
-        ofile = os.path.join(component_build_dir, ofile[1:] + '.o')
+        ofile = os.path.join(component_build_dir, ofile[1:] + env['OBJSUFFIX'])
     else:
-        ofile = os.path.join(component_build_dir, ofile + '.o')
+        ofile = os.path.join(component_build_dir, ofile + env['OBJSUFFIX'])
     
     return ofile
 
@@ -675,7 +675,7 @@ def create_compile_program():
         if len(source_files) == 0:
             empty_src_file = create_empty_source_file(component_build_dir)
             source_files.append(empty_src_file)
-            object_files.append(empty_src_file + '.o')
+            object_files.append(empty_src_file + env['OBJSUFFIX'])
         
         # Set up build environment
         target_path = str(Path(component_build_dir)/component['target'])

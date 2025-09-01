@@ -65,3 +65,4 @@ github_source
 
 *.sconsign.dblite
 private*
+examples/ignore_*
