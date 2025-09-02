@@ -40,7 +40,7 @@ linux:
 # The version of Python3 should be greater than or equal to 3.8.
 sudo apt update
 sudo apt install python3 python3-pip libffi-dev
-pip3 install parse scons requests kconfiglib
+pip3 install parse scons requests kconfiglib tqdm
 # if windows
 # pip3 install windows-curses
 pip3 install setuptools-rust paramiko scp
@@ -69,10 +69,10 @@ windows:
 # Open PowerShell as Administrator and run the following command.
 winget search python.python
 winget install --id Python.Python.3.10
-pip3 install parse scons requests kconfiglib
+pip3 install parse scons requests kconfiglib tqdm
 # if windows
 # pip3 install windows-curses
-pip3 install setuptools-rust paramiko scp
+pip3 install setuptools-rust paramiko scp 
 
 wget https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linaro/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz
 sudo tar Jxvf gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz -C /opt
