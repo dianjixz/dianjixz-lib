@@ -1,4 +1,4 @@
-CONFIG_TOOLCHAIN_PATH="/home/nihao/work/axera_full_0316/AX620E_R1.24.2001_AX620E_SDK_V2.0.0_P7_M5Stack/AX620E_R1.24.2001_AX620E_SDK_V2.0.0_P7_M5Stack/04.Build_toolchain/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin"
+CONFIG_TOOLCHAIN_PATH="/opt/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin"
 CONFIG_TOOLCHAIN_PREFIX="aarch64-none-linux-gnu-"
 
 CONFIG_SAMPLE_COMMON_ENABLED=y
