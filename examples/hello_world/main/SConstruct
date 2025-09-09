@@ -1,28 +1,24 @@
+# project_root/src/SConscript
 import os
-
+# Import the environment from the SConstruct file
 Import('env')
 with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
+
+
 SRCS = Glob('src/*.c*')
-INCLUDE = []
+INCLUDE = [ADir('include'), ADir('.')]
 PRIVATE_INCLUDE = []
-REQUIREMENTS = ['pthread', 'axcl_msp']
+REQUIREMENTS = ['pthread']
 STATIC_LIB = []
 DYNAMIC_LIB = []
 DEFINITIONS = []
 DEFINITIONS_PRIVATE = []
 LDFLAGS = []
 LINK_SEARCH_PATH = []
-STATIC_FILES = []
 
 
-DEFINITIONS += ['--std=c++17', '-MMD', f'-DCOMPILER_HOSTNAME=\\\\\\\"{os.uname().nodename}\\\\\\\"', '-DAXCL_CMA_CACHED']
-
-REQUIREMENTS += ['axcl_rt', 'axcl_pkg', 'axcl_comm', 'axcl_token','spdlog', 'axcl_pcie_msg', 'axcl_pcie_dma', 'axcl_sys']
-
-INCLUDE += [os.path.join(env["MSP_PATH"], '../sample/sys')]
-# SRCS += [os.path.join(env["MSP_PATH"], '../sample/sys/sample_sys.cpp')]
 
 
 env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
@@ -36,6 +32,5 @@ env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
                           'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
                           'LDFLAGS':LDFLAGS,
                           'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
-                          'STATIC_FILES':STATIC_FILES,
                           'REGISTER':'project'
                           })

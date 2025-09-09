@@ -1,2 +1,0 @@
-#!/bin/bash
-sshpass -p root ssh root@192.168.28.22 'start-stop-daemon --stop --quiet --signal INT --oknodo --exec /tmp/test_kit_demo2 ; sleep 1 ; start-stop-daemon --start --quiet --background --make-pidfile --pidfile /var/run/test_kit_demo.pid  --exec /bin/bash -- -c "cp /root/dist/test_kit_demo2 /tmp/test_kit_demo2 ; /tmp/test_kit_demo2 > /dev/ttyS0 2>&1"'
