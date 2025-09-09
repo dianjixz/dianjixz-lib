@@ -4,6 +4,10 @@ Import('env')
 with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
+
+if not os.path.exists('axcl-samples'):
+    os.system('git clone https://github.com/dianjixz/axcl-samples.git')
+
 SRCS = []
 INCLUDE = [ADir('.')]
 PRIVATE_INCLUDE = []
@@ -22,12 +26,12 @@ DEFINITIONS['CXXFLAGS'] += ['--std=c++17']
 
 REQUIREMENTS += ['axcl_rt', 'axcl_pkg', 'axcl_comm', 'axcl_token','spdlog', 'axcl_pcie_msg', 'axcl_pcie_dma', 'axcl_sys']
 
-INCLUDE += [ADir('common')]
+INCLUDE += [ADir('axcl-samples/examples')]
 INCLUDE += [os.path.join(env["MSP_PATH"], '../sample')]
 
 
 
-SRCS += Glob('ax_model_runner/*.c*')
+SRCS += Glob('axcl-samples/examples/axcl/ax_model_runner/*.c*')
 
 if 'aarch64' in env['GCC_DUMPMACHINE']:
     INCLUDE += [os.path.join(env["MSP_PATH"], '../3rdparty/opencv-4.5.5/arm64/include/opencv4')]
@@ -47,7 +51,7 @@ LDFLAGS += '-lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -
 # data/ivps/1920x1080.nv12
 # STATIC_FILES += [os.path.join(env["MSP_PATH"], 'data/ivps/1920x1080.nv12')]
 
-project_srcs = Glob('src/*.c*')
+project_srcs = Glob('axcl-samples/examples/axcl/*.cc')
 for project_src in project_srcs:
     env['COMPONENTS'].append({'target':os.path.basename(str(project_src)[:-3]),
                             'SRCS':SRCS + [project_src],
@@ -63,3 +67,7 @@ for project_src in project_srcs:
                             'STATIC_FILES':STATIC_FILES,
                             'REGISTER':'project'
                             })
+    try:
+        env['MYTARGETS'].append(os.path.basename(str(project_src)[:-3]))
+    except:
+        env['MYTARGETS'] = [os.path.basename(str(project_src)[:-3])]

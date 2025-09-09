@@ -8,3 +8,4 @@ static_lib**
 *.tar.gz
 m5stack_*
 debian*
+axcl-samples
