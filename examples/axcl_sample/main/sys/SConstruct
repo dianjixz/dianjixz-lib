@@ -39,3 +39,7 @@ env['COMPONENTS'].append({'target':'axcl_sample_sys',
                           'STATIC_FILES':STATIC_FILES,
                           'REGISTER':'project'
                           })
+try:
+    env['MYTARGETS'].append('axcl_sample_sys')
+except:
+    env['MYTARGETS'] = ['axcl_sample_sys']

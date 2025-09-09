@@ -57,3 +57,7 @@ env['COMPONENTS'].append({'target':'axcl_sample_vdec',
                           'STATIC_FILES':STATIC_FILES,
                           'REGISTER':'project'
                           })
+try:
+    env['MYTARGETS'].append('axcl_sample_vdec')
+except:
+    env['MYTARGETS'] = ['axcl_sample_vdec']

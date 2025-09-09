@@ -60,3 +60,7 @@ env['COMPONENTS'].append({'target':'axcl_sample_venc',
                           'STATIC_FILES':STATIC_FILES,
                           'REGISTER':'project'
                           })
+try:
+    env['MYTARGETS'].append('axcl_sample_venc')
+except:
+    env['MYTARGETS'] = ['axcl_sample_venc']
