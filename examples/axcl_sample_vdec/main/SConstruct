@@ -17,7 +17,7 @@ LINK_SEARCH_PATH = []
 STATIC_FILES = []
 
 
-DEFINITIONS['CCFLAGS']  += ['-MMD', '-DCOMPILER_HOSTNAME=\\\"nihao-z690\\\"', '-DAXCL_BUILD_VERSION=\\\"V3.6.2_20250603154858\\\"', '-DAXCL_CMA_CACHED']
+DEFINITIONS['CCFLAGS']  += ['-MMD', '-DCOMPILER_HOSTNAME=\\\"nihao-z690\\\"', '-DAXCL_CMA_CACHED']
 DEFINITIONS['CXXFLAGS'] += ['--std=c++17']
 
 REQUIREMENTS += ['axcl_rt', 'axcl_pkg', 'axcl_comm', 'axcl_token','spdlog', 'axcl_pcie_msg', 'axcl_pcie_dma', 'axcl_sys', 'axcl_vdec']

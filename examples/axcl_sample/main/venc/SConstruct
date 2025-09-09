@@ -4,7 +4,7 @@ Import('env')
 with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
-SRCS = Glob('src/*.c*')
+SRCS = Glob('./*.c*')
 INCLUDE = []
 PRIVATE_INCLUDE = []
 REQUIREMENTS = ['pthread', 'axcl_msp']
@@ -24,7 +24,7 @@ REQUIREMENTS += ['axcl_rt', 'axcl_pkg', 'axcl_comm', 'axcl_token','spdlog', 'axc
 
 INCLUDE += [ADir('common')]
 INCLUDE += [os.path.join(env["MSP_PATH"], '../sample')]
-
+print(str(ADir('common')))
 
 if 'aarch64' in env['GCC_DUMPMACHINE']:
     INCLUDE += [os.path.join(env["MSP_PATH"], '../3rdparty/ffmpeg/arm64/include')]
@@ -46,7 +46,7 @@ REQUIREMENTS += ['avcodec', 'avformat','swresample', 'avutil']
 
 STATIC_FILES += [os.path.join(env["MSP_PATH"], 'data/ivps/1920x1080.nv12')]
 
-env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+env['COMPONENTS'].append({'target':'axcl_sample_venc',
                           'SRCS':SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
