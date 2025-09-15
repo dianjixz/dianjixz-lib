@@ -25,7 +25,7 @@ INCLUDE += [os.path.join(env["MSP_PATH"], '../sample/sys')]
 # SRCS += [os.path.join(env["MSP_PATH"], '../sample/sys/sample_sys.cpp')]
 
 
-env['COMPONENTS'].append({'target':'axcl_test',
+env['COMPONENTS'].append({'target':'axcl_sample_sys',
                           'SRCS':SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
@@ -40,6 +40,6 @@ env['COMPONENTS'].append({'target':'axcl_test',
                           'REGISTER':'project'
                           })
 try:
-    env['MYTARGETS'].append('axcl_test')
+    env['MYTARGETS'].append('axcl_sample_sys')
 except:
-    env['MYTARGETS'] = ['axcl_test']
+    env['MYTARGETS'] = ['axcl_sample_sys']

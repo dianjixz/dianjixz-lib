@@ -9,7 +9,7 @@ for t in env['MYTARGETS']:
     m_project = env["task_list"][t]
     m_project["_target_build_env"].Command(
         target=f"dist/{t}.rpath",  # 目标文件
-        source=f"build/{t}/{t}",  # 源文件
+        source=f"dist/{t}",  # 源文件
         action="patchelf --force-rpath --set-rpath '/usr/lib/axcl:/usr/lib/axcl/ffmpeg' $SOURCES ; cp $SOURCES $TARGET",  # 执行命令
     )
 
