@@ -48,18 +48,23 @@ static SAMPLE_LOG_LEVEL_E log_level = SAMPLE_LOG_INFO;
 #define MACRO_END
 #endif
 
-#define ALOGE(fmt, ...) printf(MACRO_RED "[E][%32s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+#ifndef LOG_OUT_PROT
+#define LOG_OUT_PROT stdout
+#endif
+
+#define APRINTF(fmt, ...) fprintf(LOG_OUT_PROT,fmt , ##__VA_ARGS__)
+#define ALOGE(fmt, ...) fprintf(LOG_OUT_PROT, MACRO_RED "[E][%32s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define ALOGW(fmt, ...)               \
     if (log_level >= SAMPLE_LOG_WARN) \
-    printf(MACRO_YELLOW "[W][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+    fprintf(LOG_OUT_PROT, MACRO_YELLOW "[W][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define ALOGI(fmt, ...)               \
     if (log_level >= SAMPLE_LOG_INFO) \
-    printf(MACRO_GREEN "[I][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+    fprintf(LOG_OUT_PROT, MACRO_GREEN "[I][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define ALOGD(fmt, ...)                \
     if (log_level >= SAMPLE_LOG_DEBUG) \
-    printf(MACRO_WHITE "[D][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+    fprintf(LOG_OUT_PROT, MACRO_WHITE "[D][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define ALOGN(fmt, ...)                 \
     if (log_level >= SAMPLE_LOG_NOTICE) \
-    printf(MACRO_PURPLE "[N][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
+    fprintf(LOG_OUT_PROT, MACRO_PURPLE "[N][%s][%4d]: " fmt MACRO_END "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #endif /* _SAMPLE_LOG_H_ */
