@@ -263,3 +263,11 @@ def DefineShared(target, SRCS=[], INCLUDE=[], PRIVATE_INCLUDE=[], REQUIREMENTS=[
                       'project': 'shared'
                       }
     env['COMPONENTS'].append(component_info)
+
+
+def export_conanenv():
+    import os
+    temport = os.path.join(os.path.dirname(env['PROJECT_TOOL_S']), '..', 'corss-toolchina')
+    with open(os.path.join(env['PROJECT_PATH'], "build", 'config', "corss-toolchina"), 'w') as f:
+        with open(temport, 'r') as f2:
+            f.write(f2.read().format(CPU_ARCH="armv8", GCC_VERSION=env['CCVERSION'].split('.')[0], GCC_ARCH=env['GCC_DUMPMACHINE'].split('-')[0], GCCPREFIX = env['GCCPREFIX']))
