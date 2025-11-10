@@ -55,7 +55,7 @@ if "CONFIG_UTILITIES_ENABLED" in os.environ:
         INCLUDE.append(ADir("party/ptmx"))
         SRCS += AGlob("party/ptmx/*.c*")
 
-    if "CONFIG_UTILITIES_PTMX_ENABLED" in os.environ:
+    if "CONFIG_UTILITIES_BASE64_ENABLED" in os.environ:
         INCLUDE.append(ADir("party/base64"))
         SRCS += AGlob("party/base64/*.c*")
 
