@@ -19,15 +19,11 @@ LDFLAGS = []
 LINK_SEARCH_PATH = []
 
 
-export_conanenv()
-CONANDEPS = "../build/Release/generators/SConscript_conandeps"
-if not os.path.exists(CONANDEPS):
-    os.system("conan install .. --profile:host=../build/config/corss-toolchina  --build=missing")
-if os.path.exists(CONANDEPS):
-    conandeps = SConscript(CONANDEPS)
-    INCLUDE += conandeps["conandeps"]['CPPPATH']
-    LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
-    REQUIREMENTS += conandeps["conandeps"]['LIBS']
+conandeps = export_conanenv()
+INCLUDE += conandeps["conandeps"]['CPPPATH']
+LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
+REQUIREMENTS += conandeps["conandeps"]['LIBS']
+DEFINITIONS += [ "-D"+ f for f in  conandeps["conandeps"]['CPPDEFINES'] ]
 
 
 

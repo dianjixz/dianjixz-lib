@@ -1,9 +1,0 @@
-import os
-
-# os.environ["CONAN_USER_HOME"] = os.path.join(os.getcwd(), "../../github_source/conan_cache")
-
-env = SConscript(
-    os.path.join(os.getcwd(), "../../tools/scons/project.py"),
-    variant_dir=os.getcwd(),
-    duplicate=0,
-)
