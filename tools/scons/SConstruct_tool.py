@@ -264,7 +264,7 @@ def DefineShared(target, SRCS=[], INCLUDE=[], PRIVATE_INCLUDE=[], REQUIREMENTS=[
                       }
     env['COMPONENTS'].append(component_info)
 
-def export_conanenv():
+def Export_conanenv():
     CONANDEPS = "../build/Release/generators/SConscript_conandeps"
     import os
     temport = os.path.join(os.path.dirname(env['PROJECT_TOOL_S']), '..', 'corss-toolchina')

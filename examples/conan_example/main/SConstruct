@@ -19,7 +19,7 @@ LDFLAGS = []
 LINK_SEARCH_PATH = []
 
 
-conandeps = export_conanenv()
+conandeps = Export_conanenv()
 INCLUDE += conandeps["conandeps"]['CPPPATH']
 LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
 REQUIREMENTS += conandeps["conandeps"]['LIBS']
