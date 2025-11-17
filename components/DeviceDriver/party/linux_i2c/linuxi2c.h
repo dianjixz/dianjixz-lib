@@ -48,6 +48,10 @@ ssize_t linuxi2c_write(const LINUXI2CDevice *device, unsigned int iaddr, const v
 ssize_t linuxi2c_ioctl_read(const LINUXI2CDevice *device, unsigned int iaddr, void *buf, size_t len);
 ssize_t linuxi2c_ioctl_write(const LINUXI2CDevice *device, unsigned int iaddr, const void *buf, size_t len);
 
+/* I2c primitive read, write can set i2c flags */
+ssize_t linuxi2c_primitive_read(const LINUXI2CDevice *device, void *offset, size_t offset_len, void *buf, size_t buf_len);
+ssize_t linuxi2c_primitive_write(const LINUXI2CDevice *device, void *offset, size_t offset_len, void *buf, size_t buf_len);
+
 /* I2C read / write handle function */
 typedef ssize_t (*LINUXI2C_READ_HANDLE)(const LINUXI2CDevice *dev, unsigned int iaddr, void *buf, size_t len);
 typedef ssize_t (*LINUXI2C_WRITE_HANDLE)(const LINUXI2CDevice *dev, unsigned int iaddr, const void *buf, size_t len);

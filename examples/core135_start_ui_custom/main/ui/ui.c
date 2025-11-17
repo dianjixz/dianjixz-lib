@@ -22,7 +22,7 @@ lv_obj_t *ui_Tileview1;
 lv_obj_t *ui_TabPage[20];
 lv_obj_t *ui_Container[20];
 lv_obj_t *ui_Image[30];
-lv_obj_t *ui_Label[20];
+lv_obj_t *ui_Label[40];
 lv_obj_t *ui_Label1;
 lv_obj_t *ui_Label2;
 lv_obj_t *ui_Label3;
@@ -140,8 +140,10 @@ void ui_event_Tileview1(lv_event_t *e) {
         for (int i = 0; i < FUN_NUMBER; i++) {
             if (lv_tileview_get_tile_act(ui_Tileview1) == ui_TabPage[i]) {
                 lv_led_on(led[i]);
+                screen_test_gps_event(i, true);
             } else {
                 lv_led_off(led[i]);
+                screen_test_gps_event(i, false);
             }
         }
     }
@@ -286,6 +288,21 @@ void ui_event_main10_timer_callback(lv_timer_t *timer) {
     }
 
     linuxi2c_close(i2cdev.bus);
+}
+
+void ui_event_TextArea(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t *ta         = lv_event_get_target(e);
+
+    if (code == LV_EVENT_VALUE_CHANGED) {
+        const char *text = lv_textarea_get_text(ta);
+        size_t len       = strlen(text);
+        if (len > 1024) {
+            char truncated_text[512];
+            memcpy(truncated_text, text + (len - 512), 512);
+            lv_textarea_set_text(ta, truncated_text);
+        }
+    }
 }
 
 ///////////////////// SCREENS ////////////////////

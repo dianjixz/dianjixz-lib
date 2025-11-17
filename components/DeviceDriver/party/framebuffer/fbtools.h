@@ -30,6 +30,10 @@ int fb_close(PFBDEV pFbdev);
 /*get display depth*/
 int get_display_depth(PFBDEV pFbdev);
 
+/*draw rgb888 or rgb565 to framebuffer.color=24/16*/
+void fb_draw_img(PFBDEV pFbdev, int w, int h, int color, void *buf);
+
+void fb_put_pixel(PFBDEV pFbdev, int x, int y, unsigned int color);
 
 /*full screen clear */
 void fb_memset(void *addr, int c, size_t len);

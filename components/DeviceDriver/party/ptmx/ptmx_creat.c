@@ -1,16 +1,16 @@
-#include "pts_creat.h"
+#include "ptmx_creat.h"
 #include <string.h>
 #if defined(__linux__) || defined(__GLIBC__) || defined(__GNU__)
 #define _GNU_SOURCE /* GNU glibc grantpt() prototypes */
 #endif
 
-struct pts_creat_t* pts_creat()
+struct ptmx_creat_t* ptmx_creat()
 {
-	struct pts_creat_t* p = (struct pts_creat_t*)malloc(sizeof(struct pts_creat_t));
-	memset(p, 0, sizeof(struct pts_creat_t));
+	struct ptmx_creat_t* p = (struct ptmx_creat_t*)malloc(sizeof(struct ptmx_creat_t));
+	memset(p, 0, sizeof(struct ptmx_creat_t));
 }
 
-int pts_destroy(struct pts_creat_t **p)
+int ptmx_destroy(struct ptmx_creat_t **p)
 {
 	if((p == NULL) || (*p == NULL)) return -1;
 	if((*p)->ptmx_status == PTMX_RUN)
@@ -23,7 +23,7 @@ int pts_destroy(struct pts_creat_t **p)
 }
 
 
-int ptmx_open(struct pts_creat_t *self)
+int ptmx_open(struct ptmx_creat_t *self)
 {
 	char slavename[50];
 	self->master_ptmx = open("/dev/ptmx", O_RDWR | O_NOCTTY);
@@ -36,42 +36,47 @@ int ptmx_open(struct pts_creat_t *self)
 	ptsname_r(self->master_ptmx, slavename, 50);
 	strcpy(self->slave_ptmx_name, slavename);
 	self->ptmx_status = PTMX_RUN;
-	pthread_create(&self->pts_loop_handler_d, NULL, pts_loop_handler, self);
+	pthread_create(&self->ptmx_loop_handler_d, NULL, ptmx_loop_handler, self);
 	return self->master_ptmx;
 }
 
-
-void *pts_loop_handler(void *par)
+void ptmx_set_msg_callback(struct ptmx_creat_t *self, msg_call_back_t fun)
 {
-	struct pts_creat_t* pts = (struct pts_creat_t*)par;
+	self->call = fun;
+}
 
-	char *buff = (char*)malloc(pts->buff_size);
+void *ptmx_loop_handler(void *par)
+{
+	struct ptmx_creat_t* ptmx = (struct ptmx_creat_t*)par;
+
+	char *buff = (char*)malloc(ptmx->buff_size);
 	do
 	{
-		int size = read(pts->master_ptmx, buff, pts->buff_size);
+		int size = read(ptmx->master_ptmx, buff, ptmx->buff_size);
 		if (size > 0)
 		{
-			if (pts->call)
+			if (ptmx->ptmx_status != PTMX_STOP && ptmx->call != NULL)
 			{
-				pts->call(buff, size);
+				buff[size] = '\0';
+				ptmx->call(buff, size);
 			}
 		}
 		else
 		{
 			usleep(100000);
 		}
-	} while (pts->ptmx_status);
+	} while (ptmx->ptmx_status);
 	free(buff);
 	return NULL;
 }
 
-void ptmx_exit(struct pts_creat_t *self)
+void ptmx_exit(struct ptmx_creat_t *self)
 {
 	self->ptmx_status = PTMX_STOP;
 	char tmp_buff[128];
 	sprintf(tmp_buff, "echo \"exit\" >> %s", self->slave_ptmx_name);
 	system(tmp_buff);
-	pthread_join(self->pts_loop_handler_d, NULL);
+	pthread_join(self->ptmx_loop_handler_d, NULL);
 	close(self->master_ptmx);
 }
 

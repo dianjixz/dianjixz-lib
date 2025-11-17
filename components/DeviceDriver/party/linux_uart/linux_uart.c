@@ -6,7 +6,8 @@
 #include <errno.h>
 #include <termios.h>
 #include <linux/serial.h>
-
+#include <string.h>
+#include <stdlib.h>
 
 static int _get_baud(int baud)
 {
@@ -66,7 +67,6 @@ static void clear_custom_speed_flag(int _fd)
 
     if (ioctl(_fd, TIOCSSERIAL, &ss) < 0) {
         perror("TIOCSSERIAL failed");
-        exit(1);
     }
 }
 
@@ -87,8 +87,15 @@ int linux_uart_init(char* dev, void* param)
     int data_bits = cfg->data_bits, stop_bits = cfg->stop_bits;
     char parity = cfg->parity;
 
-    fd = open(dev, O_RDWR | O_NONBLOCK | O_NOCTTY);
-    // fd = open(dev, O_RDWR | O_NOCTTY);
+    if(cfg->wait_flage)
+    {
+        fd = open(dev, O_RDWR | O_NONBLOCK | O_NOCTTY);
+    }
+    else
+    {
+        fd = open(dev, O_RDWR | O_NOCTTY);
+    }
+    
     if (fd < 0)
     {
         return fd;
@@ -168,7 +175,7 @@ int linux_uart_init(char* dev, void* param)
 void linux_uart_deinit(int fd)
 {
     int res;
-
+    if(fd <= 0) return;
     res = close(fd);
     if (res < 0)
         fprintf(stderr, "uart close fd(%d) err:%s\n", fd, strerror(errno));
@@ -176,12 +183,12 @@ void linux_uart_deinit(int fd)
         fd = -1;
 }
 
-int linux_uart_read(int fd, int cnt, uint8_t* buf)
+int linux_uart_read(int fd, int cnt, void* buf)
 {
     return read(fd, buf, cnt);
 }
 
-int linux_uart_write(int fd, int cnt, uint8_t* buf)
+int linux_uart_write(int fd, int cnt, void* buf)
 {
     return write(fd, buf, cnt);
 }

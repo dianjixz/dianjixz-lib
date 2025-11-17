@@ -20,7 +20,7 @@ extern "C" {
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 
-#define FUN_NUMBER 12
+#define FUN_NUMBER 13
 
 extern lv_obj_t * ui_Screen1;
 extern lv_obj_t * ui_Screen2;
@@ -31,7 +31,7 @@ extern lv_obj_t * ui_Tileview1;
 extern lv_obj_t * ui_TabPage[20];
 extern lv_obj_t * ui_Container[20];
 extern lv_obj_t * ui_Image[30];
-extern lv_obj_t * ui_Label[20];
+extern lv_obj_t * ui_Label[40];
 extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui_Label2;
 extern lv_obj_t * ui_Label3;
@@ -72,6 +72,7 @@ void ui_event_test_lcd(lv_event_t * e);
 void ui_event_Screen_lcd(lv_event_t * e);
 void ui_event_Tileview1(lv_event_t * e);
 void ui_event_test_bus(lv_event_t * e);
+void ui_event_TextArea(lv_event_t *e);
 
 LV_IMG_DECLARE(
     ui_img_swipe_through_to_learn_about_some_of_the_hardware_features_png);    // assets/swipe_through_to_learn_about_some_of_the_hardware_features.png

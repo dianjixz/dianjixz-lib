@@ -52,9 +52,55 @@ int fb_open(PFBDEV pFbdev)
 /* close frame buffer */
 int fb_close(PFBDEV pFbdev)
 {
+    munmap(pFbdev->fb, pFbdev->fb_mem);
     close(pFbdev->fb);
     pFbdev->fb = -1;
     return 0;
+}
+
+void fb_draw_img(PFBDEV pFbdev, int w, int h, int color, void *buf)
+{
+    if(NULL == pFbdev || NULL == buf)
+    {
+        return;
+    }
+    unsigned char *buf_8 = (unsigned char *)buf;
+
+    unsigned char *pen_8 = pFbdev->fb_mem;
+    unsigned short *pen_16;
+    unsigned int *pen_32;
+
+    unsigned int red, green, blue;
+
+    pen_16 = (unsigned short *)pen_8;
+    pen_32 = (unsigned int *)pen_8;
+
+    switch (pFbdev->fb_var.bits_per_pixel)
+    {
+    case 16:
+        {
+            switch (color)
+            {
+            case 24:
+                {
+                    for (int i = 0; i < w * h * 3; i += 3)
+                    {
+                        unsigned int t_color;
+                        t_color = ((buf_8[i] >> 3) << 11) | ((buf_8[i+1] >> 2) << 5) | (buf_8[i+2] >> 3);
+                        *pen_16++ = t_color;
+                    }
+                }
+                break;
+            
+            default:
+                break;
+            }
+        }
+        break;
+    
+    default:
+        break;
+    }
 }
 
 /* get display depth */
@@ -73,6 +119,60 @@ void fb_memset(void *addr, int c, size_t len)
 {
     memset(addr, c, len);
 }
+
+/* full screen color*/
+void fb_put_pixel(PFBDEV pFbdev, int x, int y, unsigned int color)
+{
+    unsigned char *pen_8 = pFbdev->fb_mem + y * pFbdev->fb_var.xres * pFbdev->fb_var.bits_per_pixel / 8 + x * pFbdev->fb_var.bits_per_pixel / 8;
+    unsigned short *pen_16;
+    unsigned int *pen_32;
+
+    unsigned int red, green, blue;
+
+    pen_16 = (unsigned short *)pen_8;
+    pen_32 = (unsigned int *)pen_8;
+
+    switch (pFbdev->fb_var.bits_per_pixel)
+    {
+    case 8:
+    {
+        *pen_8 = color;
+        break;
+    }
+    case 16:
+    {
+        /* 565 */
+        red = (color >> 16) & 0xff;
+        green = (color >> 8) & 0xff;
+        blue = (color >> 0) & 0xff;
+        color = ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
+        *pen_16 = color;
+        break;
+    }
+    case 24:
+    {
+        *pen_32 = color;
+        break;
+    }
+    case 32:
+    {
+        *pen_32 = color;
+        break;
+    }
+    default:
+    {
+        printf("can't surport %dbpp\n", pFbdev->fb_var.bits_per_pixel);
+        break;
+    }
+    }
+}
+
+
+
+
+
+
+
 
 /* use by test */
 // #define DEBUG

@@ -1,0 +1,7 @@
+/dts-v1/;
+/plugin/;
+
+
+&usart2 {
+    status = "okay";
+};

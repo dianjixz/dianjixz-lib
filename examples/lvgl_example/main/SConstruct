@@ -5,7 +5,9 @@ Import('env')
 with open(env['PROJECT_TOOL_S']) as f:
     exec(f.read())
 
-
+lvgl_component = list(filter(lambda x: x['target'] == 'lvgl_component', env['COMPONENTS']))[0]
+lvgl_component['INCLUDE'] += [ADir('include')]
+lvgl_component['DEFINITIONS'] += ['-DLV_CONF_INCLUDE_SIMPLE']
 
 SRCS = Glob('src/*.c*')
 INCLUDE = [ADir('include'), ADir('.')]

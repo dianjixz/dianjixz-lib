@@ -5,6 +5,9 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
+#include <errno.h>
 #include "linuxi2c.h"
 
 /* I2C default delay */
@@ -30,13 +33,27 @@ static void linuxi2c_delay(unsigned char delay);
 int linuxi2c_open(const char *bus_name)
 {
     int fd;
-
+    unsigned long funcs;
+    int ret;
     /* Open i2c-bus devcice */
     if ((fd = open(bus_name, O_RDWR)) == -1) {
 
-        return -1;
+        return -errno;
     }
 
+	ret = ioctl(fd, I2C_FUNCS, &funcs);
+	if (ret < 0) {
+		ret = -errno;
+        close(fd);
+		return ret;
+	}
+
+	/* I2C driver must support I2C_RDWR ioctl */
+	if (!(funcs & I2C_FUNC_I2C)) {
+		ret = -ENOSYS;
+		close(fd);
+        return ret;
+	}
     return fd;
 }
 
@@ -56,11 +73,11 @@ void linuxi2c_init_device(LINUXI2CDevice *device)
     /* 7 bit device address */
     device->tenbit = 0;
 
-    /* 1ms delay */
-    device->delay = 1;
+    /* no delay */
+    device->delay = 0;
 
     /* 8 bytes per page */
-    device->page_bytes = 8;
+    device->page_bytes = 32;
 
     /* 1 byte internal(word) address */
     device->iaddr_bytes = 1;
@@ -351,13 +368,86 @@ int linuxi2c_select(int bus, unsigned long dev_addr, unsigned long tenbit)
     }
 
     /* Set i2c device as slave ans set it address */
-    if (ioctl(bus, I2C_SLAVE, dev_addr)) {
+    if (ioctl(bus, I2C_SLAVE_FORCE, dev_addr)) {
 
         perror("Set i2c device address failed");
         return -1;
     }
 
     return 0;
+}
+
+static int i2c_rw(const LINUXI2CDevice *device, void *offset, size_t offset_len, void *buf,
+		  size_t buf_len, int write_flag)
+{
+    struct i2c_msg msgs[2];
+	struct i2c_rdwr_ioctl_data ioctl_data;
+	unsigned int idx, count;
+	int ret;
+
+	if (!device)
+		return -EINVAL;
+
+	idx = 0;
+	count = 0;
+
+	/* Send the device's register/memory address to be read/written */
+	if (offset_len) {
+		msgs[0].addr = device->addr;
+		msgs[0].flags = 0; /* write */
+		msgs[0].len = offset_len;
+		msgs[0].buf = (unsigned char*)offset;
+		idx++;
+		count++;
+	}
+
+	/* Read/write from/to the device's register/memory */
+	if (buf_len) {
+		msgs[idx].addr = device->addr;
+		msgs[idx].flags = write_flag ? 0 : I2C_M_RD;
+		msgs[idx].len = buf_len;
+		msgs[idx].buf = (unsigned char*)buf;
+		count++;
+	}
+
+	if (count) {
+		ioctl_data.msgs = msgs;
+		ioctl_data.nmsgs = count;
+
+		ret = ioctl(device->bus, I2C_RDWR, &ioctl_data);
+		if (ret < 0)
+			return -errno;
+	}
+
+	return 0;
+}
+
+/*
+**	@brief	:	Read specified bytes number of bytes from I2C device
+**	#device	:	LINUXI2CDevice struct, must call i2c_device_init first
+**	#offset	:	Offset within I2C device to start reading
+**	#offset_len	:	Length in bytes of 'offset' parameter
+**	#buf	:	Address of buffer where data will be placed
+**	#buf_len	:	Length in bytes of the buffer pointed to by 'buf'
+**	@return : 	0 on success, negative errno on failure
+*/
+ssize_t linuxi2c_primitive_read(const LINUXI2CDevice *device, void *offset, size_t offset_len, void *buf, size_t buf_len)
+{
+	return i2c_rw(device, offset, offset_len, buf, buf_len, 0);
+}
+
+/*
+**	@brief	:	write #buf data to i2c #device #iaddr address
+**	#device	:	LINUXI2CDevice struct, must call i2c_device_init first
+**	#offset	: 	Offset within I2C device to start writing
+**	#offset_len	: 	Length in bytes of 'offset' parameter
+**	#buf	:	Address of buffer containing data to write
+**	#buf_len	:	Length in bytes of the data pointed to by 'buf'
+**	@return	: 	0 on success, negative errno on failure
+*/
+ssize_t linuxi2c_primitive_write(const LINUXI2CDevice *device, void *offset, size_t offset_len, void *buf, size_t buf_len)
+{
+	return i2c_rw(device, offset, offset_len, buf, buf_len, 1);
 }
 
 /*

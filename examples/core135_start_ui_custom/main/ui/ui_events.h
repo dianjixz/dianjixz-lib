@@ -23,6 +23,7 @@ void screen_test_rtc_event(lv_event_t *e);
 void screen_test_play_event(lv_event_t *e);
 void screen_test_touch_event(lv_event_t *e);
 void screen_test_cpu_event(lv_event_t *e);
+void screen_test_gps_event(int e, bool state);
 
 
 #ifdef __cplusplus

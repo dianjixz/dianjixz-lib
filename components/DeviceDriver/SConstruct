@@ -1,4 +1,4 @@
-# component/SConscript
+# component2/SConscript
 Import('env')
 import os
 with open(env['PROJECT_TOOL_S']) as f:
@@ -14,29 +14,23 @@ if 'CONFIG_DEVICE_DRIVER_ENABLED' in os.environ:
     STATIC_LIB=[]
     DYNAMIC_LIB=[]
     DEFINITIONS=[]
-    DEFINITIONS_PRIVATE=[]
+    DEFINITIONS_PRIVATE=['-w']
     LDFLAGS=[]
     LINK_SEARCH_PATH=[]
-
     if 'CONFIG_M5DEVICE_SH1107' in os.environ:
-        SRCS += Glob('party/m5_sh1107/*.c*')
-
+        SRCS += AGlob('party/m5_sh1107/*.c')
     if 'CONFIG_DEVICE_UART_ENABLED' in os.environ:
-        SRCS += Glob('party/linux_uart/*.c*')
-
+        SRCS += AGlob('party/linux_uart/*.c')
     if 'CONFIG_DEVICE_I2C_ENABLED' in os.environ:
-        SRCS += Glob('party/linux_i2c/*.c*')
-
+        SRCS += AGlob('party/linux_i2c/*.c')
     if 'CONFIG_DEVICE_SPI_ENABLED' in os.environ:
-        SRCS += Glob('party/linux_spi/*.c*')
-
+        SRCS += AGlob('party/linux_spi/*.c')
     if 'CONFIG_DEVICE_FRAMEBUFFER_ENABLED' in os.environ:
-        SRCS += Glob('party/framebuffer/*.c*')
-
-
+        SRCS += AGlob('party/framebuffer/*.c')
     if 'CONFIG_DEVICE_PTMX_ENABLED' in os.environ:
-        SRCS += Glob('party/ptmx/*.c*')
-
+        SRCS += AGlob('party/ptmx/*.c')
+    if 'CONFIG_DEVICE_V4L2_ENABLED' in os.environ:
+        SRCS += AGlob('party/linux_v4l2/*.c')
 
 
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
