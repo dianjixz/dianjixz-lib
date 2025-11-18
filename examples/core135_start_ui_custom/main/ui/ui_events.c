@@ -551,6 +551,7 @@ static void *test_gps_pthread(void *arg)
         return NULL;
     }
     int time_count = 0;
+    int ANT_STATUS = 0;
 
     while (communication_gps_count) {
         usleep(5 * 1000);
@@ -558,8 +559,12 @@ static void *test_gps_pthread(void *arg)
              len     = linux_uart_read(_serial, 1, buffer_p++));
         if (buffer_p[-1] == '\n') {
             // printf(buffer);
+            if (strstr(buffer, "ANTENNA OPEN") != NULL) ANT_STATUS = 1;
+            if (strstr(buffer, "ANTENNA SHORT") != NULL) ANT_STATUS = -1;
+            if (strstr(buffer, "ANTENNA OK") != NULL) ANT_STATUS = 0;
+
+            pthread_mutex_lock(&device_thread_mutex);
             if (strstr(buffer, "GNGGA") != NULL) {
-                pthread_mutex_lock(&device_thread_mutex);
                 lv_textarea_add_text(ui_TextArea[12], buffer);
                 char *token;
                 char *ptr = buffer;
@@ -571,9 +576,12 @@ static void *test_gps_pthread(void *arg)
                     ptr = token + 1;
                 }
                 gps_set_ui(count, token);
-
-                pthread_mutex_unlock(&device_thread_mutex);
             }
+            if (ANT_STATUS) {
+                lv_obj_set_style_bg_color(ui_Container[12], lv_color_hex(0xFF0000), LV_PART_MAIN | LV_STATE_DEFAULT);
+                lv_label_set_text(ui_Label[26], ANT_STATUS == 1 ? "ANT OPEN" : "ANT SHORT");
+            }
+            pthread_mutex_unlock(&device_thread_mutex);
             memset(buffer, 0, sizeof(buffer));
             buffer_p = &buffer[0];
         }

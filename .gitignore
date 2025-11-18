@@ -66,3 +66,4 @@ github_source
 *.sconsign.dblite
 private*
 examples/ignore_*
+**/compile_commands.json
