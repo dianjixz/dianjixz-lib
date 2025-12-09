@@ -1,0 +1,43 @@
+import os
+import socket
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+if not os.path.exists('tinygps'):
+    os.system('git clone https://github.com/acassis/tinygps.git')
+
+
+
+
+SRCS = [AFile('src/main.c')]
+INCLUDE = [ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['pthread', 'm']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = {'CCFLAGS':[], 'CXXFLAGS':[]}
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+STATIC_FILES = []
+
+SRCS += [AFile('tinygps/tinygps.c')]
+INCLUDE += [ADir('tinygps')]
+
+
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                        'SRCS':SRCS,
+                        'INCLUDE':INCLUDE,
+                        'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                        'REQUIREMENTS':REQUIREMENTS,
+                        'STATIC_LIB':STATIC_LIB,
+                        'DYNAMIC_LIB':DYNAMIC_LIB,
+                        'DEFINITIONS':DEFINITIONS,
+                        'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                        'LDFLAGS':LDFLAGS,
+                        'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                        'STATIC_FILES':STATIC_FILES,
+                        'REGISTER':'project'
+                        })
