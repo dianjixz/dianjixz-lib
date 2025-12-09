@@ -1,0 +1,4 @@
+menuconfig PORTDUINO_ENABLED
+    bool "framework-portduino configuration"
+    default n
+
