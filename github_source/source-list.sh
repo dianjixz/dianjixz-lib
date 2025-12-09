@@ -46,6 +46,7 @@ git_clone_and_checkout_commit https://github.com/libffi/libffi.git c6f1610509d3d
 git_clone_and_checkout_commit https://github.com/dianjixz/nng.git 72dc573e732049353c64b1a58d5df24f3f661b9c
 git_clone_and_checkout_commit https://github.com/rsfreitas/libv4l2.git 72dc573e732049353c64b1a58d5df24f3f661b9c
 git_clone_and_checkout_commit https://github.com/mpromonet/libv4l2cpp.git 72dc573e732049353c64b1a58d5df24f3f661b9c
+git_clone_and_checkout_commit https://github.com/meshtastic/framework-portduino.git 3c63c9676f75084fb02823ea6b3a0a637c6f9d61
 
 # opencv-mobile-2.4.13.7-armlinux https://github.com/nihui/opencv-mobile/releases/download/v26/opencv-mobile-2.4.13.7-armlinux.zip
 
