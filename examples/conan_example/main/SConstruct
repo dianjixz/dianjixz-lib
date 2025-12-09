@@ -20,6 +20,8 @@ LINK_SEARCH_PATH = []
 
 
 conandeps = Export_conanenv()
+
+
 INCLUDE += conandeps["conandeps"]['CPPPATH']
 LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
 REQUIREMENTS += conandeps["conandeps"]['LIBS']
