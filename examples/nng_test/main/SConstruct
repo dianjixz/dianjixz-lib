@@ -10,7 +10,7 @@ with open(env['PROJECT_TOOL_S']) as f:
 SRCS = Glob('src/*.c*')
 INCLUDE = [ADir('include'), ADir('.')]
 PRIVATE_INCLUDE = []
-REQUIREMENTS = ['pthread','nng']
+REQUIREMENTS = ['pthread']
 STATIC_LIB = []
 DYNAMIC_LIB = []
 DEFINITIONS = []
@@ -18,7 +18,11 @@ DEFINITIONS_PRIVATE = []
 LDFLAGS = []
 LINK_SEARCH_PATH = []
 
-
+conandeps = Export_conanenv()
+INCLUDE += conandeps["conandeps"]['CPPPATH']
+LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
+REQUIREMENTS += conandeps["conandeps"]['LIBS']
+DEFINITIONS += [ "-D"+ f for f in  conandeps["conandeps"]['CPPDEFINES'] ]
 
 
 env['COMPONENTS'].append({'target':env['PROJECT_NAME'],

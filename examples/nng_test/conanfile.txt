@@ -1,0 +1,12 @@
+[requires]
+nng/1.9.0
+
+[generators]
+SConsDeps
+
+[options]
+jsoncpp/*:shared=False
+
+[layout]
+cmake_layout
+
