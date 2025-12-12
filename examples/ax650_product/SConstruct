@@ -1,0 +1,11 @@
+import os
+from pathlib import Path
+if not os.path.exists(str(Path(os.getcwd())/'..'/'..'/'tools'/'scons'/'project.py')):
+    # os.environ["CONAN_USER_HOME"] = os.path.join(os.getcwd(), "../../github_source/conan_cache")
+    os.environ['SDK_PATH'] = os.path.join(os.getcwd(), '../../../../github/dianjixz-lib/')
+    os.environ['SDK_SCRIPT'] = os.path.normpath(str(Path(os.environ['SDK_PATH'])/'tools'/'scons'/'project.py'))
+env = SConscript(
+    os.environ.get('SDK_SCRIPT', os.path.join(os.getcwd(), "../../tools/scons/project.py")),
+    variant_dir=os.getcwd(),
+    duplicate=0,
+)

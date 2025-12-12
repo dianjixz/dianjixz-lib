@@ -21,7 +21,7 @@ LDFLAGS+=['-Wl,-rpath=/opt/bin/FRTDemo/lib']
 
 REQUIREMENTS += ['ax_sys','ax_dmadim']
 
-env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+env['COMPONENTS'].append({'target':'ax650_sample_cmm',
                           'SRCS':SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
