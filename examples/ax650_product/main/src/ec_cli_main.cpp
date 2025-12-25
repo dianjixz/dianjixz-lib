@@ -306,6 +306,7 @@ int main(int argc, char *argv[])
             {"i2c_set_reg", 0, "i2c fun", std::bind(&info_fun, std::placeholders::_1, "i2c_set_reg", "i2c_set_reg")},
             {"i2c_get_reg", 0, "i2c fun", std::bind(&info_fun, std::placeholders::_1, "i2c_get_reg", "i2c_get_reg")},
             {"ec_button_head_event", 0, "ec_button_head_event fun", std::bind(&info_fun, std::placeholders::_1, "ec_button_set_head_event", "ec_button_get_head_event")},
+            {"soc_button_head_event", 0, "soc_button_head_event fun", std::bind(&info_fun, std::placeholders::_1, "soc_button_set_head_event", "soc_button_get_head_event")},
             {"ec_button_lcd_event", 0, "ec_button_lcd_event fun", std::bind(&info_fun, std::placeholders::_1, "ec_button_set_lcd_event", "ec_button_get_lcd_event")},
             {"ec_modbus_set_bit", 0, "ec_modbus_bit fun", std::bind(&info_fun, std::placeholders::_1, "ec_modbus_set_bit", "ec_modbus_set_bit")},
             {"ec_modbus_get_bit", 0, "ec_modbus_bit fun", std::bind(&info_fun, std::placeholders::_1, "ec_modbus_get_bit", "ec_modbus_get_bit")},
@@ -322,10 +323,15 @@ int main(int argc, char *argv[])
         a.add<std::string>("data", 'd', "call param", false);
         a.add<std::string>("DataRaw", 'D', "call param raw", false);
         a.parse_check(argc, argv);
+        int not_find_index = 1;
         for (auto &cmd : cmd_list) {
             if (a.exist(cmd.fun)) {
                 cmd.fun_call(a);
+                not_find_index = 0;
             }
+        }
+        if(not_find_index){
+            std::cout << a.usage() << std::endl;
         }
     } else if (std::string(argv[1]) == "exec") {
         cmdline::parser a;

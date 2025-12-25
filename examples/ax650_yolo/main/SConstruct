@@ -1,0 +1,89 @@
+import os
+
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+# if not os.path.exists('axcl-samples'):
+#     os.system('git clone https://github.com/dianjixz/axcl-samples.git')
+
+SRCS = []
+INCLUDE = [ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['pthread', 'ax_msp', 'hv']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = {'CCFLAGS':[], 'CXXFLAGS':[]}
+DEFINITIONS_PRIVATE = []
+LDFLAGS = ['-Wl,-rpath=/usr/lib/axcl/ffmpeg']
+LINK_SEARCH_PATH = []
+STATIC_FILES = []
+
+
+# DEFINITIONS['CCFLAGS']  += ['-MMD', '-DCOMPILER_HOSTNAME=\\\"nihao-z690\\\"', '-DAXCL_CMA_CACHED']
+# DEFINITIONS['CXXFLAGS'] += ['--std=c++17']
+
+# REQUIREMENTS += ['axcl_rt', 'axcl_pkg', 'axcl_comm', 'axcl_token','spdlog', 'axcl_pcie_msg', 'axcl_pcie_dma', 'axcl_sys']
+
+INCLUDE += [ADir('ax-samples/examples')]
+# INCLUDE += [os.path.join(env["MSP_PATH"], '../sample')]
+
+
+
+LDFLAGS+=['-Wl,-rpath=/opt/m5stack/lib',  '-Wl,-rpath=/opt/lib', '-Wl,-rpath=/opt/usr/lib', '-Wl,-rpath=./']
+LDFLAGS+=['-Wl,-rpath=/opt/bin/FRTDemo/lib']
+
+REQUIREMENTS += ['ax_sys','ax_dmadim']
+
+
+
+
+# SRCS += Glob('ax-samples/examples/ax650/deprecated/*.c*')
+
+
+#INCLUDE.append(os.path.join(env["MSP_PATH"],'third-party','opencv-4.5.5','include/opencv4'))
+#LINK_SEARCH_PATH.append(os.path.join(env["MSP_PATH"],'third-party','opencv-4.5.5','d_lib'))
+# LINK_SEARCH_PATH.append(os.path.join(env["MSP_PATH"],'third-party','opencv-4.5.5','lib/opencv4/3rdparty'))
+
+
+REQUIREMENTS += ['dl',  'ax_engine', 'ax_interpreter', 'ax_sys', 'ax_ivps']
+#LDFLAGS += '-lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -l:liblibtiff.a  -l:liblibopenjp2.a -l:liblibjpeg-turbo.a -l:liblibwebp.a -l:liblibpng.a -l:libittnotify.a'.split()
+
+# data/ivps/1920x1080.nv12
+# STATIC_FILES += [os.path.join(env["MSP_PATH"], 'data/ivps/1920x1080.nv12')]
+def pkg_config(package):
+    # 获取cflags和libs
+    import subprocess
+    cflags = subprocess.check_output(['pkg-config', '--cflags', package]).decode().strip().split()
+    libs = subprocess.check_output(['pkg-config', '--libs', package]).decode().strip().split()
+    return cflags, libs
+acflags, alibs = pkg_config('opencv4')
+
+INCLUDE += acflags
+LDFLAGS += alibs
+
+
+print(INCLUDE, LDFLAGS)
+
+
+project_srcs = Glob('ax-samples/examples/ax650/ax_all.cc')
+for project_src in project_srcs:
+    env['COMPONENTS'].append({'target':os.path.basename(str(project_src)[:-3]),
+                            'SRCS':SRCS + [project_src],
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'STATIC_FILES':STATIC_FILES,
+                            'REGISTER':'project'
+                            })
+    try:
+        env['MYTARGETS'].append(os.path.basename(str(project_src)[:-3]))
+    except:
+        env['MYTARGETS'] = [os.path.basename(str(project_src)[:-3])]

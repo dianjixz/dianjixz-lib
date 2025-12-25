@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -362,6 +362,11 @@
       <item>
        <property name="text">
         <string>emmc 存储</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>U盘</string>
        </property>
       </item>
      </widget>
@@ -1406,6 +1411,32 @@
         <widget class="QLabel" name="label_38">
          <property name="text">
           <string>EXT5V_ma:</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>100</y>
+        <width>161</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_39">
+         <property name="text">
+          <string>pd_soc:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="pd_soc">
+         <property name="text">
+          <string>000</string>
          </property>
         </widget>
        </item>

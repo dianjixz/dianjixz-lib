@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import QThread, pyqtSignal, QObject  # 线程相关类
 from PyQt5.QtCore import QTimer, QDateTime  # 定时器和时间相关类
-from PyQt5.QtGui import QFont, QColor  # 字体和颜色类
+from PyQt5.QtGui import QFont, QColor, QPalette  # 字体和颜色类
 from datetime import datetime  # 时间处理模块
 import socket  # 网络通信模块
 import psutil  # 系统信息获取模块
@@ -39,7 +39,7 @@ import serial
 import soundfile as sf
 from datetime import timedelta
 import re
-
+import glob
 
 
 
@@ -489,7 +489,7 @@ class MainWindow(QMainWindow):
         threading.Thread(target=_play_logo, daemon=True, args=(self.MainWindowExec,)).start()
 
     def time_power_start(self):
-        self.zmq_rpc_exec('time_power_start',f'''{{"data":{self.lineEdit_30.text()}}}''')
+        self.zmq_rpc_exec('poweron_set_time',f'''{{"data":{self.lineEdit_30.text()}}}''')
         self.zmq_rpc_exec('poweroff','{"data":1}')
 
 
@@ -525,12 +525,14 @@ class MainWindow(QMainWindow):
 
     def cmm_test_task(self):
         def _cmm_test_task(MainWindowExec):
+            success_count = 0
             MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, "执行CMM测试：/usr/local/m5stack/bin/ax650_sample_cmm")''', {})
             try:
                 with PtyPope(['/usr/local/m5stack/bin/ax650_sample_cmm']) as sout:
                     for line in sout:
-                        if line == '':
-                            break
+                        if "ax_mem_cmm_test" in line:
+                            if 'end success' in line or 'Fail:0' in line:
+                                success_count +=1
                         MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, line)''', {"line": line.strip()})
             except (OSError, ValueError) as e:
                 pass
@@ -538,11 +540,24 @@ class MainWindow(QMainWindow):
                 MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, f"{e}")''', {"e":e})
             MainWindowExec.emit(f'''self.pushButton_58.setText("开始测试")''', {})
             MainWindowExec.emit(f'''self.pushButton_58.setEnabled(True)''', {})
+            MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, "success_count: {success_count}")''', {})
+            if success_count >= 23:
+                MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, "CMM测试通过")''', {})
+                MainWindowExec.emit(f'''self.set_button_color(self.pushButton_58, "green")''', {})
+            else:
+                MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_25, "CMM测试失败")''', {})
+                MainWindowExec.emit(f'''self.set_button_color(self.pushButton_58, "red")''', {})
+
+        self.set_button_color(self.pushButton_58, "yellow")
         self.pushButton_58.setText("正在测试中")
         self.pushButton_58.setEnabled(False)
         threading.Thread(target=_cmm_test_task, daemon=True, args=(self.MainWindowExec,)).start()
 
-
+    def set_button_color(self, button, color_name):
+        """设置按钮颜色"""
+        palette = button.palette()
+        palette.setColor(QPalette.Button, QColor(color_name))
+        button.setPalette(palette)
 
     ec_control_panel_status = False
     def on_tab_changed(self, index):
@@ -594,7 +609,8 @@ class MainWindow(QMainWindow):
             self.lineEdit_7.setText("/mnt/pcie1_ssd")
         elif dir_option == "emmc 存储":
             self.lineEdit_7.setText("/mnt/emmc")
-
+        elif dir_option == "U盘":
+            self.lineEdit_7.setText("/mnt/upan")
 
 
     def disk_write_read_test_open_dir(self):
@@ -645,7 +661,13 @@ class MainWindow(QMainWindow):
                     QMessageBox.warning(self, "PCIE1 SSD 不存在", "请先插入 PCIE1 SSD", QMessageBox.Ok, QMessageBox.Ok)
                     return
                 os.system(f'mount /dev/nvme1n1p1 {work_dir} ; sleep 1; mount -v > /tmp/test_mount.log')
-
+            if 'upan' in work_dir:
+                file_block_size = 1
+                devices = glob.glob('/dev/sd*1')
+                if len(devices) == 0:
+                    QMessageBox.warning(self, "U盘 不存在", "请先插入 U盘", QMessageBox.Ok, QMessageBox.Ok)
+                    return
+                os.system(f'mount {devices[0]} {work_dir} ; sleep 1; mount -v > /tmp/test_mount.log')
             try:
                 with open('/tmp/test_mount.log') as f:
                     if f'{work_dir}' not in f.read():
@@ -851,6 +873,7 @@ class MainWindow(QMainWindow):
     uart_work_status = False
     def uart_test_task(self):
         def _uart_read(MainWindowExec, ser):
+            read_count = 0
             while ser.is_open:
                 if ser.in_waiting:
                     data = ser.readline().decode('utf-8').strip()
@@ -858,7 +881,12 @@ class MainWindow(QMainWindow):
                         f"""self.canven_log_message(self.textEdit_2, "接收:{data}")""",
                         {},
                     )
+                    read_count += 1
                 time.sleep(0.1)
+            if read_count == 0:
+                self.set_button_color(self.pushButton_7, "red")
+            else:
+                self.set_button_color(self.pushButton_7, "green")
         def _uart_write(MainWindowExec, ser):
             count = 0
             while ser.is_open:
@@ -887,77 +915,41 @@ class MainWindow(QMainWindow):
         # self.textEdit_3.setText("")
         # result = subprocess.run(['i2cdetect', '-y', '-r', '3'], capture_output=True, text=True)
         # self.textEdit_3.setText(result.stdout)
-        with PtyPope(['i2cdetect', '-y', '-r', '3']) as sout:
-            for line in sout:
-                self.canven_log_message(self.textEdit_3, line.rstrip('\r\n'))
-
+        device_count = 0
+        try:
+            with PtyPope(['i2cdetect', '-y', '-r', '3']) as sout:
+                for line in sout:
+                    device_count += line.count('--')
+                    self.canven_log_message(self.textEdit_3, line.rstrip('\r\n'))
+        except:
+            pass
+        self.canven_log_message(self.textEdit_3, f'''found devices: {112 - device_count}''')
+        if device_count == 112:
+            self.set_button_color(self.pushButton_8, "red")
+        else:
+            self.set_button_color(self.pushButton_8, "green")
         # for lin in result.stdout.splitlines():
         #     self.textEdit_3.append(lin)
 
 
     def rgb_mode_get(self):
-        context = zmq.Context()
-        socket = context.socket(zmq.REQ)
-        socket.setsockopt(zmq.SNDTIMEO, 1000)
-        socket.setsockopt(zmq.RCVTIMEO, 1000)
-        socket.connect("ipc:///tmp/rpc.ec_prox")
-        socket.send_string("rgb_get_mode", zmq.SNDMORE)
-        socket.send_string("") 
-        try:
-            data = socket.recv().decode('utf-8')
-            params = json.loads(data)
-            self.lineEdit.setText(f'''{params["data"]}''')
-        except zmq.Again:
-            print("接收超时，未获取到数据")
+        self.lineEdit.setText(f'''{json.loads(self.zmq_rpc_exec("rgb_get_mode", "{}"))["data"]}''')
         
     def rgb_mode_set(self):
         if self.lineEdit.text() == "":
             QMessageBox.warning(self, "RGB模式获取失败", "请在输入框里输入RGB模式", QMessageBox.Ok, QMessageBox.Ok)
             return
-        context = zmq.Context()
-        socket = context.socket(zmq.REQ)
-        socket.setsockopt(zmq.SNDTIMEO, 1000)
-        socket.setsockopt(zmq.RCVTIMEO, 1000)
-        socket.connect("ipc:///tmp/rpc.ec_prox")
-        socket.send_string("rgb_set_mode", zmq.SNDMORE)
-        socket.send_string(f'''{{"data":{self.lineEdit.text()}}}''')
-        try:
-            data = socket.recv().decode('utf-8')
-            print(data)
-        except zmq.Again:
-            print("接收超时，未获取到数据")
+        self.zmq_rpc_exec("rgb_set_mode", f'''{{"data":{self.lineEdit.text()}}}''')
         
 
     def rgb_size_get(self):
-        context = zmq.Context()
-        socket = context.socket(zmq.REQ)
-        socket.setsockopt(zmq.SNDTIMEO, 1000)
-        socket.setsockopt(zmq.RCVTIMEO, 1000)
-        socket.connect("ipc:///tmp/rpc.ec_prox")
-        socket.send_string("rgb_get_size", zmq.SNDMORE)
-        socket.send_string("") 
-        try:
-            data = socket.recv().decode('utf-8')
-            params = json.loads(data)
-            self.lineEdit_2.setText(f'''{params["data"]}''')
-        except zmq.Again:
-            print("接收超时，未获取到数据")
+        self.lineEdit_2.setText(f'''{json.loads(self.zmq_rpc_exec("rgb_get_size", "{}"))["data"]}''')
+
     def rgb_size_set(self):
         if self.lineEdit_2.text() == "":
             QMessageBox.warning(self, "RGB灯数量获取失败", "请在输入框里输入RGB灯数量", QMessageBox.Ok, QMessageBox.Ok)
             return
-        context = zmq.Context()
-        socket = context.socket(zmq.REQ)
-        socket.setsockopt(zmq.SNDTIMEO, 1000)
-        socket.setsockopt(zmq.RCVTIMEO, 1000)
-        socket.connect("ipc:///tmp/rpc.ec_prox")
-        socket.send_string("rgb_set_size", zmq.SNDMORE)
-        socket.send_string(f'''{{"data":{self.lineEdit_2.text()}}}''')
-        try:
-            data = socket.recv().decode('utf-8')
-            print(data)
-        except zmq.Again:
-            print("接收超时，未获取到数据")
+        self.zmq_rpc_exec("rgb_set_size", f'''{{"data":{self.lineEdit_2.text()}}}''')
 
 
 
@@ -965,19 +957,12 @@ class MainWindow(QMainWindow):
         if self.lineEdit_3.text() == "":
             QMessageBox.warning(self, "RGB索引获取失败", "请在输入框里输入RGB索引", QMessageBox.Ok, QMessageBox.Ok)
             return
-        context = zmq.Context()
-        socket = context.socket(zmq.REQ)
-        socket.setsockopt(zmq.SNDTIMEO, 1000)
-        socket.setsockopt(zmq.RCVTIMEO, 1000)
-        socket.connect("ipc:///tmp/rpc.ec_prox")
-        socket.send_string("rgb_get_color", zmq.SNDMORE)
-        socket.send_string(f'''{{"data":{self.lineEdit_3.text()}}}''') 
-        try:
-            data = socket.recv().decode('utf-8')
-            params = json.loads(data)
-            self.lineEdit_4.setText(f'''{params["data"]}''')
-        except zmq.Again:
-            print("接收超时，未获取到数据")
+        input_data = f'''{{"data":{self.lineEdit_3.text()}}}'''
+        print(input_data)
+        print(self.zmq_rpc_exec("rgb_get_color", input_data))
+        self.lineEdit_4.setText(f'''{hex(json.loads(self.zmq_rpc_exec("rgb_get_color", input_data))["data"])}''')
+
+
 
     def to_decimal_string(self, val):
         # 如果已经是int类型
@@ -1018,11 +1003,6 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, "RGB索引获取失败", "请在输入框里输入RGB索引", QMessageBox.Ok, QMessageBox.Ok)
                 return
             self.zmq_rpc_exec('rgb_set_color', f'''{{"data":{{"rgb_index":{self.lineEdit_3.text()},"rgb_color":{self.to_decimal_string(self.lineEdit_4.text())}}}}}''')
-            try:
-                data = socket.recv().decode('utf-8')
-                print(data)
-            except zmq.Again:
-                print("接收超时，未获取到数据")
         else:
             if self.lineEdit_2.text() == "":
                 self.rgb_size_get()
@@ -1370,12 +1350,36 @@ class MainWindow(QMainWindow):
     def eth_update_interface_table(self, interfaces):
         """更新接口表格"""
         self.interface_table.setRowCount(len(interfaces))
-
         for row, (interface_name, info) in enumerate(interfaces.items()):
-            self.interface_table.setItem(row, 0, QTableWidgetItem(interface_name))
-            ip_text = "\n".join(info["ipv4"]) if info["ipv4"] else "无IP地址"
-            self.interface_table.setItem(row, 1, QTableWidgetItem(ip_text))
-            self.interface_table.setItem(row, 2, QTableWidgetItem(info["speed"]))
+            # IP信息
+            has_ip = bool(info["ipv4"])
+            ip_text = "\n".join(info["ipv4"]) if has_ip else "无IP地址"
+            # 速度信息
+            speed_text = info["speed"]
+
+            # 创建表项
+            name_item = QTableWidgetItem(interface_name)
+            ip_item = QTableWidgetItem(ip_text)
+            speed_item = QTableWidgetItem(speed_text)
+
+            # 判断条件并设置颜色
+            if has_ip and speed_text == "1000 M":
+                # 这一行所有单元格设为绿色字体
+                color = QColor("green")
+                name_item.setForeground(color)
+                ip_item.setForeground(color)
+                speed_item.setForeground(color)
+            elif not has_ip:
+                # 没有IP，所有单元格设为红色字体
+                color = QColor("red")
+                name_item.setForeground(color)
+                ip_item.setForeground(color)
+                speed_item.setForeground(color)
+
+            # 放入表格
+            self.interface_table.setItem(row, 0, name_item)
+            self.interface_table.setItem(row, 1, ip_item)
+            self.interface_table.setItem(row, 2, speed_item)
 
     def eth_refresh_network_info(self):
         """刷新网络信息"""

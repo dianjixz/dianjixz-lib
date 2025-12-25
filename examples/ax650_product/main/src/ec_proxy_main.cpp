@@ -45,6 +45,122 @@ static void __sigint(int iSigNo)
 
 using namespace StackFlows;
 
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#include <linux/if.h>
+#include <arpa/inet.h>
+
+typedef struct ifconfig_s {
+    char name[128];
+    char ip[16];
+    char mask[16];
+    char broadcast[16];
+    char mac[20];
+} ifconfig_t;
+
+int ifconfig(std::vector<ifconfig_t>& ifcs) {
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        return -10;
+    }
+
+    struct ifconf ifc;
+    char buf[1024];
+    ifc.ifc_len = sizeof(buf);
+    ifc.ifc_buf = buf;
+
+    int iRet = ioctl(sock, SIOCGIFCONF, &ifc);
+    if (iRet != 0) {
+        close(sock);
+        return iRet;
+    }
+
+    int cnt = ifc.ifc_len / sizeof(struct ifreq);
+    //printf("ifc.size=%d\n", cnt);
+    if (cnt == 0) {
+        close(sock);
+        return -20;
+    }
+
+    struct ifreq ifr;
+    ifcs.clear();
+    ifconfig_t tmp;
+    for (int i = 0; i < cnt; ++i) {
+        // name
+        strcpy(ifr.ifr_name, ifc.ifc_req[i].ifr_name);
+        //printf("name: %s\n", ifr.ifr_name);
+        strncpy(tmp.name, ifr.ifr_name, sizeof(tmp.name));
+        // flags
+        //iRet = ioctl(sock, SIOCGIFFLAGS, &ifr);
+        //short flags = ifr.ifr_flags;
+        // addr
+        iRet = ioctl(sock, SIOCGIFADDR, &ifr);
+        struct sockaddr_in* addr = (struct sockaddr_in*)&ifr.ifr_addr;
+        char* ip = inet_ntoa(addr->sin_addr);
+        //printf("ip: %s\n", ip);
+        strncpy(tmp.ip, ip, sizeof(tmp.ip));
+        // netmask
+        iRet = ioctl(sock, SIOCGIFNETMASK, &ifr);
+        addr = (struct sockaddr_in*)&ifr.ifr_netmask;
+        char* netmask = inet_ntoa(addr->sin_addr);
+        //printf("netmask: %s\n", netmask);
+        strncpy(tmp.mask, netmask, sizeof(tmp.mask));
+        // broadaddr
+        iRet = ioctl(sock, SIOCGIFBRDADDR, &ifr);
+        addr = (struct sockaddr_in*)&ifr.ifr_broadaddr;
+        char* broadaddr = inet_ntoa(addr->sin_addr);
+        //printf("broadaddr: %s\n", broadaddr);
+        strncpy(tmp.broadcast, broadaddr, sizeof(tmp.broadcast));
+        // hwaddr
+        iRet = ioctl(sock, SIOCGIFHWADDR, &ifr);
+        snprintf(tmp.mac, sizeof(tmp.mac), "%02x:%02x:%02x:%02x:%02x:%02x",
+            (unsigned char)ifr.ifr_hwaddr.sa_data[0],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[1],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[2],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[3],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[4],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+        //printf("mac: %s\n", tmp.mac);
+        //printf("\n");
+
+        if (strcmp(tmp.ip, "0.0.0.0") == 0 ||
+            strcmp(tmp.ip, "127.0.0.1") == 0 ||
+            strcmp(tmp.mac, "00:00:00:00:00:00") == 0) {
+            continue;
+        }
+
+        ifcs.push_back(tmp);
+    }
+
+    close(sock);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class llm_ec_prox {
 private:
     std::string ec_prox_event_channel = "ipc:///tmp/llm/ec_prox.event.socket";
@@ -218,7 +334,7 @@ private:
             return return_err_result(__func__, -2, "json decode failed");
         }
         uint16_t tab_reg;
-        int rc = modbus_read_registers(modbus_ctx, rgb_index + 12, 1, &tab_reg);
+        int rc = modbus_read_registers(modbus_ctx, rgb_index + 63, 1, &tab_reg);
         if (rc == -1) {
             return return_err_result(__func__, -1, "read failed");
         } else {
@@ -386,7 +502,7 @@ private:
         }
     }
 
-    int ec_button[2] = {0};
+    int ec_button[3] = {0};
     std::string ec_button_head(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int set)
     {
         if (set == 0) {
@@ -401,6 +517,23 @@ private:
                 return return_err_result(__func__, -2, "json decode failed");
             }
             ec_button[0] = value;
+            return return_success_result(__func__, "\"ok\"");
+        }
+    }
+    std::string soc_button_head(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int set)
+    {
+        if (set == 0) {
+            return return_success_result(__func__, fmt::format("{}", ec_button[2]));
+        } else {
+            uint32_t value;
+            try {
+                nlohmann::json fan_data = nlohmann::json::parse(data->string());
+                value                   = (int)fan_data["data"];
+
+            } catch (...) {
+                return return_err_result(__func__, -2, "json decode failed");
+            }
+            ec_button[2] = value;
             return return_success_result(__func__, "\"ok\"");
         }
     }
@@ -468,9 +601,12 @@ private:
     void _init_ec()
     {
         uint16_t tab_reg;
-        char *lcd_mode = getenv("AX650_EC_LCD_MODE");
-        tab_reg        = lcd_mode ? atoi(lcd_mode) : 1;
+        char *env_param = getenv("AX650_EC_RGB_MODE");
+        tab_reg        = env_param ? atoi(env_param) : 1;
         modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
+        env_param = getenv("AX650_EC_LCD_MODE");
+        tab_reg        = env_param ? atoi(env_param) : 2;
+        modbus_write_registers(modbus_ctx, 13, 1, &tab_reg);
     }
 
     std::string _None(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data)
@@ -664,6 +800,10 @@ public:
         REGISTER_RPC_ACTION_REG("ec_button_set_head_event", ec_button_head, 1);
         REGISTER_RPC_ACTION_REG("ec_button_get_lcd_event", ec_button_lcd, 0);
         REGISTER_RPC_ACTION_REG("ec_button_set_lcd_event", ec_button_lcd, 1);
+        ec_button[2] = 1;
+        REGISTER_RPC_ACTION_REG("soc_button_get_head_event", soc_button_head, 0);
+        REGISTER_RPC_ACTION_REG("soc_button_set_head_event", soc_button_head, 1);
+
 
         REGISTER_RPC_ACTION("ec_modbus_get_bit",                ec_modbus_get_bit);
         REGISTER_RPC_ACTION("ec_modbus_set_bit",                ec_modbus_set_bit);
@@ -694,12 +834,96 @@ public:
         return (uint64_t)ts.tv_sec * 1000ULL + (uint64_t)ts.tv_nsec / 1000000ULL;
     }
 
+
+    void eth_ec_thread()
+    {
+        static uint32_t value_old[3] = {0};
+        static int value_status[3] = {0};
+        static uint64_t T_last = 0;
+        CORO_BEGIN(eth_ec);
+        for (;;) {
+            if (get_uptime_ms() - T_last < 2000) {
+                CORO_YIELD(eth_ec);
+                continue;
+            }
+            T_last = get_uptime_ms();
+            memset(value_status, 0, sizeof(value_status));
+            std::vector<ifconfig_t> eth_info;
+            ifconfig(eth_info);
+            for(auto eth : eth_info){
+                if(std::string(eth.name) == "eth0"){
+                    value_status[0] = 1;
+                    uint32_t value = inet_addr(eth.ip);
+                    if (value == value_old[0]){
+                        continue;
+                    }
+                    value_old[0]= value;
+                    uint16_t tab_reg[2];
+                    tab_reg[1] = (value >> 16) & 0xFFFF;
+                    tab_reg[0] = value & 0xFFFF;
+                    for (int i = 0; i < 2; i++) tab_reg[i] = htons(tab_reg[i]);
+                    int rc = modbus_write_registers(modbus_ctx, 15 + 0 * 2, 2, tab_reg);
+                    
+                }
+                if(std::string(eth.name) == "eth1")
+                {
+                    value_status[1] = 1;
+                    // std::cout << eth.name << " : " << eth.ip << std::endl;
+                    uint32_t value = inet_addr(eth.ip);
+                    if (value == value_old[1]){
+                        continue;
+                    }
+                    value_old[1]= value;
+                    uint16_t tab_reg[2];
+                    tab_reg[1] = (value >> 16) & 0xFFFF;
+                    tab_reg[0] = value & 0xFFFF;
+                    for (int i = 0; i < 2; i++) tab_reg[i] = htons(tab_reg[i]);
+                    int rc = modbus_write_registers(modbus_ctx, 15 + 1 * 2, 2, tab_reg);
+                    // std::cout << eth.name << " :--- " << eth.ip << std::endl;
+                }
+                if(std::string(eth.name) == "wlan0")
+                {
+                    value_status[2] = 1;
+                    uint32_t value = inet_addr(eth.ip);
+                    if (value == value_old[2]){
+                        continue;
+                    }
+                    value_old[2]= value;
+                    uint16_t tab_reg[2];
+                    tab_reg[1] = (value >> 16) & 0xFFFF;
+                    tab_reg[0] = value & 0xFFFF;
+                    for (int i = 0; i < 2; i++) tab_reg[i] = htons(tab_reg[i]);
+                    int rc = modbus_write_registers(modbus_ctx, 15 + 2 * 2, 2, tab_reg);
+                }
+            }
+            if(value_status[0] == 0 && value_old[0] != 0){
+                value_old[0] = 0;
+                uint16_t tab_reg[2] = {0};
+                int rc = modbus_write_registers(modbus_ctx, 15 + 0 * 2, 2, tab_reg);
+            }
+            if(value_status[1] == 0 && value_old[1] != 0){
+                value_old[1] = 0;
+                uint16_t tab_reg[2] = {0};
+                int rc = modbus_write_registers(modbus_ctx, 15 + 1 * 2, 2, tab_reg);
+            }
+            if(value_status[2] == 0 && value_old[2] != 0){
+                value_old[2] = 0;
+                uint16_t tab_reg[2] = {0};
+                int rc = modbus_write_registers(modbus_ctx, 15 + 2 * 2, 2, tab_reg);
+            }
+        }
+        CORO_END(eth_ec);
+    }
+
+
     void buttons_ec_thread()
     {
         static int fd = 0;
         struct input_event ev;
         fd_set readfds;
         int ret;
+        if(ec_button[2] == 0)
+            return;
         CORO_BEGIN(ec);
         for (;;) {
             if (ec_button[0]) {
@@ -833,7 +1057,10 @@ public:
             buttons_ec_thread();
             buttons_thread();
             fun_thread();
+            eth_ec_thread();
         }
+        uint16_t tab_reg = 0;
+        modbus_read_registers(modbus_ctx, 11, 1, &tab_reg);
     }
 
     void ax650_ec_prox_exit()
