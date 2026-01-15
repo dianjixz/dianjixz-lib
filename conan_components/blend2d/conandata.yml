@@ -1,0 +1,5 @@
+sources:
+  "0.21.2":
+    url: "https://blend2d.com/download/blend2d-0.21.2.zip"
+    sha256: "c56a4d1b466c8f5f87253643c7e00fb9b41fd1572d9dfbcf9df521b8abee64b0"
+    strip_root: true
