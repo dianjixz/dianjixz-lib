@@ -271,6 +271,9 @@ def Export_conanenv():
     with open(os.path.join(env['PROJECT_PATH'], "build", 'config', "corss-toolchina"), 'w') as f:
         with open(temport, 'r') as f2:
             f.write(f2.read().format(CPU_ARCH=os.environ['CONFIG_CPU_ARCH'], GCC_VERSION=env['CCVERSION'].split('.')[0], GCC_ARCH=env['GCC_DUMPMACHINE'].split('-')[0], GCCPREFIX = env['GCCPREFIX']))
+    if not os.path.exists(os.path.join(os.environ['GIT_REPO_PATH'], 'conan_home', 'profiles', 'default')):
+        os.system(f"export CONAN_HOME={os.path.join(os.environ['GIT_REPO_PATH'], 'conan_home')} ; conan profile detect")
+        
     if not os.path.exists(CONANDEPS):
         # CONAN_HOME
         # conan install --conanfile=conanfile.prod.py --output-folder=./build --profile:host=../build/config/cross-toolchina --build=missing 

@@ -13,14 +13,28 @@ env['SDK_BUILD_PATH'] = os.environ.get('BUILD_PATH', str(Path(env['SDK_PROJECT_P
 class SconsBuild():
     """SCons build system for M5Stack projects"""
     env = None
-
+    module_info = {
+            "CPPPATH"     : [],
+            "LIBPATH"     : [],
+            "BINPATH"     : [],
+            "LIBS"        : [],
+            "FRAMEWORKS"  : [],
+            "FRAMEWORKPATH" : [],
+            "CPPDEFINES"  : [],
+            "CXXFLAGS"    : [],
+            "CCFLAGS"     : [],
+            "SHLINKFLAGS" : [],
+            "LINKFLAGS"   : [],
+            
+        }
     def __init__(self, env):
         self.env = env
 
     def Build(self):
         self.ParseCmd()
+        self.Parse()
         self.Configure()
-        self.LoadTargets()
+        self.CreatBuildTask()
 
     def CMDmenuconfig(self):
         pass
