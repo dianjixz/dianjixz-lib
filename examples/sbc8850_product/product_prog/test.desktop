@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=My Python App
+Comment=testAPP
+Exec=python3 /root/product_prog/main.py
+#Icon=/path/to/your/icon.png
+Terminal=false
+Categories=Utility;
