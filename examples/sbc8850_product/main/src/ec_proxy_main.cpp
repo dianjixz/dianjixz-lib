@@ -26,7 +26,6 @@
 #include <utmp.h>
 #include <unistd.h>
 
-
 // #include "cmdline.hpp"
 #include <fmt/core.h>
 #include <fmt/format.h>
@@ -36,7 +35,7 @@
 #include "tbl_yield.h"
 
 uint16_t g_poweroff_time = 30000;
-int main_exit_flage = 0;
+int main_exit_flage      = 0;
 static void __sigint(int iSigNo)
 {
     ALOGW("llm_ec_prox will be exit!");
@@ -244,10 +243,9 @@ private:
             return return_err_result(__func__, -2, "json decode failed");
         }
         g_poweroff_time = tab_reg;
-        int rc = modbus_write_registers(modbus_ctx, reg, 1, &tab_reg);
+        int rc          = modbus_write_registers(modbus_ctx, reg, 1, &tab_reg);
         return rc == -1 ? return_err_result(__func__, -1, "write failed") : return_success_result(__func__, "\"ok\"");
     }
-
 
     int fun_pwm_val = 200;
     std::string fun_set_pwm(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int reg)
@@ -609,8 +607,6 @@ private:
             std::exit(-1);
         }
     }
-
-
 
     std::string _None(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data)
     {
@@ -1089,7 +1085,6 @@ public:
 
     void loop()
     {
-
         while (!main_exit_flage) {
             buttons_ec_thread();
             buttons_thread();
@@ -1108,29 +1103,27 @@ public:
         modbus_write_registers(modbus_ctx, 13, 1, &tab_reg);
         env_param = getenv("AX650_EC_WIFI_ON");
         // 开启wifi
-        if(env_param != NULL)
-        {
-            if (atoi(env_param)==1) {
-                modbus_write_bit(modbus_ctx, 12, 1);             
+        if (env_param != NULL) {
+            if (atoi(env_param) == 1) {
+                modbus_write_bit(modbus_ctx, 12, 1);
             }
-        }
-        else
-        {
+        } else {
             modbus_write_bit(modbus_ctx, 12, 1);
         }
     }
 
-    int is_poweroff_or_reboot() {
+    int is_poweroff_or_reboot()
+    {
         FILE *fp;
         char buffer[1024];
         int is_poweroff = 0;
-        int is_reboot = 0;
-        
+        int is_reboot   = 0;
+
         fp = popen("systemctl list-jobs", "r");
         if (fp == NULL) {
             return -1;  // 错误
         }
-        
+
         while (fgets(buffer, sizeof(buffer), fp) != NULL) {
             if (strstr(buffer, "poweroff.target") != NULL) {
                 is_poweroff = 1;
@@ -1141,12 +1134,12 @@ public:
                 break;
             }
         }
-        
+
         pclose(fp);
-        
-        if (is_poweroff) return 0;      // poweroff
-        if (is_reboot) return 1;        // reboot
-        return -1;                      // 未知
+
+        if (is_poweroff) return 0;  // poweroff
+        if (is_reboot) return 1;    // reboot
+        return -1;                  // 未知
     }
 
     void ax650_ec_prox_exit()
@@ -1166,11 +1159,7 @@ public:
         // 判断是否为关机，如果是关机，设置断电定时器
         {
             int runlevel = is_poweroff_or_reboot();
-            FILE *testf = fopen("/root/nihao.txt", "a+");
-            fprintf(testf, "runlevel:%d\n", runlevel);
-            fclose(testf);
-            if(runlevel == 0)
-            {
+            if (runlevel == 0) {
                 tab_reg = g_poweroff_time;
                 modbus_write_registers(modbus_ctx, 0, 1, &tab_reg);
                 tab_reg = 1;

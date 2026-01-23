@@ -5,3 +5,8 @@ build
 .flash.conf.json
 
 .gdb_history
+product.assets
+product.md
+product.pdf
+product_image.pdf
+product_image.md

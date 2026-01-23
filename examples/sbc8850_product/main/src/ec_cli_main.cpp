@@ -356,7 +356,7 @@ int main(int argc, char *argv[])
                 not_find_index = 0;
             }
         }
-        if(not_find_index){
+        if (not_find_index) {
             std::cout << a.usage() << std::endl;
         }
     } else if (std::string(argv[1]) == "exec") {

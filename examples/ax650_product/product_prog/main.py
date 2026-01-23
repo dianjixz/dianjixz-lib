@@ -410,8 +410,18 @@ class MainWindow(QMainWindow):
         # 扫描 pci 设备
         self.pci_setup_update()
         self.system_status_monitor()
-
+        self.rtc_monitor()
         self.ui_connect()
+        try:
+            pd_info = json.loads(self.zmq_rpc_exec('pd_power_info',''))
+            self.pd_soc.setText(f'{pd_info["data"]["voltage"]}-{pd_info["data"]["current"]}')
+            version_info = json.loads(self.zmq_rpc_exec('version',''))
+            self.label_133.setText(f'{hex(version_info["data"])}')
+        except:
+            pass
+
+
+        
 
     def canven_log_message(self, textEdit, log):
         """在控制台显示日志消息"""
@@ -480,6 +490,10 @@ class MainWindow(QMainWindow):
         self.pushButton_59.clicked.connect(self.audio_play_logo)
 
 
+        self.pushButton_72.clicked.connect(lambda : self.label_146.setText(f'''{json.loads(self.zmq_rpc_exec('pcie0_exists',''))['data']}'''))
+        self.pushButton_73.clicked.connect(lambda : self.label_147.setText(f'''{json.loads(self.zmq_rpc_exec('pcie1_exists',''))['data']}'''))
+
+
     def audio_play_logo(self):
         def _play_logo(MainWindowExec):
             try:
@@ -495,29 +509,38 @@ class MainWindow(QMainWindow):
 
     def fan_pwm_test_task(self):
         def _fan_pwm_test_task(MainWindowExec):
+            test_result = True
             pwm = json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data']
             MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "PWM set 20% ")''', {})
             self.zmq_rpc_exec('fan_set_pwm',f'''{{"data":20}}''')
-            time.sleep(3)
-            if json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data'] < 300:
+            time.sleep(5)
+            zhuansu = json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data']
+            if zhuansu < 1700:
                 MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "20% PWM测试失败")''', {})
+                test_result = False
             MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "PWM set 50% ")''', {})
             self.zmq_rpc_exec('fan_set_pwm',f'''{{"data":50}}''')
-            time.sleep(3)
-            if json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data'] < 300:
+            time.sleep(5)
+            zhuansu = json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data']
+            if zhuansu < 4900 or zhuansu > 7000:
                 MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "50% PWM测试失败")''', {})
-            MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "PWM set 80% ")''', {})
-            self.zmq_rpc_exec('fan_set_pwm',f'''{{"data":80}}''')
-            time.sleep(3)
-            if json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data'] < 300:
-                MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "80% PWM测试失败")''', {})
+                test_result = False
             MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "PWM set 100% ")''', {})
             self.zmq_rpc_exec('fan_set_pwm',f'''{{"data":100}}''')
-            if json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data'] < 300:
+            time.sleep(5)
+            zhuansu = json.loads(self.zmq_rpc_exec('fan_get_speed',f'''{{}}'''))['data']
+            if zhuansu < 7900:
                 MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "100% PWM测试失败")''', {})
+                test_result = False
             self.zmq_rpc_exec('fan_set_pwm',f'''{{"data":{pwm}}}''')
             MainWindowExec.emit(f'''self.pushButton_70.setText("测试")''', {})
             MainWindowExec.emit(f'''self.pushButton_70.setEnabled(True)''', {})
+            MainWindowExec.emit(f'''self.canven_log_message(self.textEdit_26, "PWM测试完成")''', {})
+            if test_result:
+                MainWindowExec.emit(f'''self.set_button_color(self.pushButton_70, "green")''', {})
+            else:
+                MainWindowExec.emit(f'''self.set_button_color(self.pushButton_70, "red")''', {})
+
         self.pushButton_70.setText("测试中")
         self.pushButton_70.setEnabled(False)
         self.canven_log_message(self.textEdit_26, "开始风扇转速测试")
@@ -1478,6 +1501,48 @@ class MainWindow(QMainWindow):
         self.system_status_timer.setInterval(1000)  # 5秒刷新一次
         # 启动定时器
         self.system_status_timer.start()
+
+
+    def refresh_rtc_task(self, mainwindowexec):
+        while True:
+            rtc_time_str_old = ""
+            rtc_time_str_old_count = 0
+            try:
+                result = subprocess.run(['hwclock', '-r'], capture_output=True, text=True)
+                rtc_time_str = result.stdout.strip()
+                self.label_5.setText(rtc_time_str)
+                if rtc_time_str_old == rtc_time_str:
+                    rtc_time_str_old_count += 1
+                    if rtc_time_str_old_count > 5:
+                        mainwindowexec.emit(f'''self.set_button_color(self.pushButton_20, 'red')''',{})
+                else:
+                    rtc_time_str_old = rtc_time_str
+                    rtc_time_str_old_count = 0
+                    mainwindowexec.emit(f'''self.set_button_color(self.pushButton_20, 'green')''',{})
+                    # palette = self.pushButton_20.palette()
+                    # palette.setColor(QPalette.Button, QColor('green'))
+                    # self.pushButton_20.setPalette(palette)
+            except:
+                pass
+            time.sleep(0.5)
+
+    def rtc_monitor(self):
+        # # 创建系统状态监控定时器
+        # self.rtc_timer = QTimer()
+        # # 连接定时器超时信号到刷新系统状态函数
+        # self.rtc_timer.timeout.connect(self.refresh_rtc)
+        # # 设置定时器间隔为5000毫秒（5秒）
+        # self.rtc_timer.setInterval(1000)  # 5秒刷新一次
+        # # 启动定时器
+        # self.rtc_timer.start()
+        threading.Thread(target=self.refresh_rtc_task, args=(self.MainWindowExec,), daemon=True).start()
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

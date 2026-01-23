@@ -1,0 +1,49 @@
+# project_root/src/SConscript
+import os
+# Import the environment from the SConstruct file
+Import('env')
+with open(env['PROJECT_TOOL_S']) as f:
+    exec(f.read())
+
+
+
+SRCS = Glob('src/*.c*')
+INCLUDE = [ADir('include'), ADir('.')]
+PRIVATE_INCLUDE = []
+REQUIREMENTS = ['pthread', 'hv', 'd_hal_api']
+STATIC_LIB = []
+DYNAMIC_LIB = []
+DEFINITIONS = []
+DEFINITIONS_PRIVATE = []
+LDFLAGS = []
+LINK_SEARCH_PATH = []
+
+
+
+# conandeps = Export_conanenv()
+# print(conandeps)
+# INCLUDE += conandeps["conandeps"]['CPPPATH']
+# LINK_SEARCH_PATH += conandeps["conandeps"]['LIBPATH']
+# REQUIREMENTS += conandeps["conandeps"]['LIBS']
+
+
+# DEFINITIONS += ['-DPROMOTED_MODE_T=int']
+# SRCS += Glob('../v4l-utils-1.32.0/lib/libv4l2/*.c*')
+
+# INCLUDE += [ADir('../v4l-utils-1.32.0/lib/include')]
+# LDFLAGS += '-lopencv_stitching -lopencv_alphamat -lopencv_aruco -lopencv_barcode -lopencv_bgsegm -lopencv_bioinspired -lopencv_ccalib -lopencv_dnn_objdetect -lopencv_dnn_superres -lopencv_dpm -lopencv_face -lopencv_freetype -lopencv_fuzzy -lopencv_hdf -lopencv_hfs -lopencv_img_hash -lopencv_intensity_transform -lopencv_line_descriptor -lopencv_mcc -lopencv_quality -lopencv_rapid -lopencv_reg -lopencv_rgbd -lopencv_saliency -lopencv_shape -lopencv_stereo -lopencv_structured_light -lopencv_phase_unwrapping -lopencv_superres -lopencv_optflow -lopencv_surface_matching -lopencv_tracking -lopencv_highgui -lopencv_datasets -lopencv_text -lopencv_plot -lopencv_ml -lopencv_videostab -lopencv_videoio -lopencv_viz -lopencv_wechat_qrcode -lopencv_ximgproc -lopencv_video -lopencv_xobjdetect -lopencv_objdetect -lopencv_calib3d -lopencv_imgcodecs -lopencv_features2d -lopencv_dnn -lopencv_flann -lopencv_xphoto -lopencv_photo -lopencv_imgproc -lopencv_core'.split()
+
+
+env['COMPONENTS'].append({'target':env['PROJECT_NAME'],
+                          'SRCS':SRCS,
+                          'INCLUDE':INCLUDE,
+                          'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                          'REQUIREMENTS':REQUIREMENTS,
+                          'STATIC_LIB':STATIC_LIB,
+                          'DYNAMIC_LIB':DYNAMIC_LIB,
+                          'DEFINITIONS':DEFINITIONS,
+                          'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                          'LDFLAGS':LDFLAGS,
+                          'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                          'REGISTER':'project'
+                          })

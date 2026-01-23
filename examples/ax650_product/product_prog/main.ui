@@ -439,7 +439,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -665,7 +665,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>内部5V</string>
+       <string>内部VDD</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -681,7 +681,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>外部5V</string>
+       <string>外部VDD</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -822,7 +822,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>0xf1</string>
+       <string>null</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_134">
@@ -1222,7 +1222,7 @@
        <string>LCD按钮EC状态</string>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>21</x>
@@ -1247,7 +1247,7 @@
         </widget>
        </item>
        <item row="8" column="1">
-        <widget class="QLabel" name="VDD5V_mv">
+        <widget class="QLabel" name="INVDD_mv">
          <property name="text">
           <string>000</string>
          </property>
@@ -1263,7 +1263,7 @@
        <item row="10" column="0">
         <widget class="QLabel" name="label_37">
          <property name="text">
-          <string>EXT5V_mv:</string>
+          <string>EXTVDD_mv:</string>
          </property>
         </widget>
        </item>
@@ -1282,7 +1282,7 @@
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QLabel" name="VDD5V_ma">
+        <widget class="QLabel" name="INVDD_ma">
          <property name="text">
           <string>000</string>
          </property>
@@ -1296,7 +1296,7 @@
         </widget>
        </item>
        <item row="11" column="1">
-        <widget class="QLabel" name="EXT5V_ma">
+        <widget class="QLabel" name="EXTVDD_ma">
          <property name="text">
           <string>000</string>
          </property>
@@ -1324,7 +1324,7 @@
         </widget>
        </item>
        <item row="10" column="1">
-        <widget class="QLabel" name="EXT5V_mv">
+        <widget class="QLabel" name="EXTVDD_mv">
          <property name="text">
           <string>000</string>
          </property>
@@ -1382,7 +1382,7 @@
        <item row="8" column="0">
         <widget class="QLabel" name="label_35">
          <property name="text">
-          <string>VDD5V_mv:</string>
+          <string>VDD_mv:</string>
          </property>
         </widget>
        </item>
@@ -1403,20 +1403,20 @@
        <item row="9" column="0">
         <widget class="QLabel" name="label_36">
          <property name="text">
-          <string>VDD5V_ma:</string>
+          <string>VDD_ma:</string>
          </property>
         </widget>
        </item>
        <item row="11" column="0">
         <widget class="QLabel" name="label_38">
          <property name="text">
-          <string>EXT5V_ma:</string>
+          <string>EXTVDD_ma:</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>190</x>
@@ -1429,18 +1429,96 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_39">
          <property name="text">
-          <string>pd_soc:</string>
+          <string>pd_info:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
         <widget class="QLabel" name="pd_soc">
          <property name="text">
-          <string>000</string>
+          <string>null</string>
          </property>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QLabel" name="label_144">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>150</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PCIE0：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_145">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>180</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PCIE1：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_146">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>150</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_147">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>180</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_72">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>150</y>
+        <width>80</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>获取</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_73">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>180</y>
+        <width>80</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>获取</string>
+      </property>
      </widget>
     </widget>
    </widget>
@@ -1513,7 +1591,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -1594,6 +1672,45 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>720</y>
+      <width>59</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RTC:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>720</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>2000-12-26 16:10:04.988798+08:00</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_20">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>720</y>
+      <width>16</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

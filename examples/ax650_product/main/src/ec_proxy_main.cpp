@@ -22,11 +22,16 @@
 #include <linux/input.h>
 #include <sys/select.h>
 
+#include <stdio.h>
+#include <utmp.h>
+#include <unistd.h>
+
 // #include "cmdline.hpp"
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include "json.hpp"
 #include "sample_log.h"
+#include <glob.h>
 
 #include "tbl_yield.h"
 
@@ -45,7 +50,6 @@ static void __sigint(int iSigNo)
 
 using namespace StackFlows;
 
-
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -62,7 +66,8 @@ typedef struct ifconfig_s {
     char mac[20];
 } ifconfig_t;
 
-int ifconfig(std::vector<ifconfig_t>& ifcs) {
+int ifconfig(std::vector<ifconfig_t> &ifcs)
+{
     int sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (sock < 0) {
         return -10;
@@ -80,7 +85,7 @@ int ifconfig(std::vector<ifconfig_t>& ifcs) {
     }
 
     int cnt = ifc.ifc_len / sizeof(struct ifreq);
-    //printf("ifc.size=%d\n", cnt);
+    // printf("ifc.size=%d\n", cnt);
     if (cnt == 0) {
         close(sock);
         return -20;
@@ -92,43 +97,39 @@ int ifconfig(std::vector<ifconfig_t>& ifcs) {
     for (int i = 0; i < cnt; ++i) {
         // name
         strcpy(ifr.ifr_name, ifc.ifc_req[i].ifr_name);
-        //printf("name: %s\n", ifr.ifr_name);
+        // printf("name: %s\n", ifr.ifr_name);
         strncpy(tmp.name, ifr.ifr_name, sizeof(tmp.name));
         // flags
-        //iRet = ioctl(sock, SIOCGIFFLAGS, &ifr);
-        //short flags = ifr.ifr_flags;
+        // iRet = ioctl(sock, SIOCGIFFLAGS, &ifr);
+        // short flags = ifr.ifr_flags;
         // addr
-        iRet = ioctl(sock, SIOCGIFADDR, &ifr);
-        struct sockaddr_in* addr = (struct sockaddr_in*)&ifr.ifr_addr;
-        char* ip = inet_ntoa(addr->sin_addr);
-        //printf("ip: %s\n", ip);
+        iRet                     = ioctl(sock, SIOCGIFADDR, &ifr);
+        struct sockaddr_in *addr = (struct sockaddr_in *)&ifr.ifr_addr;
+        char *ip                 = inet_ntoa(addr->sin_addr);
+        // printf("ip: %s\n", ip);
         strncpy(tmp.ip, ip, sizeof(tmp.ip));
         // netmask
-        iRet = ioctl(sock, SIOCGIFNETMASK, &ifr);
-        addr = (struct sockaddr_in*)&ifr.ifr_netmask;
-        char* netmask = inet_ntoa(addr->sin_addr);
-        //printf("netmask: %s\n", netmask);
+        iRet          = ioctl(sock, SIOCGIFNETMASK, &ifr);
+        addr          = (struct sockaddr_in *)&ifr.ifr_netmask;
+        char *netmask = inet_ntoa(addr->sin_addr);
+        // printf("netmask: %s\n", netmask);
         strncpy(tmp.mask, netmask, sizeof(tmp.mask));
         // broadaddr
-        iRet = ioctl(sock, SIOCGIFBRDADDR, &ifr);
-        addr = (struct sockaddr_in*)&ifr.ifr_broadaddr;
-        char* broadaddr = inet_ntoa(addr->sin_addr);
-        //printf("broadaddr: %s\n", broadaddr);
+        iRet            = ioctl(sock, SIOCGIFBRDADDR, &ifr);
+        addr            = (struct sockaddr_in *)&ifr.ifr_broadaddr;
+        char *broadaddr = inet_ntoa(addr->sin_addr);
+        // printf("broadaddr: %s\n", broadaddr);
         strncpy(tmp.broadcast, broadaddr, sizeof(tmp.broadcast));
         // hwaddr
         iRet = ioctl(sock, SIOCGIFHWADDR, &ifr);
-        snprintf(tmp.mac, sizeof(tmp.mac), "%02x:%02x:%02x:%02x:%02x:%02x",
-            (unsigned char)ifr.ifr_hwaddr.sa_data[0],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[1],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[2],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[3],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[4],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
-        //printf("mac: %s\n", tmp.mac);
-        //printf("\n");
+        snprintf(tmp.mac, sizeof(tmp.mac), "%02x:%02x:%02x:%02x:%02x:%02x", (unsigned char)ifr.ifr_hwaddr.sa_data[0],
+                 (unsigned char)ifr.ifr_hwaddr.sa_data[1], (unsigned char)ifr.ifr_hwaddr.sa_data[2],
+                 (unsigned char)ifr.ifr_hwaddr.sa_data[3], (unsigned char)ifr.ifr_hwaddr.sa_data[4],
+                 (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+        // printf("mac: %s\n", tmp.mac);
+        // printf("\n");
 
-        if (strcmp(tmp.ip, "0.0.0.0") == 0 ||
-            strcmp(tmp.ip, "127.0.0.1") == 0 ||
+        if (strcmp(tmp.ip, "0.0.0.0") == 0 || strcmp(tmp.ip, "127.0.0.1") == 0 ||
             strcmp(tmp.mac, "00:00:00:00:00:00") == 0) {
             continue;
         }
@@ -139,27 +140,6 @@ int ifconfig(std::vector<ifconfig_t>& ifcs) {
     close(sock);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class llm_ec_prox {
 private:
@@ -253,6 +233,20 @@ private:
         return rc == -1 ? return_err_result(__func__, -1, "write failed") : return_success_result(__func__, "\"ok\"");
     }
 
+    std::string rgb_set_register(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int reg)
+    {
+        uint16_t tab_reg;
+        try {
+            nlohmann::json fan_data = nlohmann::json::parse(data->string());
+            tab_reg                 = (int)fan_data["data"];
+        } catch (...) {
+            return return_err_result(__func__, -2, "json decode failed");
+        }
+        rgb_old_mode = tab_reg;
+        int rc       = modbus_write_registers(modbus_ctx, reg, 1, &tab_reg);
+        return rc == -1 ? return_err_result(__func__, -1, "write failed") : return_success_result(__func__, "\"ok\"");
+    }
+
     int fun_pwm_val = 200;
     std::string fun_set_pwm(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int reg)
     {
@@ -284,7 +278,7 @@ private:
             return return_success_result(
                 __func__,
                 fmt::format(
-                    R"format({{ "pcie0_mv": {} , "pcie0_ma": {} , "pcie1_mv": {} , "pcie1_ma": {} , "usb1_mv": {} , "usb1_ma": {} , "usb2_mv": {} , "usb2_ma": {} , "VDD5V_mv": {} , "VDD5V_ma": {} , "EXT5V_mv": {} , "EXT5V_ma": {} }})format",
+                    R"format({{ "pcie0_mv": {} , "pcie0_ma": {} , "pcie1_mv": {} , "pcie1_ma": {} , "usb1_mv": {} , "usb1_ma": {} , "usb2_mv": {} , "usb2_ma": {} , "INVDD_mv": {} , "INVDD_ma": {} , "EXTVDD_mv": {} , "EXTVDD_ma": {} }})format",
                     tab_reg[0], tab_reg[1], tab_reg[2], tab_reg[3], tab_reg[4], tab_reg[5], tab_reg[6], tab_reg[7],
                     tab_reg[8], tab_reg[9], tab_reg[10], tab_reg[11]));
         }
@@ -412,7 +406,7 @@ private:
             nlohmann::json fan_data = nlohmann::json::parse(data->string());
             std::string ip_str      = fan_data["data"];
             if (inet_pton(AF_INET, ip_str.c_str(), &value) != 1) {
-                return std::string("Error : 无效的 IP 地址\n");
+                return std::string("Error: Invalid IP address\n");
             }
         } catch (...) {
             return return_err_result(__func__, -2, "json decode failed");
@@ -434,7 +428,7 @@ private:
             addr                    = (int)fan_data["data"]["addr"];
             reg                     = (int)fan_data["data"]["reg"];
         } catch (...) {
-            return return_err_result(__func__, -2, "json decode failed;-D {\"data\":{\"addr\":1, \"reg\":1}}");
+            return return_err_result(__func__, -2, "json decode failed;-D {\"data\":{\"addr\":1,\"reg\":1}}    ");
         }
         uint16_t tab_reg = (addr & 0xff) << 8 | (reg & 0xff);
         int rc           = modbus_write_registers(modbus_ctx, 7, 1, &tab_reg);
@@ -458,7 +452,7 @@ private:
             value                   = (int)fan_data["data"]["value"];
         } catch (...) {
             return return_err_result(__func__, -2,
-                                     "json decode failed ;-D {\"data\":{\"addr\":1, \"reg\":1, \"value\":1}}");
+                                     "json decode failed ;-D {\"data\":{\"addr\":1,\"reg\":1,\"value\":1}}    ");
         }
         uint16_t tab_reg = (addr & 0xff) << 8 | (reg & 0xff);
         int rc           = modbus_write_registers(modbus_ctx, 7, 1, &tab_reg);
@@ -489,7 +483,6 @@ private:
             try {
                 nlohmann::json fan_data = nlohmann::json::parse(data->string());
                 value                   = (int)fan_data["data"];
-
             } catch (...) {
                 return return_err_result(__func__, -2, "json decode failed");
             }
@@ -502,7 +495,24 @@ private:
         }
     }
 
-    int ec_button[3] = {0};
+    int ec_button[4] = {0};
+    std::string ec_fun_auto(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int set)
+    {
+        if (set == 0) {
+            return return_success_result(__func__, fmt::format("{}", ec_button[3]));
+        } else {
+            uint32_t value;
+            try {
+                nlohmann::json fan_data = nlohmann::json::parse(data->string());
+                value                   = (int)fan_data["data"];
+            } catch (...) {
+                return return_err_result(__func__, -2, "json decode failed");
+            }
+            ec_button[3] = value;
+            return return_success_result(__func__, "\"ok\"");
+        }
+    }
+
     std::string ec_button_head(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data, int set)
     {
         if (set == 0) {
@@ -561,7 +571,7 @@ private:
         tab_reg[1] = modbus_speed & 0xFFFF;
         int rc     = modbus_write_registers(modbus_ctx, 3, 2, tab_reg);
         if (rc == -1) {
-            fprintf(stderr, "写入失败: %s\n", modbus_strerror(errno));
+            fprintf(stderr, "Write failed: %s\n", modbus_strerror(errno));
             std::exit(-1);
         }
         modbus_close(modbus_ctx);
@@ -596,17 +606,6 @@ private:
             modbus_free(modbus_ctx);
             std::exit(-1);
         }
-    }
-
-    void _init_ec()
-    {
-        uint16_t tab_reg;
-        char *env_param = getenv("AX650_EC_RGB_MODE");
-        tab_reg        = env_param ? atoi(env_param) : 1;
-        modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
-        env_param = getenv("AX650_EC_LCD_MODE");
-        tab_reg        = env_param ? atoi(env_param) : 2;
-        modbus_write_registers(modbus_ctx, 13, 1, &tab_reg);
     }
 
     std::string _None(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data)
@@ -707,6 +706,26 @@ private:
                         : return_success_result(__func__, fmt::format("{}", tab_reg));
     }
 
+    std::string pd_info(StackFlows::pzmq *_pzmq, const std::shared_ptr<StackFlows::pzmq_data> &data)
+    {
+        int addr                  = 8;
+        int reg                   = 0;
+        uint16_t tab_reg          = (addr & 0xff) << 8 | (reg & 0xff);
+        int rc                    = modbus_write_registers(modbus_ctx, 7, 1, &tab_reg);
+        rc                        = modbus_read_registers(modbus_ctx, 8, 2, &tab_reg);
+        std::string voltage_map[] = {"Unattached", "5 V",  "9 V",  "12 V", "15 V", "18 V", "20 V", "NULL",
+                                     "NULL",       "NULL", "NULL", "NULL", "NULL", "NULL", "NULL", "NULL"};
+        std::string current_map[] = {"0.5 A", "0.7 A",  "1 A", "1.25 A", "1.5 A", "1.75 A", "2 A",   "2.25 A",
+                                     "2.5 A", "2.75 A", "3 A", "3.25 A", "3.5 A", "4 A",    "4.5 A", "5 A"};
+        if (rc == -1) {
+            return return_err_result(__func__, -1, "read failed");
+        } else {
+            return return_success_result(
+                __func__, fmt::format("{{\"voltage\":\"{}\",\"current\":\"{}\"}}", voltage_map[(tab_reg >> 4) & 0x0f],
+                                      current_map[tab_reg & 0x0F]));
+        }
+    }
+
 public:
     llm_ec_prox()
     {
@@ -741,6 +760,7 @@ public:
 
 
         REGISTER_RPC_ACTION_REG("fan_get_speed", get_input_registers, 12);
+        REGISTER_RPC_ACTION_REG("version", get_input_registers, 13);
         REGISTER_RPC_ACTION_REG("fan_get_pwm", get_register, 1);
         REGISTER_RPC_ACTION_REG("rgb_get_mode", get_register, 11);
         REGISTER_RPC_ACTION_REG("rgb_get_size", get_register, 10);
@@ -749,7 +769,7 @@ public:
         REGISTER_RPC_ACTION_REG("poweroff_get_time", get_register, 0);
 
         REGISTER_RPC_ACTION_REG("fan_set_pwm", fun_set_pwm, 1);
-        REGISTER_RPC_ACTION_REG("rgb_set_mode", set_register, 11);
+        REGISTER_RPC_ACTION_REG("rgb_set_mode", rgb_set_register, 11);
         REGISTER_RPC_ACTION_REG("rgb_set_size", set_register, 10);
         REGISTER_RPC_ACTION_REG("lcd_set_mode", set_register, 13);
         REGISTER_RPC_ACTION_REG("lcd_set_brightness", set_register, 12);
@@ -791,18 +811,22 @@ public:
         REGISTER_RPC_ACTION_REG("grove_iic_set_switch", set_bit, 12);
         REGISTER_RPC_ACTION_REG("grove_uart_set_switch", set_bit, 13);
         REGISTER_RPC_ACTION_REG("flash_save_switch", set_bit, 14);
-        REGISTER_RPC_ACTION_REG("flash_save_value_config", set_bit, 15);
+        REGISTER_RPC_ACTION_REG("flash_save_value", set_bit, 15);
         REGISTER_RPC_ACTION_REG("poweroff", set_bit, 16);
         
         REGISTER_RPC_ACTION("i2c_set_reg",                  i2c_set_reg);
         REGISTER_RPC_ACTION("i2c_get_reg",                  i2c_get_reg);
+
+        ec_button[2] = 1;
         REGISTER_RPC_ACTION_REG("ec_button_get_head_event", ec_button_head, 0);
         REGISTER_RPC_ACTION_REG("ec_button_set_head_event", ec_button_head, 1);
         REGISTER_RPC_ACTION_REG("ec_button_get_lcd_event", ec_button_lcd, 0);
         REGISTER_RPC_ACTION_REG("ec_button_set_lcd_event", ec_button_lcd, 1);
-        ec_button[2] = 1;
         REGISTER_RPC_ACTION_REG("soc_button_get_head_event", soc_button_head, 0);
         REGISTER_RPC_ACTION_REG("soc_button_set_head_event", soc_button_head, 1);
+        ec_button[3] = 1;
+        REGISTER_RPC_ACTION_REG("fun_get_auto", ec_fun_auto, 0);
+        REGISTER_RPC_ACTION_REG("fun_set_auto", ec_fun_auto, 1);
 
 
         REGISTER_RPC_ACTION("ec_modbus_get_bit",                ec_modbus_get_bit);
@@ -814,6 +838,14 @@ public:
         REGISTER_RPC_ACTION("ec_modbus_get_hold_registers",                ec_modbus_get_hold_registers);
         REGISTER_RPC_ACTION("ec_modbus_set_hold_registers",                ec_modbus_set_hold_registers);  
         
+        REGISTER_RPC_ACTION("pd_power_info",                pd_info);
+
+        REGISTER_RPC_ACTION_REG("pcie0_exists",         get_input_bit, 0);
+        REGISTER_RPC_ACTION_REG("pcie1_exists",         get_input_bit, 1);
+        REGISTER_RPC_ACTION_REG("V3_3_good",         get_input_bit, 2);
+        REGISTER_RPC_ACTION_REG("V1_8_good",         get_input_bit, 3);
+        REGISTER_RPC_ACTION_REG("head_button",         get_input_bit, 4);
+        REGISTER_RPC_ACTION_REG("lcd_button",         get_input_bit, 8);
 
 
 
@@ -834,12 +866,11 @@ public:
         return (uint64_t)ts.tv_sec * 1000ULL + (uint64_t)ts.tv_nsec / 1000000ULL;
     }
 
-
     void eth_ec_thread()
     {
         static uint32_t value_old[3] = {0};
-        static int value_status[3] = {0};
-        static uint64_t T_last = 0;
+        static int value_status[3]   = {0};
+        static uint64_t T_last       = 0;
         CORO_BEGIN(eth_ec);
         for (;;) {
             if (get_uptime_ms() - T_last < 2000) {
@@ -850,30 +881,28 @@ public:
             memset(value_status, 0, sizeof(value_status));
             std::vector<ifconfig_t> eth_info;
             ifconfig(eth_info);
-            for(auto eth : eth_info){
-                if(std::string(eth.name) == "eth0"){
+            for (auto eth : eth_info) {
+                if (std::string(eth.name) == "eth0") {
                     value_status[0] = 1;
-                    uint32_t value = inet_addr(eth.ip);
-                    if (value == value_old[0]){
+                    uint32_t value  = inet_addr(eth.ip);
+                    if (value == value_old[0]) {
                         continue;
                     }
-                    value_old[0]= value;
+                    value_old[0] = value;
                     uint16_t tab_reg[2];
                     tab_reg[1] = (value >> 16) & 0xFFFF;
                     tab_reg[0] = value & 0xFFFF;
                     for (int i = 0; i < 2; i++) tab_reg[i] = htons(tab_reg[i]);
                     int rc = modbus_write_registers(modbus_ctx, 15 + 0 * 2, 2, tab_reg);
-                    
                 }
-                if(std::string(eth.name) == "eth1")
-                {
+                if (std::string(eth.name) == "eth1") {
                     value_status[1] = 1;
                     // std::cout << eth.name << " : " << eth.ip << std::endl;
                     uint32_t value = inet_addr(eth.ip);
-                    if (value == value_old[1]){
+                    if (value == value_old[1]) {
                         continue;
                     }
-                    value_old[1]= value;
+                    value_old[1] = value;
                     uint16_t tab_reg[2];
                     tab_reg[1] = (value >> 16) & 0xFFFF;
                     tab_reg[0] = value & 0xFFFF;
@@ -881,14 +910,13 @@ public:
                     int rc = modbus_write_registers(modbus_ctx, 15 + 1 * 2, 2, tab_reg);
                     // std::cout << eth.name << " :--- " << eth.ip << std::endl;
                 }
-                if(std::string(eth.name) == "wlan0")
-                {
+                if (std::string(eth.name) == "wlan0") {
                     value_status[2] = 1;
-                    uint32_t value = inet_addr(eth.ip);
-                    if (value == value_old[2]){
+                    uint32_t value  = inet_addr(eth.ip);
+                    if (value == value_old[2]) {
                         continue;
                     }
-                    value_old[2]= value;
+                    value_old[2] = value;
                     uint16_t tab_reg[2];
                     tab_reg[1] = (value >> 16) & 0xFFFF;
                     tab_reg[0] = value & 0xFFFF;
@@ -896,25 +924,24 @@ public:
                     int rc = modbus_write_registers(modbus_ctx, 15 + 2 * 2, 2, tab_reg);
                 }
             }
-            if(value_status[0] == 0 && value_old[0] != 0){
-                value_old[0] = 0;
+            if (value_status[0] == 0 && value_old[0] != 0) {
+                value_old[0]        = 0;
                 uint16_t tab_reg[2] = {0};
-                int rc = modbus_write_registers(modbus_ctx, 15 + 0 * 2, 2, tab_reg);
+                int rc              = modbus_write_registers(modbus_ctx, 15 + 0 * 2, 2, tab_reg);
             }
-            if(value_status[1] == 0 && value_old[1] != 0){
-                value_old[1] = 0;
+            if (value_status[1] == 0 && value_old[1] != 0) {
+                value_old[1]        = 0;
                 uint16_t tab_reg[2] = {0};
-                int rc = modbus_write_registers(modbus_ctx, 15 + 1 * 2, 2, tab_reg);
+                int rc              = modbus_write_registers(modbus_ctx, 15 + 1 * 2, 2, tab_reg);
             }
-            if(value_status[2] == 0 && value_old[2] != 0){
-                value_old[2] = 0;
+            if (value_status[2] == 0 && value_old[2] != 0) {
+                value_old[2]        = 0;
                 uint16_t tab_reg[2] = {0};
-                int rc = modbus_write_registers(modbus_ctx, 15 + 2 * 2, 2, tab_reg);
+                int rc              = modbus_write_registers(modbus_ctx, 15 + 2 * 2, 2, tab_reg);
             }
         }
         CORO_END(eth_ec);
     }
-
 
     void buttons_ec_thread()
     {
@@ -922,8 +949,6 @@ public:
         struct input_event ev;
         fd_set readfds;
         int ret;
-        if(ec_button[2] == 0)
-            return;
         CORO_BEGIN(ec);
         for (;;) {
             if (ec_button[0]) {
@@ -978,6 +1003,10 @@ public:
         struct input_event ev;
         fd_set readfds;
         int ret;
+        if (!ec_button[2]) {
+            usleep(100000);
+            return;
+        }
         CORO_BEGIN(buttons);
         for (;;) {
             if (fd == 0) {
@@ -1021,6 +1050,10 @@ public:
     {
         static int fd = 0;
         static uint16_t pwm_value_old;
+        if (!ec_button[3]) {
+            pwm_value_old = -1;
+            return;
+        }
         CORO_BEGIN(fun);
         for (;;) {
             if (fun_pwm_val <= 100) {
@@ -1051,6 +1084,81 @@ public:
         CORO_END(fun);
     }
 
+    void llm_kws_callback(pzmq *_pzmq, const std::shared_ptr<pzmq_data> &raw)
+    {
+        uint16_t tab_reg = 10;
+        ec_button[3]     = 0;
+        modbus_write_registers(modbus_ctx, 1, 1, &tab_reg);
+        tab_reg = 5;
+        modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
+    }
+    void llm_asr_callback(pzmq *_pzmq, const std::shared_ptr<pzmq_data> &raw)
+    {
+        std::string data = raw->string();
+        // std::cout << "llm_asr_callback data: " << data << std::endl;
+        std::size_t pos = data.find("\"finish\"");
+        // std::cout << "substr data: " << data.substr(pos, 16) << std::endl;
+        if ((pos != std::string::npos) && (data.substr(pos, 16).find("true") != std::string::npos)) {
+            ec_button[3]     = 1;
+            uint16_t tab_reg = rgb_old_mode;
+            modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
+            // std::cout << "find end" << std::endl;
+        }
+    }
+
+    std::unique_ptr<pzmq> llm_asr_pub_ctx_;
+    std::unique_ptr<pzmq> llm_kws_pub_ctx_;
+    void llm_status_thread()
+    {
+        const char *asr_pattern = "/tmp/llm/*.sock.asr.output_url";
+        const char *kws_pattern = "/tmp/llm/*.sock.kws.output_url";
+        CORO_BEGIN(llm_status);
+        for (;;) {
+            if (llm_asr_pub_ctx_ == nullptr) {
+                glob_t glob_result;
+                memset(&glob_result, 0, sizeof(glob_result));
+                if (glob(asr_pattern, GLOB_TILDE, NULL, &glob_result) == 0) {
+                    if (glob_result.gl_pathc > 0) {
+                        llm_asr_pub_ctx_ =
+                            std::make_unique<pzmq>(fmt::format("ipc://{}", glob_result.gl_pathv[0]), ZMQ_SUB,
+                                                   std::bind(&llm_ec_prox::llm_asr_callback, this,
+                                                             std::placeholders::_1, std::placeholders::_2));
+                    }
+                }
+                globfree(&glob_result);
+            }
+            if (llm_asr_pub_ctx_ == nullptr) {
+                CORO_YIELD(llm_status);
+                continue;
+            }
+            break;
+        }
+        for (;;) {
+            if (llm_kws_pub_ctx_ == nullptr) {
+                glob_t glob_result;
+                memset(&glob_result, 0, sizeof(glob_result));
+                if (glob(kws_pattern, GLOB_TILDE, NULL, &glob_result) == 0) {
+                    if (glob_result.gl_pathc > 0) {
+                        llm_kws_pub_ctx_ =
+                            std::make_unique<pzmq>(fmt::format("ipc://{}", glob_result.gl_pathv[0]), ZMQ_SUB,
+                                                   std::bind(&llm_ec_prox::llm_kws_callback, this,
+                                                             std::placeholders::_1, std::placeholders::_2));
+                    }
+                }
+                globfree(&glob_result);
+            }
+            if (llm_kws_pub_ctx_ == nullptr) {
+                CORO_YIELD(llm_status);
+                continue;
+            }
+            break;
+        }
+        for (;;) {
+            CORO_YIELD(llm_status);
+        }
+        CORO_END(llm_status);
+    }
+
     void loop()
     {
         while (!main_exit_flage) {
@@ -1058,13 +1166,79 @@ public:
             buttons_thread();
             fun_thread();
             eth_ec_thread();
+            llm_status_thread();
         }
-        uint16_t tab_reg = 0;
-        modbus_read_registers(modbus_ctx, 11, 1, &tab_reg);
+    }
+    int rgb_old_mode;
+    void _init_ec()
+    {
+        uint16_t tab_reg;
+
+        char *env_param = getenv("AX650_EC_RGB_MODE");
+        tab_reg         = env_param ? atoi(env_param) : 1;
+        rgb_old_mode    = tab_reg;
+        modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
+        env_param = getenv("AX650_EC_LCD_MODE");
+        tab_reg   = env_param ? atoi(env_param) : 2;
+        modbus_write_registers(modbus_ctx, 13, 1, &tab_reg);
+
+        tab_reg   = 30000;
+        env_param = getenv("AX650_EC_POWER_OFF_TIME");
+        if (env_param) {
+            tab_reg = atoi(env_param);
+        }
+        modbus_write_registers(modbus_ctx, 0, 1, &tab_reg);
+    }
+
+    int is_poweroff_or_reboot()
+    {
+        FILE *fp;
+        char buffer[1024];
+        int is_poweroff = 0;
+        int is_reboot   = 0;
+
+        fp = popen("systemctl list-jobs", "r");
+        if (fp == NULL) {
+            return -1;
+        }
+
+        while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+            if (strstr(buffer, "poweroff.target") != NULL) {
+                is_poweroff = 1;
+                break;
+            }
+            if (strstr(buffer, "reboot.target") != NULL) {
+                is_reboot = 1;
+                break;
+            }
+        }
+
+        pclose(fp);
+
+        if (is_poweroff) return 0;  // poweroff
+        if (is_reboot) return 1;    // reboot
+        return -1;                  // 未知
     }
 
     void ax650_ec_prox_exit()
     {
+        // rgb 模式复位
+        uint16_t tab_reg = 0;
+        std::cout << "reg reset" << std::endl;
+        modbus_write_registers(modbus_ctx, 11, 1, &tab_reg);
+        std::cout << "lcd_reset" << std::endl;
+        // lcd mode reset
+        modbus_write_registers(modbus_ctx, 13, 1, &tab_reg);
+        // fun full speed
+        tab_reg = 100;
+        modbus_write_registers(modbus_ctx, 1, 1, &tab_reg);
+        {
+            int runlevel = is_poweroff_or_reboot();
+            if (runlevel == 0) {
+                tab_reg = 1;
+                modbus_write_bit(modbus_ctx, 16, tab_reg);
+            }
+        }
         pub_ctx_.reset();
         modbus_close(modbus_ctx);
         modbus_free(modbus_ctx);

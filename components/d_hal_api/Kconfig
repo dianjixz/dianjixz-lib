@@ -1,0 +1,12 @@
+menuconfig D_HAL_ENABLED
+    bool "Enable d_hal_api support"
+    default n
+    help
+        enable d_hal_api support
+    
+    config D_HAL_LOCAL_ENABLED
+        bool "Enable d_hal_local"
+        default n
+        depends on D_HAL_ENABLED
+        help
+            enable d_hal_local common
