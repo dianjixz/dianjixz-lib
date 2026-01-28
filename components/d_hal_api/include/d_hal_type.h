@@ -1,4 +1,9 @@
 #pragma once
+
+#ifdef CONFIG_D_HAL_NN_AXERA_AX650C
+
+#endif
+
 namespace  d_hal
 {
     typedef enum {
