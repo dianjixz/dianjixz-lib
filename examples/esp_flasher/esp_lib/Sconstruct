@@ -1,0 +1,35 @@
+import os
+Import('env')
+
+if not os.path.exists('esp-serial-flasher'):
+    os.system('git clone https://github.com/espressif/esp-serial-flasher.git')
+
+srcs = ['esp-serial-flasher/src/md5_hash.c', 
+        'esp-serial-flasher/src/esp_loader.c', 
+        'esp-serial-flasher/src/protocol_serial.c', 
+        'esp-serial-flasher/src/esp_targets.c', 
+        'esp-serial-flasher/src/esp_stubs.c', 
+        'esp-serial-flasher/src/protocol_uart.c', 
+        'esp-serial-flasher/src/slip.c',
+        'esp-serial-flasher/examples/common/example_common.c',
+        'raspberry_port.c']
+
+include = ['esp-serial-flasher/include',
+                                'esp-serial-flasher/port',
+                                'esp-serial-flasher/private_include',
+                               ]
+
+env.Append(CPPPATH=include)
+
+env.build.install_CPPPATH(include)
+
+env.Append(CPPDEFINES=['SERIAL_FLASHER_BOOT_HOLD_TIME_MS=50',
+                                 'SERIAL_FLASHER_BOOT_INVERT=false',
+                                 'SERIAL_FLASHER_DEBUG_TRACE=false',
+                                 'SERIAL_FLASHER_INTERFACE_UART',
+                                 'SERIAL_FLASHER_RESET_HOLD_TIME_MS=100',
+                                 'SERIAL_FLASHER_RESET_INVERT=false',
+                                 'SERIAL_FLASHER_WRITE_BLOCK_RETRIES=3',
+                                ])
+
+env.build.StaticLibrary(target = 'libflasher', source = srcs)

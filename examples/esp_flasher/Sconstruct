@@ -1,6 +1,26 @@
+# import os
+# env = SConscript(
+#     os.path.join(os.getcwd(), "../../tools/scons/project.py"),
+#     variant_dir=os.getcwd(),
+#     duplicate=0,
+# )
+
 import os
-env = SConscript(
-    os.path.join(os.getcwd(), "../../tools/scons/project.py"),
-    variant_dir=os.getcwd(),
-    duplicate=0,
-)
+
+env = Environment()
+
+env.Tool('dtools', toolpath=[os.path.join(os.getcwd(), "../../tools/scons")])
+
+env.build.SConscript('esp_lib/Sconstruct')
+env.build.SConscript('main/Sconstruct')
+
+
+
+
+
+
+
+
+
+
+
