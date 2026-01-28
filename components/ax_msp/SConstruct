@@ -100,6 +100,16 @@ if 'CONFIG_AX_650C_MSP_ENABLED' in os.environ:
         INCLUDE.append(os.path.join(MSP_PATH,'sample/common'))
         SRCS += AGlob(os.path.join(MSP_PATH,'sample/common/*.c*'))
 
+    if 'CONFIG_HAL_COMMON_ENABLED' in os.environ:
+        INCLUDE.append(ADir('hal_common/ax650_3_6_4'))
+        INCLUDE.append(ADir('hal_common/hal'))
+        SRCS += AGlob('hal_common/ax650_3_6_4/*.c*')
+        INCLUDE.append(os.path.join(MSP_PATH,'sample/npu/include'))
+        INCLUDE.append(os.path.join(MSP_PATH,'third-party','opencv-4.5.5','include/opencv4'))
+        REQUIREMENTS += ['ax_engine', 'ax_interpreter', 'ax_sys', 'ax_ivps', 'ax_venc']
+        # LINK_SEARCH_PATH+=[os.path.join(MSP_PATH,'third-party','opencv-4.5.5','lib'),os.path.join(MSP_PATH,'third-party','opencv-4.5.5','lib/opencv4/3rdparty')]
+        # LDFLAGS += '-lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -l:liblibtiff.a  -l:liblibopenjp2.a -l:liblibjpeg-turbo.a -l:liblibwebp.a -l:liblibpng.a -l:libittnotify.a'.split()
+
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
                             'SRCS':SRCS,
                             'INCLUDE':INCLUDE,

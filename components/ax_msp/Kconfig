@@ -53,3 +53,9 @@ menuconfig AX_MSP_ENABLED
         help
             enable sample common
 
+    config HAL_COMMON_ENABLED
+        bool "Enable hal common"
+        default n
+        depends on AX_MSP_ENABLED
+        help
+            enable hal common
