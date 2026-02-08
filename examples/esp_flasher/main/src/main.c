@@ -33,7 +33,7 @@
 
 #define DEFAULT_BAUD_RATE 115200
 #define HIGHER_BAUD_RATE  460800
-#define SERIAL_DEVICE     "/dev/ttyS6"
+#define SERIAL_DEVICE     "/dev/ttyS3"
 
 #include "flash.h"
 int main(void)

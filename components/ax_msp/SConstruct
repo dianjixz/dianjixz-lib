@@ -110,6 +110,11 @@ if 'CONFIG_AX_650C_MSP_ENABLED' in os.environ:
         # LINK_SEARCH_PATH+=[os.path.join(MSP_PATH,'third-party','opencv-4.5.5','lib'),os.path.join(MSP_PATH,'third-party','opencv-4.5.5','lib/opencv4/3rdparty')]
         # LDFLAGS += '-lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -lopencv_core -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_videoio -l:liblibtiff.a  -l:liblibopenjp2.a -l:liblibjpeg-turbo.a -l:liblibwebp.a -l:liblibpng.a -l:libittnotify.a'.split()
 
+    if 'CONFIG_D_HAL_COMMON_ENABLED' in os.environ:
+        PRIVATE_INCLUDE.append(ADir('../d_hal_api/include'))
+        SRCS += AGlob('d_hal_common/ax650_d_hal_*.cpp')
+
+
     env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
                             'SRCS':SRCS,
                             'INCLUDE':INCLUDE,
@@ -123,3 +128,80 @@ if 'CONFIG_AX_650C_MSP_ENABLED' in os.environ:
                             'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
                             'REGISTER':'static'
                             })
+if 'CONFIG_AX_620QP_MSP_ENABLED' in os.environ:
+    MSP_PATH = ''
+    if 'CONFIG_AX20QP_MSP_V3_0_0_ENABLED' in os.environ:
+        MSP_PATH = os.environ.get('EXT_MSP_PATH', check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_msp.tar.gz", 'm5stack_msp.tar.gz'))
+    
+    SRCS=[]
+    INCLUDE=[]
+    PRIVATE_INCLUDE=[]
+    REQUIREMENTS=[]
+    STATIC_LIB=[]
+    DYNAMIC_LIB=[]
+    DEFINITIONS=[]
+    DEFINITIONS_PRIVATE=['']
+    LDFLAGS=[]
+    LINK_SEARCH_PATH=[]
+    env["MSP_PATH"] = MSP_PATH
+
+    INCLUDE += [os.path.join(MSP_PATH, 'out/arm_uclibc/include')]
+    LINK_SEARCH_PATH += [os.path.join(MSP_PATH, 'out/arm_uclibc/lib')]
+
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'static'
+                            })
+
+if 'CONFIG_AXCL_8850_MSP_ENABLED' in os.environ:
+    MSP_PATH = ''
+    if 'CONFIG_AXCL_V3_6_2_ENABLED' in os.environ:
+        DEFINITIONS += ['-DAXCL_BUILD_VERSION=\\\\\\\"V3.6.2_20250603154858\\\\\\\"']
+        MSP_PATH = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_axcl_msp_v3_6_2.tar.gz", 'm5stack_axcl_msp_v3_6_2.tar.gz')
+    elif 'CONFIG_AXCL_V3_6_4_ENABLED' in os.environ:
+        DEFINITIONS += ['-DAXCL_BUILD_VERSION=\\\\\\\"V3.6.4_20250822020158\\\\\\\"']
+        MSP_PATH = check_wget_down("https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/linux/llm/m5stack_axcl_msp_v3_6_4.tar.gz", 'm5stack_axcl_msp_v3_6_4.tar.gz')
+    if 'EXT_MSP_PATH' in os.environ:
+        MSP_PATH = os.environ.get('EXT_MSP_PATH')
+
+    if 'aarch64' in env['GCC_DUMPMACHINE']:
+        MSP_PATH = os.path.join(MSP_PATH, 'axcl_linux_arm64')
+    elif 'x86' in env['GCC_DUMPMACHINE']:
+        MSP_PATH = os.path.join(MSP_PATH, 'axcl_linux_x86')
+
+    env["MSP_PATH"] = MSP_PATH
+    INCLUDE += [os.path.join(MSP_PATH, 'include')]
+    LINK_SEARCH_PATH += [os.path.join(MSP_PATH, 'lib')]
+
+    env['COMPONENTS'].append({'target':os.path.basename(env['component_dir']),
+                            'SRCS':SRCS,
+                            'INCLUDE':INCLUDE,
+                            'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
+                            'REQUIREMENTS':REQUIREMENTS,
+                            'STATIC_LIB':STATIC_LIB,
+                            'DYNAMIC_LIB':DYNAMIC_LIB,
+                            'DEFINITIONS':DEFINITIONS,
+                            'DEFINITIONS_PRIVATE':DEFINITIONS_PRIVATE,
+                            'LDFLAGS':LDFLAGS,
+                            'LINK_SEARCH_PATH':LINK_SEARCH_PATH,
+                            'REGISTER':'static'
+                            })
+
+
+
+
+
+
+
+
+
+

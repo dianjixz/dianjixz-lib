@@ -242,8 +242,8 @@ static esp_loader_error_t read_char(char *c, uint32_t timeout)
 {
     set_timeout(timeout);
     int read_bytes = read(serial, c, 1);
-    printf("%x", *c);
-    fflush(stdout);
+    // printf("%x", *c);
+    // fflush(stdout);
     if (read_bytes == 1) {
         return ESP_LOADER_SUCCESS;
     } else if (read_bytes == 0) {

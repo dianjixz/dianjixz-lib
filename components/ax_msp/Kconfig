@@ -12,12 +12,20 @@ menuconfig AX_MSP_ENABLED
         bool "enable ax620e bsp"
         help
             build by AXERA!
+    config AX_620QP_MSP_ENABLED
+        bool "enable ax620qp bsp"
+        help
+            build by AXERA!
     config AX_650C_MSP_ENABLED
         bool "enable ax650C bsp"
         help
             build by AXERA!
     config AX_520_MSP_ENABLED
         bool "enable ax520 bsp"
+        help
+            build by AXERA!
+    config AXCL_8850_MSP_ENABLED
+        bool "enable ax8850 bsp"
         help
             build by AXERA!
     endchoice
@@ -34,14 +42,35 @@ menuconfig AX_MSP_ENABLED
 
     choice
         prompt "choice common version"
-        default MSP_V3_6_2_ENABLED
-        depends on AX_MSP_ENABLED && AX_650C_MSP_ENABLED
+        depends on AX_MSP_ENABLED && AX_650C_MSP_ENABLED && AX_620QP_MSP_ENABLED && AXCL_8850_MSP_ENABLED
     config AX650_MSP_V3_6_2_ENABLED
         bool "enable v3.6.2 bsp"
+        depends on AX_650C_MSP_ENABLED
         help
             build by m5stack!
     config AX650_MSP_V3_6_4_ENABLED
         bool "enable v3.6.4 bsp"
+        depends on AX_650C_MSP_ENABLED
+        help
+            build by m5stack!
+    config AX20QP_MSP_V3_0_0_ENABLED
+        bool "enable ax620qp v3.0.0 bsp"
+        depends on AX_620QP_MSP_ENABLED
+        help
+            build by m5stack!
+    config AXCL_V3_6_2_ENABLED
+        bool "enable axcl v3.6.2 bsp"
+        depends on AXCL_8850_MSP_ENABLED
+        help
+            build by m5stack!
+    config AXCL_V3_6_4_ENABLED
+        bool "enable axcl v3.6.4 bsp"
+        depends on AXCL_8850_MSP_ENABLED
+        help
+            build by m5stack!
+    config AXCL_V3_0_2_ENABLED
+        bool "enable axcl v3.0.2 bsp"
+        depends on AXCL_8850_MSP_ENABLED
         help
             build by m5stack!
     endchoice
@@ -59,3 +88,10 @@ menuconfig AX_MSP_ENABLED
         depends on AX_MSP_ENABLED
         help
             enable hal common
+
+    config D_HAL_COMMON_ENABLED
+        bool "Enable d_hal common"
+        default n
+        depends on AX_MSP_ENABLED
+        help
+            enable d_hal common

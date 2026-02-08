@@ -1,0 +1,11 @@
+
+import os
+Import('env')
+
+# env.build.require('nihao')
+# env.build.require('buhao')
+env.build.Program(
+    target='test',
+    source=Glob('src/*.c')
+)
+

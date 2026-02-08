@@ -11,17 +11,6 @@
 #include <map>
 namespace d_hal {
 
-
-struct spinlock_guard {
-    std::atomic_flag& flag;
-    spinlock_guard(std::atomic_flag& f) : flag(f) {
-        while (flag.test_and_set(std::memory_order_acquire));
-    }
-    ~spinlock_guard() {
-        flag.clear(std::memory_order_release);
-    }
-};
-
 typedef struct {
     void* start;
     size_t length;

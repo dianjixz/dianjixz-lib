@@ -1,0 +1,14 @@
+from pathlib import Path
+import os
+
+
+
+
+
+
+os.environ['EXT_MSP_PATH'] = '/home/nihao/w2T/axera/ax620qp/AX620E_SDK_V3.0.0_20260122114108_NO22_QP/AX620E_SDK_V3.0.0_20260122114108_NO22/msp'
+
+
+
+with open(str(Path(os.getcwd())/'..'/'..'/'tools'/'scons'/'project.py')) as f:
+    exec(f.read())

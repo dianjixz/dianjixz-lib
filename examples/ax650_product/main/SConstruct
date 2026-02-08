@@ -32,7 +32,7 @@ DEFINITIONS += [ "-D"+ f for f in  conandeps["conandeps"]['CPPDEFINES'] ]
 
 
 SRCS = [AFile('src/ec_proxy_main.cpp')]
-env['COMPONENTS'].append({'target':'ax650_ec_proxy-1.0',
+env['COMPONENTS'].append({'target':'ec_proxy-1.0',
                           'SRCS':SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,
@@ -48,7 +48,7 @@ env['COMPONENTS'].append({'target':'ax650_ec_proxy-1.0',
                           })
 STATIC_FILES = [ADir("../product_prog")]
 SRCS = [AFile('src/ec_cli_main.cpp')]
-env['COMPONENTS'].append({'target':'ax650_ec_cli-1.0',
+env['COMPONENTS'].append({'target':'ec_cli-1.0',
                           'SRCS':SRCS,
                           'INCLUDE':INCLUDE,
                           'PRIVATE_INCLUDE':PRIVATE_INCLUDE,

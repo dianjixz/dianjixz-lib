@@ -1,0 +1,12 @@
+[requires]
+libdbus/1.12.20
+
+[generators]
+SConsDeps
+
+[options]
+jsoncpp/*:shared=False
+
+[layout]
+cmake_layout
+

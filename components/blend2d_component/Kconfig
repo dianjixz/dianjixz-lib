@@ -1,0 +1,6 @@
+
+menuconfig BLEND2D_ENABLED
+    bool "Enable libblend2d"
+    default n
+
+

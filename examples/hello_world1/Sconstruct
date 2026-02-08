@@ -1,0 +1,21 @@
+import os
+env = Environment()
+env.Tool('dtools', toolpath=[os.path.join(os.getcwd(), "../../tools/scons")])
+
+
+
+env.build.SConscript('main/Sconstruct')
+
+
+
+
+
+
+
+
+
+
+
+
+
+

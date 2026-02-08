@@ -2103,39 +2103,96 @@ static int ax_mem_cmm_test_025(void)
     printf("ax_mem_cmm_test_025 end success\n");
     return 0;
 }
+static int ax_mem_cmm_test_026(void)
+{
+    AX_U64 PhyAddr[32 * 1024];
+    AX_U64 PhyAddr1[32 * 1024];
+    AX_VOID *pVirAddr[32 * 1024];
+    AX_VOID *pVirAddr2[32 * 1024];
+    AX_U32 BlockSize= 1*1024*1024;
+    AX_S32 nRet,i,check_size;
+    check_size = 0 ;
+    printf("\nax_mem_cmm_test_025 begin\n");
+    for (i = 0; i < 32 * 1024; i++) {
+        nRet = AX_SYS_MemAlloc(&PhyAddr[i], (AX_VOID **)&pVirAddr[i], BlockSize, 0x1000, (AX_S8 *)"mem_test");
+        if (nRet != 0) {
+            printf("AX_SYS_MemAlloc over mem: %d M\n", i - 1);
+            break;
+        }
+        check_size ++;
+        printf("AX_SYS_MemAlloc PhyAddr= 0x%llx,pVirAddr=%p\n",PhyAddr[i],pVirAddr[i]);
+    }
+    memset((AX_U8 *)pVirAddr[0], 0xbc, BlockSize);
 
+    for (i = 1; i < check_size; i++) {
+        memset((AX_U8 *)pVirAddr[i], 0xbc, BlockSize);
+        if(i%128 == 0){
+            printf("check memset %d M success\n", i);
+        }
+    }
+
+    for (i = 1; i < check_size; i++) {
+        if(memcmp((AX_U8 *)pVirAddr[0], (AX_U8 *)pVirAddr[i], BlockSize) != 0){
+            printf("ax_mem_cmm_test_025 failed,i=%d  %llx %p\n", i, PhyAddr[i],pVirAddr[i]);
+            return -1;
+        }
+        if(i%128 == 0){
+            printf("check mem %d M success\n", i);
+        }
+    }
+
+    for (i = 0; i < check_size; i++) {
+        nRet = AX_SYS_MemFree(PhyAddr[i], (AX_VOID *)pVirAddr[i]);
+        if (nRet != 0) {
+            printf("AX_SYS_MemFree failed\n");
+            return -1;
+        }
+    }
+    printf("ax_mem_cmm_test_025 end success\n");
+    return 0;
+}
 
 int main(AX_S32 argc, char *argv[])
 {
+    
     AX_SYS_Init();
+    int test_index = 0;
+    if (argc > 1) {
+        test_index = atoi(argv[1]);
+    }
+    switch (test_index)
+    {
+    case 0:ax_mem_cmm_test_001();
+    case 1:ax_mem_cmm_test_002();
+    case 2:ax_mem_cmm_test_003();
+    case 3:ax_mem_cmm_test_004();
+    case 4:ax_mem_cmm_test_005();
+    case 5:ax_mem_cmm_test_006();
+    case 6:ax_mem_cmm_test_007();
+    case 7:ax_mem_cmm_test_008();
+    case 8:ax_mem_cmm_test_009();
+    case 9:ax_mem_cmm_test_010();
+    case 10:ax_mem_cmm_test_011();
+    case 11:// ax_mem_cmm_test_012();
+    case 12:ax_mem_cmm_test_013();
+    case 13:// ax_mem_cmm_test_014();
+    case 14:ax_mem_cmm_test_015();
+    case 15:ax_mem_cmm_test_016();
+    case 16:ax_mem_cmm_test_017();
+    case 17:ax_mem_cmm_test_018();
+    case 18:ax_mem_cmm_test_019();
+    case 19:ax_mem_cmm_test_020();
+    case 20:ax_mem_cmm_test_021();
+    case 21:ax_mem_cmm_test_022();
+    case 22:ax_mem_cmm_test_023();
+    case 23:ax_mem_cmm_test_024();
+    case 24:ax_mem_cmm_test_025();
+    break;
+    case 25:ax_mem_cmm_test_026();
+    default:
+        break;
+    }
 
-    ax_mem_cmm_test_001();
-    ax_mem_cmm_test_002();
-    ax_mem_cmm_test_003();
-    ax_mem_cmm_test_004();
-    ax_mem_cmm_test_005();
-    ax_mem_cmm_test_006();
-
-    ax_mem_cmm_test_007();
-    ax_mem_cmm_test_008();
-    ax_mem_cmm_test_009();
-    ax_mem_cmm_test_010();
-    ax_mem_cmm_test_011();
-    // ax_mem_cmm_test_012();
-
-    ax_mem_cmm_test_013();
-    // ax_mem_cmm_test_014();
-    ax_mem_cmm_test_015();
-    ax_mem_cmm_test_016();
-    ax_mem_cmm_test_017();
-    ax_mem_cmm_test_018();
-    ax_mem_cmm_test_019();
-    ax_mem_cmm_test_020();
-    ax_mem_cmm_test_021();
-    ax_mem_cmm_test_022();
-    ax_mem_cmm_test_023();
-    ax_mem_cmm_test_024();
-    ax_mem_cmm_test_025();
     AX_SYS_Deinit();
     return 0;
 }
